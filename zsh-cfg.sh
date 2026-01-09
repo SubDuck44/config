@@ -22,13 +22,13 @@ jfb() {
 			return 0
 		fi
 
-		echo -n "[1;31mMore than one bookmark at [m$(
+		echo -n "[1;31mMore than one bookmark at [m$(
 			jst "$rev" 'self.change_id().shortest(8)' --color always) :: " >&2
 		jst "$rev" 'self.local_bookmarks() ++ "\n"' >&2
 		return 1
 	done
 
-	echo "[1;31mReached root commit without finding a bookmark[m" >&2
+	echo "[1;31mReached root commit without finding a bookmark[m" >&2
 	return 1
 }
 
@@ -43,7 +43,7 @@ jfc() {
 		return 0
 	done
 
-	echo "[1;31mReached root commit without finding a valid commit[m" >&2
+	echo "[1;31mReached root commit without finding a valid commit[m" >&2
 	return 1
 }
 
