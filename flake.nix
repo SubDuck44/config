@@ -6,17 +6,18 @@
     obscura.url = "github:42loco42/obscura";
   };
   outputs = inputs@{ self, nixpkgs, home-manager, obscura, ... }: {
-    nixosConfigurations.tittyos = nixpkgs.lib.nixosSystem {
-      specialArgs = { inherit self; };
-      modules = [
-        ./configuration.nix
-        home-manager.nixosModules.home-manager
-        {
-          home-manager.useGlobalPkgs = true;
-          home-manager.useUserPackages = true;
-          home-manager.users.melinda = ./home.nix;
-        }
-      ];
+    nixosConfigurations = {
+      # laptop
+      boobsos = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit self; };
+        modules = [ ./boobsos ./common ];
+      };
+
+      # desktop
+      tittyos = nixpkgs.lib.nixosSystem {
+        specialArgs = { inherit self; };
+        modules = [ ./tittyos ./common ];
+      };
     };
   };
 }
