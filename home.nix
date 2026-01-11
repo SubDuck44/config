@@ -26,6 +26,16 @@ in
     emacs = {
       enable = true;
     };
+    mpd = {
+      enable = true;
+      musicDirectory = "/home/melinda/sfx";
+      extraConfig = ''
+        audio_output {
+          type "pulse"
+          name "pulse"
+        }
+      '';
+    };
   };
 
   programs = {
@@ -142,6 +152,15 @@ in
           behavior = "own";
           key = "/home/melinda/.ssh/id_ed25519";
         };
+      };
+    };
+    ncmpcpp = {
+      enable = true;
+      settings = {
+        lyrics_directory = "~/.local/share/lyrics";
+        media_library_albums_split_by_date = "no";
+        media_library_primary_tag = "album_artist";
+        startup_screen = "browser";
       };
     };
   };
