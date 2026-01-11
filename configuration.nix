@@ -110,6 +110,7 @@
     extraGroups = [ "wheel" "gamemode" "adbusers" ];
     packages = with pkgs; [
       factorio-space-age
+      yt-dlp
       cmatrix
       hyfetch
       fastfetch

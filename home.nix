@@ -158,6 +158,13 @@ in
     };
     sessionVariables.LESS = "-i -R";
     shellAliases = {
+      yoink = builtins.concatStringsSep " " [
+        "yt-dlp"
+        "--cookies-from-browser=firefox:~/.librewolf/9ucptchv.default-default"
+        "--extract-audio --embed-metadata "
+        "--output='%(playlist_index)02d - %(title)s.%(ext)s'"
+      ];
+      "work!" = "sudo nixos-rebuild switch --flake /home/melinda/cfg -L";
       j = "jj";
       ja = "jj abandon";
       jbd = "jj bookmark delete";
