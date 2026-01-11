@@ -107,7 +107,7 @@
   users.users.melinda = {
     shell = pkgs.zsh;
     isNormalUser = true;
-    extraGroups = [ "wheel" "gamemode" ];
+    extraGroups = [ "wheel" "gamemode" "adbusers" ];
     packages = with pkgs; [
       factorio-space-age
       cmatrix
@@ -131,6 +131,7 @@
         ];
       })
       thunderbird
+      android-tools
     ];
     hashedPasswordFile = "/secrets/melinda.pwhash";
   };
