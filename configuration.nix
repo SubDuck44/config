@@ -18,6 +18,11 @@
       let obscura = self.inputs.obscura.packages.${prev.stdenv.hostPlatform.system}; in {
         inherit (obscura.nvidia.entries)
           nvtop;
+        factorio-space-age = prev.factorio-space-age.override {
+          makeDesktopItem = { exec, ... }@args: prev.makeDesktopItem (args // {
+            exec = "gamemoderun ${exec}";
+          });
+        };
       }
     )
   ];
@@ -82,8 +87,18 @@
   ];
   security.sudo.extraConfig = "Defaults insults";
 
-  nixpkgs.config.allowUnfreePredicate = pkg: builtins.elem (lib.getName pkg) [ "nvidia-x11" "nvidia-settings" "steam" "steam-unwrapped" "p7zip" ];
+  nixpkgs.config.allowUnfreePredicate =
+    pkg: builtins.elem (lib.getName pkg) [
+      "nvidia-x11" "nvidia-settings"
+      "steam" "steam-unwrapped"
+      "p7zip"
+      "factorio-space-age"
+    ];
 
+  system.extraDependencies = with pkgs; [
+    factorio-space-age.src
+  ];
+  
   hardware.graphics.enable = true;
   services.xserver.videoDrivers = [ "nvidia" ];
   hardware.nvidia.open = false;
@@ -94,6 +109,7 @@
     isNormalUser = true;
     extraGroups = [ "wheel" "gamemode" ];
     packages = with pkgs; [
+      factorio-space-age
       cmatrix
       hyfetch
       fastfetch
