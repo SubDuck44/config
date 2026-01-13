@@ -93,7 +93,7 @@ in
   users.users.melinda = {
     shell = pkgs.zsh;
     isNormalUser = true;
-    extraGroups = [ "wheel" "gamemode" "adbusers" ];
+    extraGroups = [ "wheel" "gamemode" "adbusers" "libvirtd" ];
     packages = with pkgs; [
       yt-dlp
       cmatrix
@@ -128,9 +128,19 @@ in
     libnotify
     p7zip-rar
     nixpkgs-fmt
+    virt-manager
   ];
 
   environment.etc."nixos".source = self;
+
+  virtualisation = {
+    libvirtd = {
+      enable = true;
+      qemu.swtpm.enable = true;
+    };
+
+    spiceUSBRedirection.enable = true;
+  };
 
   programs = {
     obs-studio = {
