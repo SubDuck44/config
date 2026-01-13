@@ -129,6 +129,7 @@ in
     p7zip-rar
     nixpkgs-fmt
     virt-manager
+    SDL2
   ];
 
   environment.etc."nixos".source = self;
