@@ -3,7 +3,7 @@
 
   nixpkgs.config.allowUnfreePredicate =
     pkg: builtins.elem (lib.getName pkg) [ 
-      "p7zip" 
+      "p7zip" "aseprite"
     ];
 
   networking = {

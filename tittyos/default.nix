@@ -7,6 +7,7 @@
       "steam" "steam-unwrapped"
       "p7zip" 
       "factorio-space-age"
+      "aseprite"
     ];
 
   system.extraDependencies = with pkgs; [

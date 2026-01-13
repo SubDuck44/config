@@ -111,6 +111,7 @@ in
       ffmpeg
       thunderbird
       android-tools
+      aseprite
     ];
     hashedPasswordFile = "/secrets/melinda.pwhash";
   };
