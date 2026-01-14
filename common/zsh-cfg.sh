@@ -48,7 +48,7 @@ jfc() {
 }
 
 # "intelligent" push - finds a bookmark and moves it to the first non-empty commit
-jps() {
+commit-smartpush() {
 	if [ -n "$1" ]; then bmk="$1"; else bmk="$(jfb)" || return 1; fi
 	rev="$(jfc)" || return 1
 
@@ -57,14 +57,14 @@ jps() {
 }
 
 # clone from github
-jcg() {
+repo-lazyinit() {
 	repo="$(sed -E 's|^https://github.com/([^/]+/[^/]+).*|git@github.com:\1.git|' <<< "$1")"
 	shift
 	jj git clone --colocate "$repo" "$@"
 }
 
-# describe-then-new
-jdn() {
+# make the commit finish~
+commit-finish() {
 	jj describe -m "$@"
 	jj new
 }
