@@ -218,7 +218,7 @@ in
         mako = {
           enable = true;
           settings = {
-            default-timeout = 2000;
+            default-timeout = 5000;
           };
         };
 
