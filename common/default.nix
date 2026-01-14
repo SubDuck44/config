@@ -219,7 +219,20 @@ in
           enable = true;
           settings = {
             default-timeout = 5000;
-            on-notify = "exec mpv ${./error.opus}";
+            background-color = "#ffffff40";
+            text-color = "#debffc";
+            border-radius = 7;
+            border-color = "#bb77ff40";
+            icon-location = "right";
+            icon-border-radius = 999;
+            output = "DP-6";
+            layer = "overlay";
+            anchor = "top-center";
+            "app-name=Emacs" = {
+              on-notify = "exec mpv ${./error.opus}";
+              text-color = "#dbc823";
+              border-color = "#dbc823";
+            };
           };
         };
 
