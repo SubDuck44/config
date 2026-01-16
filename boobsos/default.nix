@@ -9,5 +9,8 @@
   networking = {
     hostName = "boobsos";
     hostId = "a6e15bda";
+    wireless = {
+      allowAuxiliaryImperativeNetworks = true;
+    };
   };
 }

@@ -54,7 +54,29 @@ in
     useXkbConfig = true;
   };
 
+  xdg.portal = {
+    enable = true;
+    extraPortals = with pkgs; [ xdg-desktop-portal-gtk ];
+    config = {
+      hyprland = {
+        default = [ "hyprland" "gtk" ];
+        "org.freedesktop.impl.portal.OpenURI" = [ "gtk" ];
+      };
+    };
+  };
+  
   services = {
+    greetd = {
+      enable = true;
+      restart = true;
+
+      settings = {
+        default_session.command = "${getExe pkgs.tuigreet} -tr --remember-user-session";
+
+        terminal.vt = lib.mkForce 7;
+      };
+    };
+    
     zfs = {
       autoSnapshot.enable = true;
       autoScrub.enable = true;
@@ -94,7 +116,8 @@ in
     shell = pkgs.zsh;
     isNormalUser = true;
     extraGroups = [ "wheel" "gamemode" "adbusers" "libvirtd" ];
-    packages = with pkgs; [
+    packages   = with pkgs; [
+      self.inputs.keysmash.packages.${stdenv.system}.default
       yt-dlp
       cmatrix
       hyfetch
@@ -157,6 +180,7 @@ in
 
     hyprland = {
       enable = true;
+      withUWSM = true;
     };
 
     foot = {

@@ -4,6 +4,7 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     obscura.url = "github:42loco42/obscura";
+    keysmash.url = "github:42loco42/keysmash";
   };
   outputs = inputs@{ self, nixpkgs, home-manager, obscura, ... }: {
     nixosConfigurations = {
