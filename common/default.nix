@@ -30,6 +30,7 @@ in
 
   imports = [
     self.inputs.home-manager.nixosModules.home-manager
+    ./dnscrypt.nix
   ];
 
   boot = {
@@ -42,7 +43,10 @@ in
     zfs.package = pkgs.zfs_2_4;
   };
 
-  networking.networkmanager.enable = true;
+  networking = {
+    networkmanager.enable = true;
+    useNetworkd = true;
+  };
 
   time.timeZone = "Europe/Berlin";
 
