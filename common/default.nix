@@ -109,9 +109,13 @@ in
     };
   };
 
-  systemd.network.wait-online.ignoredInterfaces = [
-    "tailscale0"
-  ];
+  systemd.network.wait-online = {
+    anyInterface = true;
+
+    ignoredInterfaces = [
+      "tailscale0"
+    ];
+  };
 
   security.sudo.extraConfig = "Defaults insults";
 
@@ -234,6 +238,11 @@ in
         useGrimAdapter=true
       '';
 
+      imports = [
+        "${self.inputs.aquaris}/module/home/emacs"
+        ./emacs.nix
+      ];
+
       gtk = {
         enable = true;
         theme = {
@@ -267,6 +276,7 @@ in
         emacs = {
           enable = true;
         };
+        
         mpd = {
           enable = true;
           musicDirectory = "/home/melinda/sfx";
@@ -362,11 +372,6 @@ in
           systemd = {
             enable = false;
           };
-        };
-
-        emacs = {
-          enable = true;
-          package = pkgs.emacs-pgtk;
         };
 
         jujutsu = {

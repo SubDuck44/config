@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "aquaris": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1767605510,
+        "narHash": "sha256-JGA+DtZ3RxefD3VSezbVC9RVfHWj420ETNeNdmIx5ys=",
+        "owner": "42loco42",
+        "repo": "aquaris",
+        "rev": "16d401b56db295841ef17d6b7ab986735847afea",
+        "type": "github"
+      },
+      "original": {
+        "owner": "42loco42",
+        "repo": "aquaris",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -122,6 +138,7 @@
     },
     "root": {
       "inputs": {
+        "aquaris": "aquaris",
         "home-manager": "home-manager",
         "keysmash": "keysmash",
         "nixpkgs": "nixpkgs_2",
