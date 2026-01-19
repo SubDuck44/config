@@ -136,6 +136,15 @@
           custom = ''
             (highlight-indent-guides-auto-enabled nil)
             (highlight-indent-guides-method 'bitmap)
+            (highlight-indent-guides-responsive 'top)
+          '';
+        };
+
+        multiple-cursors = {
+          bind' = ''
+            ("C-a" . mc/edit-lines)
+            ("C-," . mc/mark-previous-like-this)
+            ("C-." . mc/mark-next-like-this)
           '';
         };
 
@@ -178,7 +187,7 @@
             ("C-q" . beginning-of-line)
             ("C-w" . end-of-line)
             ("C-l" . recenter)
-            ("C-´" . other-frame)
+            ("C-´" . other-window)
             ("C-<tab>" . (lambda () (interactive) (insert-char 9)))
           '';
           custom = ''

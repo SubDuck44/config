@@ -252,6 +252,8 @@ in
       };
 
       services = {
+        syncthing.enable = true;
+        
         mako = {
           enable = true;
           settings = {
