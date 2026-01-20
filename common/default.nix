@@ -433,6 +433,7 @@ in
             "--output='%(playlist_index)02d - %(title)s.%(ext)s'"
           ];
 
+          "sneeptime" = "systemctl suspend";
           "work!" = "sudo nixos-rebuild switch --flake /home/melinda/cfg -L";
           "die!" = "poweroff";
           "crush!" = "nix store gc -v";
