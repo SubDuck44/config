@@ -109,13 +109,7 @@ in
     };
   };
 
-  systemd.network.wait-online = {
-    anyInterface = true;
-
-    ignoredInterfaces = [
-      "tailscale0"
-    ];
-  };
+  systemd.network.wait-online.enable = false;
 
   security.sudo.extraConfig = "Defaults insults";
 
