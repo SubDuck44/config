@@ -22,10 +22,19 @@
           '';
         };
 
-        consult = {};
-
-        base16-theme = {
-          config = "(load-theme 'base16-nebula t)";
+        consult = {
+          bind' = ''
+            ("C-b" . consult-buffer)
+            ("C-r" . consult-goto-line)
+            ("C-s" . consult-line)
+            ("M-v" . consult-yank-from-kill-ring)
+            ("M-g" . consult-grep)
+          '';
+          custom = ''
+            (xref-show-xrefs-function       'consult-xref)
+						(xref-show-definitions-function 'consult-xref)
+						(xref-prompt-for-identifier      nil)
+          '';
         };
 
         vertico = {
@@ -50,6 +59,9 @@
           custom = ''
             (lsp-idle-delay 0)
             (lsp-enable-on-type-formatting nil)
+          '';
+          hook = ''
+            (c-mode . lsp-deferred)
           '';
         };
 
@@ -162,6 +174,7 @@
             (add-to-list 'default-frame-alist '(alpha-background . 50))
             (add-to-list 'default-frame-alist '(font . "monospace:size=12"))
             (put 'list-timers 'disable nil)
+						(load-theme 'wheatgrass t)
 
             (defun my/open-config () "Opens Emacs configuration file"
               (interactive)
