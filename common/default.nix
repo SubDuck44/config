@@ -188,7 +188,8 @@ in
     foot = {
       enable = true;
       settings = {
-        colors.alpha = 0.2;
+        colors.alpha = 0.5;
+        colors.background = "000000";
       };
     };
 
