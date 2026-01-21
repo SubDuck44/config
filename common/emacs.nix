@@ -1,4 +1,4 @@
-{ pkgs, ... }: {
+{ pkgs, ... }: let inherit (pkgs.lib) remove; in {
   aquaris = {
     emacs = {
       enable = true;
@@ -7,14 +7,18 @@
       prelude = ''
         (defvar my/temp-dir (concat user-emacs-directory "temp/"))
       '';
-      
+
+      usePackage = {
+        statistics = true;
+      };
+
       config = {
         inhibit-mouse = {
           custom = ''
             (inhibit-mouse-adjust-mouse-highlight t)
             (inhibit-mouse-adjust-show-help-function t)
           '';
-          
+
           config = ''
             (if (daemonp)
                 (add-hook 'server-after-make-frame-hook #'inhibit-mouse-mode)
@@ -97,15 +101,6 @@
           custom = "(rainbow-delimiters-max-face-count 4)";
         };
 
-        org-alert = {
-          config = "(org-alert-enable)";
-          custom = ''
-            (alert-default-style 'libnotify)
-            (org-alert-notify-cutoff 10)
-            (org-alert-notify-after-event-cutoff 10)
-          '';
-        };
-
         centaur-tabs = {
           demand = true;
           bind' = ''
@@ -162,6 +157,7 @@
 
         emacs = {
           config = ''
+            (require 'notifications)
             (global-auto-revert-mode 1)
             (cua-mode 1)
             (tool-bar-mode 0)
@@ -175,6 +171,12 @@
             (add-to-list 'default-frame-alist '(font . "monospace:size=12"))
             (put 'list-timers 'disable nil)
 						(load-theme 'wheatgrass t)
+
+            (advice-add 'appt-check
+              :before
+              (lambda (&rest args)
+                (org-agenda-to-appt t)))
+            (appt-activate t)
 
             (defun my/open-config () "Opens Emacs configuration file"
               (interactive)
@@ -213,6 +215,15 @@
             (backup-directory-alist         `((".". ,my/temp-dir  )))
             (lock-file-name-transforms      `((".*" ,my/temp-dir t)))
             (eldoc-idle-delay 0)
+            (appt-message-warning-time 60)
+            (appt-display-interval 5)
+            (appt-disp-window-function
+              (lambda (remaining new-time msg)
+                (notifications-notify
+                 :title (format "In %s minutes" remaining)
+                 :body msg
+                 :urgency 'critical)))
+            (org-agenda-prefer-last-repeat t)
           '';
         };
       };
