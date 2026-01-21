@@ -253,7 +253,7 @@ in
           enable = true;
           settings = {
             default-timeout = 5000;
-            background-color = "#ffffff40";
+            background-color = "#00000040";
             text-color = "#debffc";
             border-radius = 7;
             border-color = "#bb77ff40";
