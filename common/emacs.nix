@@ -215,7 +215,7 @@
             (backup-directory-alist         `((".". ,my/temp-dir  )))
             (lock-file-name-transforms      `((".*" ,my/temp-dir t)))
             (eldoc-idle-delay 0)
-            (appt-message-warning-time 60)
+            (appt-message-warning-time 20)
             (appt-display-interval 5)
             (appt-disp-window-function
               (lambda (remaining new-time msg)
