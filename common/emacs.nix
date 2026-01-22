@@ -221,7 +221,7 @@
               (lambda (remaining new-time msg)
                 (notifications-notify
                  :title (format "In %s minutes" remaining)
-                 :body msg
+                 :body (substring-no-properties msg)
                  :urgency 'critical)))
             (org-agenda-prefer-last-repeat t)
           '';
