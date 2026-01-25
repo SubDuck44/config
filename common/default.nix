@@ -138,6 +138,7 @@ in
       android-tools
       aseprite
       zathura
+      file
     ];
     hashedPasswordFile = "/secrets/melinda.pwhash";
   };
