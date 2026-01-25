@@ -137,6 +137,7 @@ in
       thunderbird
       android-tools
       aseprite
+      zathura
     ];
     hashedPasswordFile = "/secrets/melinda.pwhash";
   };
