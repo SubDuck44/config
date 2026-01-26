@@ -1,11 +1,13 @@
 { pkgs, lib, ... }: {
   imports = [ ./hardware.nix ];
 
-  nixpkgs.config.allowUnfreePredicate = 
-    pkg: builtins.elem (lib.getName pkg) [ 
-      "nvidia-x11" "nvidia-settings"
-      "steam" "steam-unwrapped"
-      "p7zip" 
+  nixpkgs.config.allowUnfreePredicate =
+    pkg: builtins.elem (lib.getName pkg) [
+      "nvidia-x11"
+      "nvidia-settings"
+      "steam"
+      "steam-unwrapped"
+      "p7zip"
       "factorio-space-age"
       "aseprite"
     ];

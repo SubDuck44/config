@@ -1,4 +1,5 @@
-{ config, lib, pkgs, self, ... }: let
+{ config, lib, pkgs, self, ... }:
+let
   inherit (lib) mkAfter getExe;
 in
 {
@@ -68,7 +69,7 @@ in
       };
     };
   };
-  
+
   services = {
     greetd = {
       enable = true;
@@ -80,7 +81,7 @@ in
         terminal.vt = lib.mkForce 7;
       };
     };
-    
+
     zfs = {
       autoSnapshot.enable = true;
       autoScrub.enable = true;
@@ -118,7 +119,7 @@ in
     shell = pkgs.zsh;
     isNormalUser = true;
     extraGroups = [ "wheel" "gamemode" "adbusers" "libvirtd" ];
-    packages   = with pkgs; [
+    packages = with pkgs; [
       self.inputs.keysmash.packages.${stdenv.system}.default
       yt-dlp
       cmatrix
@@ -250,7 +251,7 @@ in
 
       services = {
         syncthing.enable = true;
-        
+
         mako = {
           enable = true;
           settings = {
@@ -275,7 +276,7 @@ in
         emacs = {
           enable = true;
         };
-        
+
         mpd = {
           enable = true;
           musicDirectory = "/home/melinda/sfx";

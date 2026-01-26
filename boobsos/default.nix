@@ -2,8 +2,9 @@
   imports = [ ./hardware.nix ];
 
   nixpkgs.config.allowUnfreePredicate =
-    pkg: builtins.elem (lib.getName pkg) [ 
-      "p7zip" "aseprite"
+    pkg: builtins.elem (lib.getName pkg) [
+      "p7zip"
+      "aseprite"
     ];
 
   networking = {

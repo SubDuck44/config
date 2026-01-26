@@ -1,4 +1,5 @@
-{ pkgs, ... }: let inherit (pkgs.lib) remove; in {
+{ pkgs, ... }:
+let inherit (pkgs.lib) remove; in {
   aquaris = {
     emacs = {
       enable = true;
@@ -36,8 +37,8 @@
           '';
           custom = ''
             (xref-show-xrefs-function       'consult-xref)
-						(xref-show-definitions-function 'consult-xref)
-						(xref-prompt-for-identifier      nil)
+            (xref-show-definitions-function 'consult-xref)
+            (xref-prompt-for-identifier      nil)
           '';
         };
 
@@ -53,7 +54,7 @@
           config = "(prescient-persist-mode t)";
         };
 
-        uxntal-mode = {};
+        uxntal-mode = { };
 
         marginalia = {
           config = "(marginalia-mode t)";
@@ -84,7 +85,7 @@
           custom = "(direnv-always-show-summary nil)";
         };
 
-        nix-mode = {};
+        nix-mode = { };
 
         rainbow-delimiters = {
           config = ''
@@ -170,7 +171,7 @@
             (add-to-list 'default-frame-alist '(alpha-background . 50))
             (add-to-list 'default-frame-alist '(font . "monospace:size=12"))
             (put 'list-timers 'disable nil)
-						(load-theme 'wheatgrass t)
+            (load-theme 'wheatgrass t)
 
             (advice-add 'appt-check
               :before

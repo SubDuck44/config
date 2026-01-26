@@ -50,7 +50,7 @@
         local.host 127.0.0.1
         localhost 127.0.0.1
       '';
-      
+
       forwarding_rules = pkgs.writeText "dnscrypt-forwarding" ''
         bunny.vpn 100.100.100.100
         lan 192.168.2.1
