@@ -120,6 +120,7 @@ in
     isNormalUser = true;
     extraGroups = [ "wheel" "gamemode" "adbusers" "libvirtd" ];
     packages = with pkgs; [
+      fzf
       self.inputs.keysmash.packages.${stdenv.system}.default
       yt-dlp
       cmatrix
@@ -304,6 +305,10 @@ in
           nix-direnv.enable = true;
         };
 
+        zoxide = {
+          enable = true;
+        };
+
         htop = {
           enable = true;
 
@@ -357,6 +362,12 @@ in
 
         zsh = {
           enable = true;
+          plugins = with pkgs; [
+            {
+              name = "zsh-fzf-history-search";
+              inherit (zsh-fzf-history-search) src;
+            }
+          ];
           oh-my-zsh = {
             enable = true;
             plugins = [
@@ -424,6 +435,7 @@ in
         sessionVariables.LESS = "-i -R";
 
         shellAliases = {
+          cd = "z";
           yoink = builtins.concatStringsSep " " [
             "yt-dlp"
             "--cookies-from-browser=firefox:~/.librewolf/9ucptchv.default-default"
