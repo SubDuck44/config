@@ -141,6 +141,7 @@ in
       aseprite
       zathura
       file
+      ckan
     ];
     hashedPasswordFile = "/secrets/melinda.pwhash";
   };
