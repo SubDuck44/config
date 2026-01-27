@@ -202,11 +202,11 @@ let inherit (pkgs.lib) remove; in {
             ("M-e" . forward-word)
             ("C-q" . beginning-of-line)
             ("C-w" . end-of-line)
-            ("C-l" . recenter)
             ("C-´" . other-window)
             ("C-<tab>" . (lambda () (interactive) (insert-char 9)))
           '';
           custom = ''
+            (recenter-positions '(middle top))
             (whitespace-style '(face trailing))
             (org-startup-indented t)
             (org-agenda-files "/home/melinda/org/toplevel.txt")
