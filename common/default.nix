@@ -451,6 +451,7 @@ in
           "judgement!" = "systemctl --user restart emacs";
           "thy-end-is-now!" = "sudo nix-env --delete-generations +3 --profile /nix/var/nix/profiles/system";
           "prepare-thyself!" = "reboot";
+          "edit" = "emacsclient -nc";
 
           "branch-delete" = "jj bookmark delete";
           "branch-fetch" = "jj git fetch --all-remotes"; # "pull"
