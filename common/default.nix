@@ -146,23 +146,29 @@ in
     hashedPasswordFile = "/secrets/melinda.pwhash";
   };
 
-  environment.systemPackages = with pkgs; [
-    lsof
-    wget
-    tree
-    nvtop
-    htop
-    man-pages
-    man-pages-posix
-    libqalculate
-    libnotify
-    p7zip-rar
-    nixpkgs-fmt
-    virt-manager
-    SDL2
-  ];
+  environment = {
+    systemPackages = with pkgs; [
+      lsof
+      wget
+      tree
+      nvtop
+      htop
+      man-pages
+      man-pages-posix
+      libqalculate
+      libnotify
+      p7zip-rar
+      nixpkgs-fmt
+      virt-manager
+      SDL2
+    ];
 
-  environment.etc."nixos".source = self;
+    etc."nixos".source = self;
+
+    sessionVariables = {
+      EDITOR = "emacsclient -c";
+    };
+  };
 
   virtualisation = {
     libvirtd = {
