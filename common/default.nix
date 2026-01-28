@@ -153,7 +153,14 @@ let inherit (lib) mkAfter mkMerge getExe; in
 
   time.timeZone = "Europe/Berlin";
 
-  i18n.defaultLocale = "en_US.UTF-8";
+  i18n = {
+    defaultLocale = "en_US.UTF-8";
+
+    extraLocaleSettings = {
+      LC_COLLATE = "C.UTF-8";
+      LC_TIME = "de_DE.UTF-8";
+    };
+  };
 
   console = {
     font = "Lat2-Terminus16";
@@ -361,10 +368,57 @@ let inherit (lib) mkAfter mkMerge getExe; in
     useGlobalPkgs = true;
     useUserPackages = true;
     users.melinda = { config, ... }: {
-      xdg.configFile."flameshot/flameshot.ini".text = ''
-        [General]
-        useGrimAdapter=true
-      '';
+      xdg.configFile = {
+        "flameshot/flameshot.ini".text = ''
+          [General]
+          useGrimAdapter=true
+        '';
+
+        "eza/theme.yml".text = builtins.toJSON {
+          filenames = {
+            # dot stuff in home
+            ".android".icon.glyph = "";
+            ".cache".icon.glyph = "󰃨";
+            ".factorio".icon.glyph = "󰈏";
+            ".icons".icon.glyph = "";
+            ".librewolf".icon.glyph = "󰈹";
+            ".local".icon.glyph = "󰆼";
+            ".mozilla".icon.glyph = "󰈹";
+            ".nv".icon.glyph = "󰢮";
+            ".pki".icon.glyph = "󰌾";
+            ".thunderbird".icon.glyph = "";
+            ".zsh".icon.glyph = "";
+
+            # main dirs in home
+            "cfg".icon.glyph = "";
+            "cod".icon.glyph = "";
+            "doc".icon.glyph = "󰈙";
+            "gay".icon.glyph = "󰺵";
+            "gps".icon.glyph = "";
+            "img".icon.glyph = "";
+            "mem".icon.glyph = "";
+            "org".icon.glyph = "";
+            "rnd".icon.glyph = "󱗾";
+            "sfx".icon.glyph = "";
+
+            # misc
+            ".jj".icon.glyph = "󰘬";
+            "Caddyfile".icon.glyph = "󰒒";
+            "result".icon.glyph = "";
+          };
+
+          extensions = {
+            "excalidraw".icon.glyph = "";
+            "gpx".icon.glyph = "";
+            "json".icon.glyph = "";
+            "key".icon.glyph = "󰌆";
+            "ora".icon.glyph = "";
+            "prettierrc".icon.glyph = "";
+            "pug".icon.glyph = "";
+            "yaml".icon.glyph = "";
+          };
+        };
+      };
 
       imports = [
         "${self.inputs.aquaris}/module/home/emacs"
@@ -546,6 +600,19 @@ let inherit (lib) mkAfter mkMerge getExe; in
             media_library_primary_tag = "album_artist";
             startup_screen = "browser";
           };
+        };
+
+        eza = {
+          enable = true;
+          extraOptions = [
+            "--almost-all"
+            "--group"
+            "--group-directories-first"
+            "--header"
+            "--icons"
+            "--long"
+            "--mounts"
+          ];
         };
       };
 
