@@ -668,21 +668,22 @@ let inherit (lib) mkMerge getExe; in
 
         shellAliases = {
           cd = "z";
-          yoink = builtins.concatStringsSep " " [
+
+          show-ephemeral = "sudo find / -xdev -type f | less";
+
+          grab-sfx = builtins.concatStringsSep " " [
             "yt-dlp"
             "--cookies-from-browser=firefox:~/.librewolf/9ucptchv.default-default"
             "--extract-audio --embed-metadata "
             "--output='%(playlist_index)02d - %(title)s.%(ext)s'"
           ];
 
-          "sneeptime" = "systemctl suspend";
-          "work!" = "sudo nixos-rebuild switch --flake /home/melinda/cfg -L";
-          "die!" = "poweroff";
-          "crush!" = "nix store gc -v";
-          "judgement!" = "systemctl --user restart emacs";
-          "thy-end-is-now!" = "sudo nix-env --delete-generations +3 --profile /nix/var/nix/profiles/system";
-          "prepare-thyself!" = "reboot";
-          "edit" = "emacsclient -nc";
+          sus = "systemctl suspend";
+          work = "sudo nixos-rebuild switch --flake /home/melinda/cfg -L";
+          collect-garbage = "nix store gc -v";
+          emacs-reload = "systemctl --user restart emacs";
+          clean-generations = "sudo nix-env --delete-generations +3 --profile /nix/var/nix/profiles/system";
+          edit = "emacsclient -nc";
 
           "branch-delete" = "jj bookmark delete";
           "branch-fetch" = "jj git fetch --all-remotes"; # "pull"
