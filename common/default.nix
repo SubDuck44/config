@@ -1,16 +1,16 @@
 { config, lib, pkgs, self, ... }:
-let
-  inherit (lib) mkAfter getExe;
-in
+let inherit (lib) mkAfter mkMerge getExe; in
 {
   nix = {
     settings = {
       substituters = [
         "https://attic.eleonora.gay/default"
       ];
+
       trusted-public-keys = [
         "default:3FYh8sZV8gWa7Jc5jlP7gZFK7pt3kaHRiV70ySaQ42g="
       ];
+
       experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" ];
       allowed-users = [ "@wheel" ];
       auto-allocate-uids = true;
@@ -33,11 +33,83 @@ in
     package = pkgs.lix;
   };
 
+  fileSystems = {
+    "/proc" = {
+      device = "proc";
+      fsType = "proc";
+      options = [ "nosuid" "hidepid=invisible" "gid=1" ];
+    };
+  };
+
   tits = {
     unfreeNames = [
       "p7zip"
       "aseprite"
       "dwarf-fortress"
+    ];
+
+    persist = mkMerge [
+      [
+
+        "/var/cache/private/dnscrypt-proxy"
+        "/var/cache/tuigreet"
+
+        "/var/lib/libvirt"
+        "/var/lib/NetworkManager"
+        "/var/lib/nixos"
+        "/var/lib/systemd"
+
+        "/var/log"
+
+        "/home/melinda/.android"
+        "/home/melinda/.factorio"
+        "/home/melinda/.librewolf"
+        "/home/melinda/.ssh"
+        "/home/melinda/.thunderbird"
+
+        "/home/melinda/cfg"
+        "/home/melinda/cod"
+        "/home/melinda/doc"
+        "/home/melinda/gay"
+        "/home/melinda/gps"
+        "/home/melinda/img"
+        "/home/melinda/mem"
+        "/home/melinda/org"
+        "/home/melinda/rnd"
+        "/home/melinda/sfx"
+
+        "/home/melinda/.cache/librewolf"
+        "/home/melinda/.cache/nix"
+        "/home/melinda/.cache/thunderbird"
+        "/home/melinda/.cache/zsh"
+
+        "/home/melinda/.config/aseprite"
+        "/home/melinda/.config/dconf"
+        "/home/melinda/.config/emacs"
+        "/home/melinda/.config/obs-studio"
+        "/home/melinda/.config/qBittorrent"
+        "/home/melinda/.config/qalculate"
+        "/home/melinda/.config/unity3d"
+        "/home/melinda/.config/vesktop"
+        "/home/melinda/.config/wivrn"
+
+        "/home/melinda/.local/share/CKAN"
+        "/home/melinda/.local/share/PrismLauncher"
+        "/home/melinda/.local/share/Steam"
+        "/home/melinda/.local/share/applications"
+        "/home/melinda/.local/share/direnv"
+        "/home/melinda/.local/share/flatpak"
+        "/home/melinda/.local/share/mpd"
+        "/home/melinda/.local/share/qBittorrent"
+        "/home/melinda/.local/share/zoxide"
+
+        "/home/melinda/.local/state/syncthing"
+        "/home/melinda/.local/state/wireplumber"
+      ]
+      {
+        "/etc/NetworkManager/system-connections" = { m = "0700"; };
+        "/var/lib/tailscale" = { m = "0700"; };
+      }
     ];
   };
 
@@ -60,6 +132,7 @@ in
     self.inputs.home-manager.nixosModules.home-manager
     ./dnscrypt.nix
     ./options.nix
+    ./tmpfs.nix
   ];
 
   boot = {
@@ -144,6 +217,11 @@ in
   security.sudo.extraConfig = "Defaults insults";
 
   users.mutableUsers = false;
+
+  users.users.root.openssh.authorizedKeys.keys = [
+    "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDdkJo7RMoxUkuQ55YT1q5KANHrR+OJZzeYejpJW4rty nori"
+  ];
+
   users.users.melinda = {
     shell = pkgs.zsh;
     isNormalUser = true;
@@ -173,7 +251,7 @@ in
       ckan
       dwarf-fortress
     ];
-    hashedPasswordFile = "/secrets/melinda.pwhash";
+    hashedPasswordFile = "/persist/secrets/melinda.pwhash";
   };
 
   environment = {
@@ -245,7 +323,20 @@ in
     gamemode.enable = true;
   };
 
-  services.openssh.enable = true;
+  services.openssh = {
+    enable = true;
+
+    settings = {
+      KbdInteractiveAuthentication = false;
+      PasswordAuthentication = false;
+      PermitRootLogin = "prohibit-password";
+    };
+
+    hostKeys = [{
+      path = "/persist/etc/ssh/ssh_host_ed25519_key";
+      type = "ed25519";
+    }];
+  };
 
   networking.firewall.enable = false; # TODO
 

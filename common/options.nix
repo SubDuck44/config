@@ -7,12 +7,12 @@ in
   options.tits = {
     unfreeNames = mkOption {
       type = listOf str;
-      default = [];
+      default = [ ];
       description = "Names of unfree packages";
     };
   };
 
   config = {
-    nixpkgs.config.allowUnfreePredicate = p: elem (getName p) config.tits.unfreeNames;	
+    nixpkgs.config.allowUnfreePredicate = p: elem (getName p) config.tits.unfreeNames;
   };
 }
