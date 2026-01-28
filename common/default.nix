@@ -11,7 +11,34 @@ in
       trusted-public-keys = [
         "default:3FYh8sZV8gWa7Jc5jlP7gZFK7pt3kaHRiV70ySaQ42g="
       ];
+      experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" ];
+      allowed-users = [ "@wheel" ];
+      auto-allocate-uids = true;
+      auto-optimise-store = true;
+      keep-going = true;
+      use-xdg-base-directories = true;
     };
+
+    registry = {
+      tits.flake = self;
+      nixpkgs.to = {
+        type = "github";
+        owner = "nixos";
+        repo = "nixpkgs";
+        inherit (self.inputs.nixpkgs) rev;
+      };
+    };
+
+    nixPath = [ "nixpkgs=/etc/nix/channel" ];
+    package = pkgs.lix;
+  };
+
+  tits = {
+    unfreeNames = [
+      "p7zip"
+      "aseprite"
+      "dwarf-fortress"
+    ];
   };
 
   nixpkgs.overlays = [
@@ -32,6 +59,7 @@ in
   imports = [
     self.inputs.home-manager.nixosModules.home-manager
     ./dnscrypt.nix
+    ./options.nix
   ];
 
   boot = {
@@ -42,6 +70,7 @@ in
 
     kernelPackages = pkgs.linuxPackages_zen;
     zfs.package = pkgs.zfs_2_4;
+    tmp.useTmpfs = true;
   };
 
   networking = {
@@ -142,6 +171,7 @@ in
       zathura
       file
       ckan
+      dwarf-fortress
     ];
     hashedPasswordFile = "/secrets/melinda.pwhash";
   };
@@ -163,7 +193,10 @@ in
       SDL2
     ];
 
-    etc."nixos".source = self;
+    etc = {
+      "nixos".source = self;
+      "nix/channel".source = self.inputs.nixpkgs.outPath;
+    };
 
     sessionVariables = {
       EDITOR = "emacsclient -c";
@@ -217,8 +250,6 @@ in
   networking.firewall.enable = false; # TODO
 
   system.stateVersion = "25.11";
-
-  nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
   fonts = {
     packages = with pkgs; [
