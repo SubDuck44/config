@@ -45,7 +45,9 @@ let inherit (lib) mkMerge getExe; in
     unfreeNames = [
       "p7zip"
       "aseprite"
+
       "dwarf-fortress"
+      "spacefox-theme"
     ];
 
     persist = mkMerge [
@@ -77,6 +79,7 @@ let inherit (lib) mkMerge getExe; in
         "/home/melinda/org"
         "/home/melinda/rnd"
         "/home/melinda/sfx"
+        "/home/melinda/mov"
 
         "/home/melinda/.cache/librewolf"
         "/home/melinda/.cache/nix"
@@ -102,6 +105,7 @@ let inherit (lib) mkMerge getExe; in
         "/home/melinda/.local/share/mpd"
         "/home/melinda/.local/share/qBittorrent"
         "/home/melinda/.local/share/zoxide"
+        "/home/melinda/.local/share/zathura"
 
         "/home/melinda/.local/state/syncthing"
         "/home/melinda/.local/state/wireplumber"
@@ -234,48 +238,53 @@ let inherit (lib) mkMerge getExe; in
     isNormalUser = true;
     extraGroups = [ "wheel" "gamemode" "adbusers" "libvirtd" ];
     packages = with pkgs; [
-      fzf
-      self.inputs.keysmash.packages.${stdenv.system}.default
-      yt-dlp
-      cmatrix
-      hyfetch
-      fastfetch
-      wl-clipboard
-      pulsemixer
-      playerctl
-      grim
-      flameshot
-      swaybg
-      mpv
-      qbittorrent
-      feh
-      ffmpeg
-      thunderbird
       android-tools
       aseprite
-      zathura
-      file
       ckan
-      dwarf-fortress
+      cmatrix
+      fastfetch
+      feh
+      ffmpeg
+      file
+      flameshot
+      fzf
+      grim
+      hyfetch
+      mpv
+      playerctl
+      pulsemixer
+      qbittorrent
+      self.inputs.keysmash.packages.${stdenv.system}.default
+      swaybg
+      thunderbird
+      wl-clipboard
+      yt-dlp
+      zathura
+
+      # (dwarf-fortress-full.override {
+      #   dfVersion = "0.47.05";
+      #   theme = dwarf-fortress-packages.themes.spacefox;
+      #   enableFPS = true;
+      # })
     ];
     hashedPasswordFile = "/persist/secrets/melinda.pwhash";
   };
 
   environment = {
     systemPackages = with pkgs; [
-      lsof
-      wget
-      tree
-      nvtop
+      SDL2
       htop
+      libnotify
+      libqalculate
+      lsof
       man-pages
       man-pages-posix
-      libqalculate
-      libnotify
-      p7zip-rar
       nixpkgs-fmt
+      nvtop
+      p7zip-rar
+      tree
       virt-manager
-      SDL2
+      wget
     ];
 
     etc = {
