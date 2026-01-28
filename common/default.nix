@@ -1,5 +1,5 @@
 { config, lib, pkgs, self, ... }:
-let inherit (lib) mkAfter mkMerge getExe; in
+let inherit (lib) mkMerge getExe; in
 {
   nix = {
     settings = {
@@ -543,20 +543,56 @@ let inherit (lib) mkAfter mkMerge getExe; in
           ]);
         };
 
-        zsh = {
+        zsh = let cache = "${config.xdg.cacheHome}/zsh"; in {
           enable = true;
+
+          autosuggestion.enable = true;
+          syntaxHighlighting.enable = true;
+
+          autocd = true;
+          defaultKeymap = "emacs";
+
+          history = {
+            append = true;
+            extended = true;
+            ignoreAllDups = true;
+
+            path = "${cache}/history";
+            save = 2147483647;
+            size = 2147483647;
+          };
+
+          initContent = ''
+            # help for builtins
+            unalias run-help
+            autoload run-help
+            alias help=run-help
+
+            bindkey "[1;3C" forward-word
+            bindkey "[1;3D" backward-word
+
+            # https://github.com/zsh-users/zsh-syntax-highlighting/issues/295#issuecomment-214581607
+            zstyle ':bracketed-paste-magic' active-widgets '.self-*'
+          '';
+
           plugins = with pkgs; [
             {
               name = "zsh-fzf-history-search";
               inherit (zsh-fzf-history-search) src;
             }
           ];
+
           oh-my-zsh = {
             enable = true;
+
             plugins = [
+              "fancy-ctrl-z"
               "magic-enter"
             ];
-            extraConfig = mkAfter (builtins.readFile ./zsh-cfg.sh);
+
+            extraConfig = ''
+              ZSH_COMPDUMP="${cache}/completion"
+            '' + builtins.readFile ./zsh-cfg.sh;
           };
         };
 
