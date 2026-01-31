@@ -128,6 +128,39 @@ let inherit (lib) mkMerge getExe; in
             exec = "gamemoderun ${exec}";
           });
         };
+
+        dwarf-fortress-peak = prev.dwarf-fortress-full.override (wrapper: rec {
+          dfVersion = "0.47.05";
+
+          df-games.dwarf-fortress_0_47_05 = wrapper.df-games.dwarf-fortress_0_47_05.override (game: {
+            dfhack = game.dfhack.overrideAttrs (old: {
+              preConfigure = (old.preConfigure or "") + ''
+                grep -Ril cmake_minimum_required | xargs sed -Ei \
+                  's|cmake_minimum_required\(.*\)|cmake_minimum_required(VERSION 3.10)|Ig'
+                     
+                sed -i 's|-Werror||' CMakeLists.txt
+              '';
+            });
+
+            dwarf-therapist = game.dwarf-therapist.override (outer: {
+              dwarf-therapist = outer.dwarf-therapist.overrideAttrs (old: {
+                cmakeFlags = (old.cmakeFlags or [ ]) ++ [
+                  "-DCMAKE_POLICY_VERSION_MINIMUM=3.5"
+                ];
+              });
+            });
+
+            settings.init = {
+              INTRO = false;
+              WINDOWED = false;
+              FULLSCREENX = 1920;
+              FULLSCREENY = 1080;
+            };
+          });
+
+          theme = prev.dwarf-fortress-packages.themes.spacefox;
+          enableFPS = true;
+        });
       }
     )
   ];
@@ -260,12 +293,7 @@ let inherit (lib) mkMerge getExe; in
       wl-clipboard
       yt-dlp
       zathura
-
-      # (dwarf-fortress-full.override {
-      #   dfVersion = "0.47.05";
-      #   theme = dwarf-fortress-packages.themes.spacefox;
-      #   enableFPS = true;
-      # })
+      dwarf-fortress-peak
     ];
     hashedPasswordFile = "/persist/secrets/melinda.pwhash";
   };
