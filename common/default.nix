@@ -293,7 +293,7 @@ let inherit (lib) mkMerge getExe; in
       wl-clipboard
       yt-dlp
       zathura
-      dwarf-fortress-peak
+      syncplay
     ];
     hashedPasswordFile = "/persist/secrets/melinda.pwhash";
   };
@@ -410,6 +410,28 @@ let inherit (lib) mkMerge getExe; in
           [General]
           useGrimAdapter=true
         '';
+
+        "syncplay.ini".text = lib.generators.toINI { } {
+          server_data = {
+            host = "exit.bunny.vpn";
+            port = 8999;
+          };
+
+          client_settings = {
+            name = "Melinda Amanita, First Floret";
+            room = "Absolutes Kinori";
+
+            playerpath = pkgs.writeShellScript "mpv-gpu" ''
+              exec ${getExe pkgs.mpv} --vo=gpu-next "$@"
+            '';
+
+            mediasearchdirectories = "['/home/melinda/mov']";
+          };
+
+          general = {
+            checkforupdatesautomatically = false;
+          };
+        };
 
         "eza/theme.yml".text = builtins.toJSON {
           filenames = {
