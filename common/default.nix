@@ -432,6 +432,7 @@ let inherit (lib) mkMerge getExe; in
       imports = [
         "${self.inputs.aquaris}/module/home/emacs"
         ./emacs.nix
+        ./tmux
       ];
 
       gtk = {
