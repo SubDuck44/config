@@ -11,12 +11,13 @@ let inherit (lib) mkMerge getExe; in
         "default:3FYh8sZV8gWa7Jc5jlP7gZFK7pt3kaHRiV70ySaQ42g="
       ];
 
-      experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" ];
+      experimental-features = [ "nix-command" "flakes" "auto-allocate-uids" "cgroups" ];
       allowed-users = [ "@wheel" ];
       auto-allocate-uids = true;
       auto-optimise-store = true;
       keep-going = true;
       use-xdg-base-directories = true;
+      use-cgroups = true;
     };
 
     registry = {
