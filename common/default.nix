@@ -272,6 +272,7 @@ let inherit (lib) mkMerge getExe; in
     isNormalUser = true;
     extraGroups = [ "wheel" "gamemode" "adbusers" "libvirtd" ];
     packages = with pkgs; [
+      mindustry-wayland
       android-tools
       aseprite
       ckan
