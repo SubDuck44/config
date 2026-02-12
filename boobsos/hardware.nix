@@ -10,6 +10,12 @@
     options = [ "zfsutil" "nosuid" ];
   };
 
+  fileSystems."/persist/home/melinda" = {
+    device = "rpool/nixos/home/melinda";
+    fsType = "zfs";
+    options = [ "zfsutil" "nosuid" ];
+  };
+
   fileSystems."/nix" = {
     device = "rpool/nixos/nix";
     fsType = "zfs";
