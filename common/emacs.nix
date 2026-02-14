@@ -5,6 +5,12 @@ let inherit (pkgs.lib) remove; in {
       enable = true;
       package = pkgs.emacs-pgtk;
 
+      extraPackages = epkgs: with epkgs; [
+        (treesit-grammars.with-grammars (g: with g; [
+          tree-sitter-typst
+        ]))
+      ];
+
       prelude = ''
         (defvar my/temp-dir (concat user-emacs-directory "temp/"))
       '';
@@ -60,6 +66,53 @@ let inherit (pkgs.lib) remove; in {
           config = "(marginalia-mode t)";
         };
 
+        apheleia = {
+          hook = "prog-mode typst-ts-mode";
+        };
+
+        typst-ts-mode = {
+          defer = true;
+
+          extraPackages = with pkgs; [
+            prettypst
+            tinymist
+            typst
+          ];
+
+          config = ''
+            (require 'lsp-mode)
+            (add-to-list 'lsp-language-id-configuration '(typst-ts-mode . "typst"))
+            (lsp-register-client
+             (make-lsp-client
+              :new-connection (lsp-stdio-connection "tinymist")
+              :major-modes '(typst-ts-mode)
+              :server-id 'tinymist))
+
+            (require 'apheleia)
+            (add-to-list 'apheleia-mode-alist '(typst-ts-mode . prettypst))
+            (add-to-list 'apheleia-formatters '(prettypst "prettypst" "--use-std-in" "--use-std-out"))
+          '';
+
+          custom = ''
+            (typst-ts-mode-indent-offset 2)
+          '';
+        };
+
+        typst-preview = {
+          hook = "typst-ts-mode";
+
+          custom = ''
+            (typst-preview-invert-colors "never")
+            (typst-preview-open-browser-automatically t)
+          '';
+
+          config = ''
+            ;; always set master file to current buffer; skip manual input
+            (advice-add 'typst-preview-start :before (lambda (&rest r)
+              (setq typst-preview--master-file (f-canonical buffer-file-name))))
+          '';
+        };
+
         lsp-mode = {
           custom = ''
             (lsp-idle-delay 0)
@@ -67,7 +120,12 @@ let inherit (pkgs.lib) remove; in {
           '';
           hook = ''
             (c-mode . lsp-deferred)
+            (typst-ts-mode . lsp-deferred)
           '';
+        };
+
+        yasnippet = {
+          hook = "(lsp-mode . yas-minor-mode)";
         };
 
         company = {
@@ -85,7 +143,17 @@ let inherit (pkgs.lib) remove; in {
           custom = "(direnv-always-show-summary nil)";
         };
 
-        nix-mode = { };
+        nix-mode = {
+          extraPackages = with pkgs; [
+            nixpkgs-fmt
+          ];
+
+          config = ''
+            (require 'apheleia)
+            (add-to-list 'apheleia-mode-alist '(nix-mode . nixpkgs-fmt))
+            (add-to-list 'apheleia-formatters '(nixpkgs-fmt "nixpkgs-fmt"))
+          '';
+        };
 
         rainbow-delimiters = {
           config = ''

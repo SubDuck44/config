@@ -130,6 +130,12 @@ let inherit (lib) mkMerge getExe; in
           });
         };
 
+        prettypst = prev.prettypst.overrideAttrs (old: {
+          patches = (old.patches or [ ]) ++ [
+            ./prettypst-hline.patch
+          ];
+        });
+
         dwarf-fortress-peak = prev.dwarf-fortress-full.override (wrapper: rec {
           dfVersion = "0.47.05";
 
