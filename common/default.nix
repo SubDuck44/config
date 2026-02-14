@@ -359,14 +359,6 @@ let inherit (lib) mkMerge getExe; in
       withUWSM = true;
     };
 
-    foot = {
-      enable = true;
-      settings = {
-        colors.alpha = 0.5;
-        colors.background = "000000";
-      };
-    };
-
     zsh = {
       enable = true;
       enableGlobalCompInit = false;
@@ -542,6 +534,15 @@ let inherit (lib) mkMerge getExe; in
       };
 
       programs = {
+        foot = {
+          enable = true;
+          settings = {
+            colors.alpha = 0.5;
+            colors.background = "000000";
+            main.include = "${pkgs.foot.themes}/share/foot/themes/gruvbox-dark";
+          };
+        };
+
         librewolf = {
           enable = true;
           settings."privacy.resistFingerprinting" = false;
