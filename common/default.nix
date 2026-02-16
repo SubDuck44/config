@@ -42,6 +42,11 @@ let inherit (lib) mkMerge getExe; in
     };
   };
 
+  hardware.bluetooth = {
+    enable = true;
+    settings.General.Experimental = true;
+  };
+
   tits = {
     unfreeNames = [
       "p7zip"
@@ -114,6 +119,7 @@ let inherit (lib) mkMerge getExe; in
       {
         "/etc/NetworkManager/system-connections" = { m = "0700"; };
         "/var/lib/tailscale" = { m = "0700"; };
+        "/var/lib/bluetooth" = { m = "0700"; };
       }
     ];
   };
