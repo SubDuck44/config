@@ -540,6 +540,11 @@ let inherit (lib) mkMerge getExe; in
       };
 
       programs = {
+        quickshell = {
+          enable = true;
+          systemd.enable = true;
+        };
+
         foot = {
           enable = true;
           settings = {
