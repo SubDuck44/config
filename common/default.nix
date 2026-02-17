@@ -549,8 +549,7 @@ let inherit (lib) mkMerge getExe; in
         foot = {
           enable = true;
           settings = {
-            colors.alpha = 0.5;
-            colors.background = "000000";
+            colors.alpha = 0.0;
             main.include = "${pkgs.foot.themes}/share/foot/themes/gruvbox-dark";
           };
         };
