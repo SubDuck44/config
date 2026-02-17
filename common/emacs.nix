@@ -8,6 +8,7 @@ let inherit (pkgs.lib) remove; in {
       extraPackages = epkgs: with epkgs; [
         (treesit-grammars.with-grammars (g: with g; [
           tree-sitter-typst
+          tree-sitter-qmljs
         ]))
       ];
 
@@ -110,6 +111,20 @@ let inherit (pkgs.lib) remove; in {
             ;; always set master file to current buffer; skip manual input
             (advice-add 'typst-preview-start :before (lambda (&rest r)
               (setq typst-preview--master-file (f-canonical buffer-file-name))))
+          '';
+        };
+
+        qml-ts-mode = {
+          after = "lsp-mode";
+          config = ''
+            (add-to-list 'lsp-language-id-configuration '(qml-ts-mode . "qml-ts"))
+            (lsp-register-client
+             (make-lsp-client :new-connection (lsp-stdio-connection '("qmlls"))
+                              :activation-fn (lsp-activate-on "qml-ts")
+                              :server-id 'qmlls))
+            (add-hook 'qml-ts-mode-hook (lambda ()
+                                          (setq-local electric-indent-chars '(?\n ?\( ?\) ?{ ?} ?\[ ?\] ?\; ?,))
+                                          (lsp-deferred)))
           '';
         };
 
