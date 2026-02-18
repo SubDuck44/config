@@ -308,6 +308,7 @@ let inherit (lib) mkMerge getExe; in
       yt-dlp
       zathura
       syncplay
+      pwgen
     ];
     hashedPasswordFile = "/persist/secrets/melinda.pwhash";
   };
