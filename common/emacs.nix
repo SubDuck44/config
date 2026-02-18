@@ -115,8 +115,9 @@ let inherit (pkgs.lib) remove; in {
         };
 
         qml-ts-mode = {
-          after = "lsp-mode";
+          mode = ''"\\.qml\\'"'';
           config = ''
+            (require 'lsp-mode)
             (add-to-list 'lsp-language-id-configuration '(qml-ts-mode . "qml-ts"))
             (lsp-register-client
              (make-lsp-client :new-connection (lsp-stdio-connection '("qmlls"))
@@ -126,6 +127,18 @@ let inherit (pkgs.lib) remove; in {
                                           (setq-local electric-indent-chars '(?\n ?\( ?\) ?{ ?} ?\[ ?\] ?\; ?,))
                                           (lsp-deferred)))
           '';
+          package = ep: ep.trivialBuild (drv: {
+            pname = "qml-ts-mode";
+            version = "0.1";
+
+            src = pkgs.fetchFromGitHub {
+              owner = "xhcoding";
+              repo = drv.pname;
+              rev = "b80c6663521b4d0083e416e6712ebc02d37b7aec";
+              hash = "sha256-WXK/CdFF9E2kG+uIios4HtKcEMhILS9MddJfVDeRLh0=";
+            };
+          });
+          extraPackages = with pkgs; [ kdePackages.qtdeclarative ];
         };
 
         lsp-mode = {
