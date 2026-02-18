@@ -544,7 +544,7 @@ let inherit (lib) mkMerge getExe; in
         quickshell = {
           enable = true;
           systemd.enable = true;
-          activeConfig = "/home/melinda/cfg/quickshell/shell.qml";
+          activeConfig = "/home/melinda/cfg/quickshell/ShellRoot.qml";
         };
 
         foot = {
