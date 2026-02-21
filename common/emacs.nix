@@ -218,17 +218,12 @@ let inherit (pkgs.lib) remove; in {
           custom = "(display-line-numbers-type 'visual)";
         };
 
-        highlight-indent-guides = {
-          hook = "prog-mode";
+        indent-bars = {
           config = ''
-            (set-face-background 'highlight-indent-guides-odd-face "#ffffff")
-            (set-face-background 'highlight-indent-guides-even-face "#b2b2b2")
-            (set-face-foreground 'highlight-indent-guides-character-face "#b2b2b2")
-          '';
-          custom = ''
-            (highlight-indent-guides-auto-enabled nil)
-            (highlight-indent-guides-method 'bitmap)
-            (highlight-indent-guides-responsive 'top)
+            (define-globalized-minor-mode my/global-indent-bars-mode
+              indent-bars-mode
+              (lambda () (indent-bars-mode 1)))
+            (my/global-indent-bars-mode 1)
           '';
         };
 
