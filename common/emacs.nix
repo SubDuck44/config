@@ -21,18 +21,6 @@ let inherit (pkgs.lib) remove; in {
       };
 
       config = {
-        inhibit-mouse = {
-          custom = ''
-            (inhibit-mouse-adjust-mouse-highlight t)
-            (inhibit-mouse-adjust-show-help-function t)
-          '';
-
-          config = ''
-            (if (daemonp)
-                (add-hook 'server-after-make-frame-hook #'inhibit-mouse-mode)
-                (inhibit-mouse-mode 1))
-          '';
-        };
 
         consult = {
           bind' = ''
