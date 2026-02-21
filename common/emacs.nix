@@ -250,7 +250,7 @@ let inherit (pkgs.lib) remove; in {
             (add-to-list 'default-frame-alist '(alpha-background . 50))
             (add-to-list 'default-frame-alist '(font . "monospace:size=12"))
             (put 'list-timers 'disable nil)
-            (load-theme 'wheatgrass t)
+            (load-theme 'tsdh-dark t)
 
             (advice-add 'appt-check
               :before
