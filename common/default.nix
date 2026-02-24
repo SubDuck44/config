@@ -415,6 +415,14 @@ let inherit (lib) mkMerge getExe; in
     useGlobalPkgs = true;
     useUserPackages = true;
     users.melinda = { config, ... }: {
+      xdg.desktopEntries = {
+        "com.obsproject.Studio" = {
+          name = "OBS Studio";
+          icon = "com.obsproject.Studio";
+          exec = "env LD_LIBRARY_PATH=/run/opengl-driver/lib obs";
+        };
+      };
+
       xdg.configFile = {
         "flameshot/flameshot.ini".text = ''
           [General]
