@@ -142,6 +142,8 @@ let inherit (lib) mkMerge getExe; in
           ];
         });
 
+        ncmpcpp = prev.ncmpcpp.override { boost = prev.boost187; };
+
         dwarf-fortress-peak = prev.dwarf-fortress-full.override (wrapper: rec {
           dfVersion = "0.47.05";
 
