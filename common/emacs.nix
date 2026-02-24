@@ -57,6 +57,10 @@ let inherit (pkgs.lib) remove; in {
 
         apheleia = {
           hook = "prog-mode typst-ts-mode";
+
+          config = ''
+            (add-to-list 'apheleia-mode-alist '(scheme-mode . lisp-indent))
+          '';
         };
 
         typst-ts-mode = {
