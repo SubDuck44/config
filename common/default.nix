@@ -270,7 +270,23 @@ let inherit (lib) mkMerge getExe; in
     };
   };
 
-  systemd.network.wait-online.enable = false;
+  systemd = {
+    network.wait-online.enable = false;
+
+    sockets.talk = {
+      listenDatagrams = [ "0.0.0.0:518" ];
+      wantedBy = [ "sockets.target" ];
+    };
+
+    services.talk = {
+      serviceConfig = {
+        User = "nobody";
+        Group = "tty";
+        ExecStart = "${pkgs.inetutils}/libexec/talkd";
+        StandardInput = "socket";
+      };
+    };
+  };
 
   security.sudo.extraConfig = "Defaults insults";
 
@@ -332,6 +348,7 @@ let inherit (lib) mkMerge getExe; in
       tree
       virt-manager
       wget
+      inetutils
     ];
 
     etc = {
