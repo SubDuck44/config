@@ -300,6 +300,7 @@ let inherit (lib) mkMerge getExe; in
     shell = pkgs.zsh;
     isNormalUser = true;
     extraGroups = [ "wheel" "gamemode" "adbusers" "libvirtd" ];
+
     packages = with pkgs; [
       espeak
       poppler-utils
@@ -330,7 +331,12 @@ let inherit (lib) mkMerge getExe; in
       pwgen
       umu-launcher
     ];
+
     hashedPasswordFile = "/persist/secrets/melinda.pwhash";
+    openssh.authorizedKeys.keys = [
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDdkJo7RMoxUkuQ55YT1q5KANHrR+OJZzeYejpJW4rty nori"
+      "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAILxPD8M1DV0k5QY283lo0QIpmUYCjUlYvHwKYkk8j9Gn mel"
+    ];
   };
 
   environment = {
