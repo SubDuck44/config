@@ -287,6 +287,7 @@ let inherit (lib) mkMerge getExe; in
     isNormalUser = true;
     extraGroups = [ "wheel" "gamemode" "adbusers" "libvirtd" ];
     packages = with pkgs; [
+      espeak
       poppler-utils
       mindustry-wayland
       android-tools
@@ -771,6 +772,8 @@ let inherit (lib) mkMerge getExe; in
             "--extract-audio --embed-metadata "
             "--output='%(playlist_index)02d - %(title)s.%(ext)s'"
           ];
+
+          auto = "espeak -p 0 -P 0";
 
           sneeptime = "systemctl suspend";
           work = "sudo nixos-rebuild switch --flake /home/melinda/cfg -L";
