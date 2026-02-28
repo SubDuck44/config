@@ -418,6 +418,11 @@ let inherit (lib) mkMerge getExe; in
     useGlobalPkgs = true;
     useUserPackages = true;
     users.melinda = { config, ... }: {
+      xdg.systemDirs.data = with pkgs; map glib.getSchemaDataDirPath [
+        gsettings-desktop-schemas
+        gtk3
+      ];
+
       xdg.desktopEntries = {
         "com.obsproject.Studio" = {
           name = "OBS Studio";
