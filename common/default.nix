@@ -112,6 +112,7 @@ let inherit (lib) mkMerge getExe; in
         "/home/melinda/.local/share/qBittorrent"
         "/home/melinda/.local/share/zoxide"
         "/home/melinda/.local/share/zathura"
+        "/home/melinda/.local/share/umu"
 
         "/home/melinda/.local/state/syncthing"
         "/home/melinda/.local/state/wireplumber"
@@ -312,6 +313,7 @@ let inherit (lib) mkMerge getExe; in
       zathura
       syncplay
       pwgen
+      umu-launcher
     ];
     hashedPasswordFile = "/persist/secrets/melinda.pwhash";
   };
