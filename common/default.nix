@@ -794,7 +794,7 @@ let inherit (lib) mkMerge getExe; in
 
           yoink = builtins.concatStringsSep " " [
             "yt-dlp"
-            "--cookies-from-browser=firefox:~/.librewolf/9ucptchv.default-default"
+            # "--cookies-from-browser=firefox:~/.librewolf/9ucptchv.default-default" Disabled until yt stops being mean
             "--extract-audio --embed-metadata "
             "--output='%(playlist_index)02d - %(title)s.%(ext)s'"
           ];
