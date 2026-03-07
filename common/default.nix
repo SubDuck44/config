@@ -62,8 +62,8 @@ let inherit (lib) mkMerge getExe; in
         "/var/cache/private/dnscrypt-proxy"
         "/var/cache/tuigreet"
 
-        "/var/lib/libvirt"
         "/var/lib/NetworkManager"
+        "/var/lib/libvirt"
         "/var/lib/nixos"
         "/var/lib/systemd"
 
@@ -82,10 +82,10 @@ let inherit (lib) mkMerge getExe; in
         "/home/melinda/gps"
         "/home/melinda/img"
         "/home/melinda/mem"
+        "/home/melinda/mov"
         "/home/melinda/org"
         "/home/melinda/rnd"
         "/home/melinda/sfx"
-        "/home/melinda/mov"
 
         "/home/melinda/.cache/librewolf"
         "/home/melinda/.cache/nix"
@@ -110,9 +110,10 @@ let inherit (lib) mkMerge getExe; in
         "/home/melinda/.local/share/flatpak"
         "/home/melinda/.local/share/mpd"
         "/home/melinda/.local/share/qBittorrent"
-        "/home/melinda/.local/share/zoxide"
-        "/home/melinda/.local/share/zathura"
+        "/home/melinda/.local/share/shapez.io"
         "/home/melinda/.local/share/umu"
+        "/home/melinda/.local/share/zathura"
+        "/home/melinda/.local/share/zoxide"
 
         "/home/melinda/.local/state/syncthing"
         "/home/melinda/.local/state/wireplumber"
