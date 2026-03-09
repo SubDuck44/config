@@ -60,6 +60,8 @@ let inherit (pkgs.lib) remove; in {
 
           config = ''
             (add-to-list 'apheleia-mode-alist '(scheme-mode . lisp-indent))
+            (setf (alist-get 'python-mode apheleia-mode-alist)
+                  '(isort black))
           '';
         };
 
