@@ -144,6 +144,22 @@ let inherit (pkgs.lib) remove; in {
           '';
         };
 
+        lsp-pyright = {
+          defer = true;
+
+          hook = ''
+            (python-mode . (lambda ()
+              (require 'lsp-pyright)
+              (lsp-deferred)))
+          '';
+
+          custom = ''
+            (lsp-pyright-langserver-command "basedpyright")
+          '';
+
+          extraPackages = with pkgs; [ basedpyright ];
+        };
+
         yasnippet = {
           hook = "(lsp-mode . yas-minor-mode)";
         };
