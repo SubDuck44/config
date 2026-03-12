@@ -139,6 +139,7 @@ let inherit (pkgs.lib) remove; in {
           custom = ''
             (lsp-idle-delay 0)
             (lsp-enable-on-type-formatting nil)
+            (lsp-clients-clangd-args '("--header-insertion=never"))
           '';
           hook = ''
             (c-mode . lsp-deferred)
