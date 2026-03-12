@@ -1,0 +1,13 @@
+diff --git a/syncplay/client.py b/syncplay/client.py
+index 8cda5d1d3d..b5f6fe59e9 100755
+--- a/syncplay/client.py
++++ b/syncplay/client.py
+@@ -1810,6 +1810,8 @@
+     def drop(self):
+         self.__ui.drop()
+ 
++    def updateSpeed(self, speed):
++        self.__ui.updateSpeed(speed)
+ 
+ class SyncplayPlaylist():
+     def __init__(self, client):

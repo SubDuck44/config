@@ -144,6 +144,21 @@ let inherit (lib) mkMerge getExe; in
           ];
         });
 
+        syncplay = prev.syncplay.overrideAttrs (old: {
+          patches = (old.patches or [ ]) ++ [
+            (prev.fetchpatch {
+              url = "https://github.com/Syncplay/syncplay/pull/754.diff";
+              hash = "sha256-m+IpZ6b0G1r5pc+s3gR5KqgKmfINlp/vJipLprqxtHY=";
+            })
+            ./syncplay.patch
+          ];
+
+          postFixup = (old.postFixup or "") + ''
+            rm $out/share/applications/syncplay-server.desktop
+            sed -Ei 's|(Exec=syncplay .*)|\1 --no-store|' \
+              $out/share/applications/syncplay.desktop
+          '';
+        });
         dwarf-fortress-peak = prev.dwarf-fortress-full.override (wrapper: rec {
           dfVersion = "0.47.05";
 
