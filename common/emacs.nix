@@ -62,6 +62,10 @@ let inherit (pkgs.lib) remove; in {
             (add-to-list 'apheleia-mode-alist '(scheme-mode . lisp-indent))
             (setf (alist-get 'python-mode apheleia-mode-alist)
                   '(isort black))
+            (add-to-list 'apheleia-mode-alist '(c-mode   . my/clang-format))
+            (add-to-list 'apheleia-mode-alist '(c++-mode . my/clang-format))
+            (add-to-list 'apheleia-formatters '(my/clang-format
+              "clang-format" "--style=file:${./clang-format.yaml}"))
           '';
         };
 
