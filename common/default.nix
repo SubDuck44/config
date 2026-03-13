@@ -543,6 +543,7 @@ let inherit (lib) mkMerge getExe; in
       };
 
       imports = [
+        self.inputs.obscura.packages.${pkgs.stdenv.system}.direnv-instant.module
         "${self.inputs.aquaris}/module/home/emacs"
         ./emacs.nix
         ./tmux
