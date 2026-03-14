@@ -159,6 +159,18 @@ let inherit (lib) mkMerge getExe; in
               $out/share/applications/syncplay.desktop
           '';
         });
+
+        rtkit = prev.rtkit.overrideAttrs (old: {
+          prePatch = (old.prePatch or "") + ''
+            sed -i '${builtins.concatStringsSep "|" [
+              "s"
+              "setgroups(0, NULL)"
+              "setgroups(1, (gid_t[]) { 1 })"
+              ""
+            ]}' rtkit-daemon.c
+          '';
+        });
+
         dwarf-fortress-peak = prev.dwarf-fortress-full.override (wrapper: rec {
           dfVersion = "0.47.05";
 
@@ -351,7 +363,14 @@ let inherit (lib) mkMerge getExe; in
     };
   };
 
-  security.sudo.extraConfig = "Defaults insults";
+  security = {
+    sudo.extraConfig = "Defaults insults";
+
+    rtkit = {
+      enable = true;
+      args = [ "--debug" "--stderr" ];
+    };
+  };
 
   users.mutableUsers = false;
 
