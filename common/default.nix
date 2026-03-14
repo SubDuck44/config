@@ -325,14 +325,12 @@ let inherit (lib) mkMerge getExe; in
       aseprite
       ckan
       cmatrix
-      fastfetch
       feh
       ffmpeg
       file
       flameshot
       fzf
       grim
-      hyfetch
       mpv
       playerctl
       pulsemixer
@@ -598,6 +596,29 @@ let inherit (lib) mkMerge getExe; in
       };
 
       programs = {
+        fastfetch.enable = true;
+
+        hyfetch = {
+          enable = true;
+          settings = {
+            backend = "fastfetch";
+            pride_month_disable = false;
+
+            mode = "rgb";
+            light_dark = "dark";
+            lightness = 0.5;
+
+            preset = "transgender";
+            color_align = {
+              mode = "custom";
+              custom_colors = {
+                "1" = 1;
+                "2" = 0;
+              };
+            };
+          };
+        };
+
         quickshell = {
           enable = true;
           systemd.enable = true;
@@ -806,6 +827,7 @@ let inherit (lib) mkMerge getExe; in
 
         shellAliases = {
           cd = "z";
+          neofetch = "hyfetch";
 
           ephemeral = "sudo find / -xdev -type f | less";
 
