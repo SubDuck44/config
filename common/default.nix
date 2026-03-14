@@ -259,6 +259,12 @@ let inherit (lib) mkMerge getExe; in
   };
 
   services = {
+    scx = {
+      enable = true;
+      package = pkgs.scx.rustscheds;
+      scheduler = "scx_lavd";
+    };
+
     greetd = {
       enable = true;
       restart = true;
