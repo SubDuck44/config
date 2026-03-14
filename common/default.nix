@@ -648,6 +648,9 @@ let inherit (lib) mkMerge getExe; in
               text-color = "#dbc823";
               border-color = "#dbc823";
             };
+            "app-name=flameshot" = {
+              invisible = true;
+            };
           };
         };
 
