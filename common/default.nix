@@ -433,7 +433,6 @@ let inherit (lib) mkMerge getExe; in
       swaybg
       thunderbird
       wl-clipboard
-      yt-dlp
       zathura
       syncplay
       pwgen
@@ -695,6 +694,14 @@ let inherit (lib) mkMerge getExe; in
       programs = {
         fastfetch.enable = true;
 
+        yt-dlp = {
+          enable = true;
+          settings = {
+            cookies-from-browser = "firefox:~/.librewolf/9ucptchv.default-default";
+            format-sort = "vcodec:h264,quality";
+          };
+        };
+
         hyfetch = {
           enable = true;
           settings = {
@@ -935,7 +942,6 @@ let inherit (lib) mkMerge getExe; in
 
           yoink = builtins.concatStringsSep " " [
             "yt-dlp"
-            # "--cookies-from-browser=firefox:~/.librewolf/9ucptchv.default-default" Disabled until yt stops being mean
             "--extract-audio --embed-metadata "
             "--output='%(playlist_index)02d - %(title)s.%(ext)s'"
           ];
