@@ -744,6 +744,11 @@ let inherit (lib) mkMerge getExe; in
           nix-direnv.enable = true;
         };
 
+        direnv-instant = {
+          enable = true;
+          settings.mux_delay = 0;
+        };
+
         zoxide = {
           enable = true;
         };
