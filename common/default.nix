@@ -65,6 +65,7 @@ let inherit (lib) mkMerge getExe; in
         "/var/lib/NetworkManager"
         "/var/lib/libvirt"
         "/var/lib/nixos"
+        "/var/lib/private/gomuks-web"
         "/var/lib/systemd"
 
         "/var/log"
@@ -359,12 +360,33 @@ let inherit (lib) mkMerge getExe; in
       wantedBy = [ "sockets.target" ];
     };
 
-    services.talk = {
-      serviceConfig = {
-        User = "nobody";
-        Group = "tty";
-        ExecStart = "${pkgs.inetutils}/libexec/talkd";
-        StandardInput = "socket";
+    services = {
+      talk = {
+        serviceConfig = {
+          User = "nobody";
+          Group = "tty";
+          ExecStart = "${pkgs.inetutils}/libexec/talkd";
+          StandardInput = "socket";
+        };
+      };
+
+      gomuks-web = {
+        path = with pkgs; [ gomuks-web ];
+        script = ''
+          export GOMUKS_ROOT="$STATE_DIRECTORY"
+          exec gomuks-web << EOF
+          admin
+          admin
+          EOF
+        '';
+
+        serviceConfig = {
+          Type = "simple";
+          DynamicUser = true;
+          StateDirectory = "gomuks-web";
+        };
+
+        wantedBy = [ "default.target" ];
       };
     };
   };
