@@ -737,6 +737,18 @@ let inherit (lib) mkMerge getExe; in
           };
         };
 
+        ssh = {
+          enable = true;
+          enableDefaultConfig = false;
+
+          matchBlocks = {
+            github = {
+              hostname = "github.com";
+              user = "git";
+            };
+          };
+        };
+
         librewolf = {
           enable = true;
           settings."privacy.resistFingerprinting" = false;
