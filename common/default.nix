@@ -699,7 +699,7 @@ let inherit (lib) mkMerge getExe; in
         yt-dlp = {
           enable = true;
           settings = {
-            cookies-from-browser = "firefox:~/.librewolf/9ucptchv.default-default";
+            # cookies-from-browser = "firefox:~/.librewolf/9ucptchv.default-default"; i got shadowbanned :(
             format-sort = "vcodec:h264,quality";
           };
         };
