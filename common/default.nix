@@ -130,8 +130,10 @@ let inherit (lib) mkMerge getExe; in
   nixpkgs.overlays = [
     (_: prev:
       let obscura = self.inputs.obscura.packages.${prev.stdenv.hostPlatform.system}; in {
-        inherit (obscura.nvidia.entries)
-          nvtop;
+        inherit (obscura)
+          gomuks-web-2603
+          ;
+        inherit (obscura.nvidia.entries) nvtop;
 
         factorio-space-age = prev.factorio-space-age.override {
           makeDesktopItem = { exec, ... }@args: prev.makeDesktopItem (args // {
@@ -371,7 +373,7 @@ let inherit (lib) mkMerge getExe; in
       };
 
       gomuks-web = {
-        path = with pkgs; [ gomuks-web ];
+        path = with pkgs; [ gomuks-web-2603 ];
         script = ''
           export GOMUKS_ROOT="$STATE_DIRECTORY"
           exec gomuks-web << EOF
