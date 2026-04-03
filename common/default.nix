@@ -92,6 +92,7 @@ let inherit (lib) mkMerge getExe; in
         "/home/melinda/.cache/nix"
         "/home/melinda/.cache/thunderbird"
         "/home/melinda/.cache/zsh"
+        "/home/melinda/.cache/direnv-instant"
 
         "/home/melinda/.config/aseprite"
         "/home/melinda/.config/dconf"
@@ -636,7 +637,7 @@ let inherit (lib) mkMerge getExe; in
       };
 
       imports = [
-        self.inputs.obscura.packages.${pkgs.stdenv.system}.direnv-instant.module
+        self.inputs.obscura.homeModules.direnv-instant
         "${self.inputs.aquaris}/module/home/emacs"
         ./emacs.nix
         ./tmux
