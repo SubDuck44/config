@@ -132,8 +132,9 @@ let inherit (lib) mkMerge getExe; in
     (_: prev:
       let obscura = self.inputs.obscura.packages.${prev.stdenv.hostPlatform.system}; in {
         inherit (obscura)
-          gomuks-web-2603
+          yellowcake
           ;
+
         inherit (obscura.nvidia.entries) nvtop;
 
         factorio-space-age = prev.factorio-space-age.override {
@@ -374,7 +375,7 @@ let inherit (lib) mkMerge getExe; in
       };
 
       gomuks-web = {
-        path = with pkgs; [ gomuks-web-2603 ];
+        path = with pkgs; [ gomuks-web ];
         script = ''
           export GOMUKS_ROOT="$STATE_DIRECTORY"
           exec gomuks-web << EOF
