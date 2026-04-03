@@ -644,12 +644,15 @@ let inherit (lib) mkMerge getExe; in
         ./tmux
       ];
 
-      gtk = {
+      gtk = rec {
         enable = true;
+
         theme = {
           name = "Gruvbox-Dark";
           package = pkgs.gruvbox-gtk-theme;
         };
+
+        gtk4 = { inherit theme; };
       };
 
       services = {
