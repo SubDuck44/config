@@ -1,5 +1,18 @@
-{ pkgs, ... }:
-let inherit (pkgs.lib) remove; in {
+{ pkgs, lib, ... }:
+let inherit (lib) mkForce remove; in {
+  systemd.user.services.emacs.Service = {
+    Environment = [ "LSP_USE_PLISTS=true" ];
+    Restart = mkForce "always";
+  };
+
+  programs.emacs.overrides = _: epkgs: {
+    lsp-mode = epkgs.lsp-mode.overrideAttrs (old: {
+      buildPhase = ''
+        export LSP_USE_PLISTS=true
+      '' + (old.buildPhase or "");
+    });
+  };
+
   aquaris = {
     emacs = {
       enable = true;
@@ -14,6 +27,30 @@ let inherit (pkgs.lib) remove; in {
 
       prelude = ''
         (defvar my/temp-dir (concat user-emacs-directory "temp/"))
+
+        (defun lsp-booster--advice-json-parse (old-fn &rest args)
+          "Try to parse bytecode instead of json."
+          (or
+           (when (equal (following-char) ?#)
+             (let ((bytecode (read (current-buffer))))
+               (when (byte-code-function-p bytecode)
+                 (funcall bytecode))))
+           (apply old-fn args)))
+        
+        (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+          "Prepend emacs-lsp-booster command to lsp CMD."
+          (let ((orig-result (funcall old-fn cmd test?)))
+            (if (and (not test?)                             ;; for check lsp-server-present?
+                     (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+                     lsp-use-plists
+                     (not (functionp 'json-rpc-connection))  ;; native json-rpc
+                     (executable-find "emacs-lsp-booster"))
+              (progn
+                (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+                  (setcar orig-result command-from-exec-path))
+                (message "Using emacs-lsp-booster for %s!" orig-result)
+                (cons "emacs-lsp-booster" orig-result))
+              orig-result)))
       '';
 
       usePackage = {
@@ -36,6 +73,21 @@ let inherit (pkgs.lib) remove; in {
             (xref-prompt-for-identifier      nil)
           '';
         };
+
+        flycheck = {
+          hook = "prog-mode";
+          custom = ''
+            (flycheck-check-syntax-automatically '(mode-enabled save))
+            (flycheck-display-errors-delay 0)
+          '';
+        };
+
+        consult-flycheck = {
+          bind' = ''
+            ("C-x C-c" . consult-flycheck)
+          '';
+        };
+
 
         vertico = {
           init = "(vertico-mode)";
@@ -170,12 +222,35 @@ let inherit (pkgs.lib) remove; in {
             (lsp-idle-delay 0)
             (lsp-enable-on-type-formatting nil)
             (lsp-clients-clangd-args '("--header-insertion=never"))
+
+            ;; performance
+            (lsp-log-io nil)
+            (read-process-output-max (* 1024 1024))
           '';
 
           hook = ''
             (c-mode . lsp-deferred)
             (typst-ts-mode . lsp-deferred)
           '';
+
+          config = ''
+            (advice-add 'lsp-mode :before
+              #'lsp-inline-completion-company-integration-mode)
+
+            (advice-add (if (progn (require 'json)
+                                   (fboundp 'json-parse-buffer))
+                          'json-parse-buffer
+                          'json-read)
+                        :around
+                        #'lsp-booster--advice-json-parse)
+
+            (advice-add 'lsp-resolve-final-command :around
+              #'lsp-booster--advice-final-command)
+          '';
+
+          extraPackages = with pkgs; [
+            emacs-lsp-booster
+          ];
         };
 
         lsp-pyright = {
