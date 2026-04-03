@@ -166,10 +166,12 @@ let inherit (pkgs.lib) remove; in {
 
         lsp-mode = {
           custom = ''
+            (eldoc-idle-delay 0)
             (lsp-idle-delay 0)
             (lsp-enable-on-type-formatting nil)
             (lsp-clients-clangd-args '("--header-insertion=never"))
           '';
+
           hook = ''
             (c-mode . lsp-deferred)
             (typst-ts-mode . lsp-deferred)
@@ -321,10 +323,20 @@ let inherit (pkgs.lib) remove; in {
             (defun my/open-todo () "Opens personal task list"
               (interactive)
               (find-file "~/org/todo.org"))
+           
+            (defun my/keyboard-config ()
+              (when (display-graphic-p)
+                (keyboard-translate ?\C-i ?\H-i)))
+
+            (my/keyboard-config)
+            (add-hook 'after-make-frame-functions
+              (lambda (frame)
+                (with-selected-frame frame
+                  (my/keyboard-config))))
           '';
           bind' = ''
             ("C-j" . next-line)
-            ("C-i" . previous-line)
+            ("H-i" . previous-line)
             ("C-f" . backward-char)
             ("C-e" . forward-char)
             ("M-j" . scroll-up-command)
@@ -346,7 +358,6 @@ let inherit (pkgs.lib) remove; in {
             (auto-save-file-name-transforms `((".*" ,my/temp-dir t)))
             (backup-directory-alist         `((".". ,my/temp-dir  )))
             (lock-file-name-transforms      `((".*" ,my/temp-dir t)))
-            (eldoc-idle-delay 0)
             (appt-message-warning-time 20)
             (appt-display-interval 5)
             (appt-disp-window-function
