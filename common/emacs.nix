@@ -421,7 +421,6 @@ let inherit (lib) mkForce remove; in {
             ("C-q" . beginning-of-line)
             ("C-w" . end-of-line)
             ("C-´" . other-window)
-            ("C-<tab>" . (lambda () (interactive) (insert-char 9)))
           '';
           custom = ''
             (recenter-positions '(middle top))
