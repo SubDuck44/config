@@ -51,6 +51,26 @@ let inherit (lib) mkForce remove; in {
                 (message "Using emacs-lsp-booster for %s!" orig-result)
                 (cons "emacs-lsp-booster" orig-result))
               orig-result)))
+
+        ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
+        (defun my/flycheck-eldoc (callback &rest _ignored)
+          "Print flycheck messages at point by calling CALLBACK."
+          (when-let ((flycheck-errors (and flycheck-mode (flycheck-overlay-errors-at (point)))))
+            (mapc
+             (lambda (err)
+               (funcall callback
+                        (format "%s: %s"
+                                (let ((level (flycheck-error-level err)))
+                                  (pcase level
+                                    ('info (propertize "I" 'face 'flycheck-error-list-info))
+                                    ('error (propertize "E" 'face 'flycheck-error-list-error))
+                                    ('warning (propertize "W" 'face 'flycheck-error-list-warning))
+                                    (_ level)))
+                                (flycheck-error-message err))
+                        :thing (or (flycheck-error-id err)
+                                   (flycheck-error-group err))
+                        :face 'font-lock-doc-face))
+             flycheck-errors)))
       '';
 
       usePackage = {
@@ -78,7 +98,8 @@ let inherit (lib) mkForce remove; in {
           hook = "prog-mode";
           custom = ''
             (flycheck-check-syntax-automatically '(mode-enabled save))
-            (flycheck-display-errors-delay 0)
+            (flycheck-display-errors-function nil)
+            (flycheck-help-echo-function nil)
           '';
         };
 
@@ -219,6 +240,8 @@ let inherit (lib) mkForce remove; in {
         lsp-mode = {
           custom = ''
             (eldoc-idle-delay 0)
+            (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
+
             (lsp-idle-delay 0)
             (lsp-enable-on-type-formatting nil)
             (lsp-clients-clangd-args '("--header-insertion=never"))
@@ -231,18 +254,17 @@ let inherit (lib) mkForce remove; in {
           hook = ''
             (c-mode . lsp-deferred)
             (typst-ts-mode . lsp-deferred)
+
+            (lsp-managed-mode . (lambda ()
+              (add-hook 'eldoc-documentation-functions #'my/flycheck-eldoc 90 t)))
           '';
 
           config = ''
             (advice-add 'lsp-mode :before
               #'lsp-inline-completion-company-integration-mode)
 
-            (advice-add (if (progn (require 'json)
-                                   (fboundp 'json-parse-buffer))
-                          'json-parse-buffer
-                          'json-read)
-                        :around
-                        #'lsp-booster--advice-json-parse)
+            (advice-add 'json-parse-buffer :around
+              #'lsp-booster--advice-json-parse)
 
             (advice-add 'lsp-resolve-final-command :around
               #'lsp-booster--advice-final-command)
