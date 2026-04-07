@@ -665,16 +665,18 @@ let inherit (lib) mkMerge getExe; in
         mako = {
           enable = true;
           settings = {
-            default-timeout = 5000;
-            background-color = "#00000040";
-            text-color = "#debffc";
+            font = "Iosevka NF";
+            default-timeout = 7000;
+            background-color = "#282828f0";
+            text-color = "#5bcefa";
             border-radius = 7;
-            border-color = "#bb77ff40";
-            icon-location = "right";
+            border-color = "#5bcefaff";
+            icon-location = "left";
             icon-border-radius = 999;
             output = "DP-6";
             layer = "overlay";
-            anchor = "top-center";
+            anchor = "bottom-left";
+            on-notify = "exec mpv ${./notif.opus}";
             "app-name=Emacs" = {
               on-notify = "exec mpv ${./error.opus}";
               text-color = "#dbc823";
