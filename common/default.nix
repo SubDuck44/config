@@ -655,6 +655,10 @@ let inherit (lib) mkMerge getExe; in
         gtk4 = { inherit theme; };
       };
 
+      qt = {
+        enable = true;
+      };
+
       services = {
         syncthing.enable = true;
 

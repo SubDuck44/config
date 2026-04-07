@@ -1,5 +1,5 @@
 import Quickshell
 
 Scope {
-		Bar {}
+	Bar {}
 }
