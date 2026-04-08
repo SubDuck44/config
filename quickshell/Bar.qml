@@ -61,7 +61,7 @@ Scope {
 				BarItem {
 					border.color: "#f5a9b8"
 					BarItemText {
-						text: "  " + Qt.formatDateTime(clock.date, "yyyy-MM-dd")
+						text: "  " + Qt.formatDateTime(clock.date, "yyyy-MM-dd ddd")
 					}
 				}
 				BarItem {
