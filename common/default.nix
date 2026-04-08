@@ -550,6 +550,10 @@ let inherit (lib) mkMerge getExe; in
     useGlobalPkgs = true;
     useUserPackages = true;
     users.melinda = { config, ... }: {
+      systemd.user.tmpfiles.rules = [
+        "L+ %h/.config/quickshell/default - - - - %h/cfg/quickshell"
+      ];
+
       xdg.systemDirs.data = with pkgs; map glib.getSchemaDataDirPath [
         gsettings-desktop-schemas
         gtk3
@@ -692,6 +696,10 @@ let inherit (lib) mkMerge getExe; in
           enable = true;
         };
 
+        mpd-mpris = {
+          enable = true;
+        };
+
         mpd = {
           enable = true;
           musicDirectory = "/home/melinda/sfx";
@@ -739,7 +747,7 @@ let inherit (lib) mkMerge getExe; in
         quickshell = {
           enable = true;
           systemd.enable = true;
-          activeConfig = "/home/melinda/cfg/quickshell/ShellRoot.qml";
+          activeConfig = "default";
         };
 
         foot = {

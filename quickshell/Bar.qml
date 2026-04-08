@@ -2,6 +2,7 @@ import Quickshell
 import Quickshell.Io
 import QtQuick
 import Quickshell.Hyprland
+import Quickshell.Services.Mpris
 
 Scope {
 	id: root
@@ -12,6 +13,8 @@ Scope {
 	property int last_cpu_total
 	property int cur_cpu_work
 	property int cur_cpu_total
+	property string now_playing
+	property bool is_playing
 	Variants {
 		model: Quickshell.screens;
 		PanelWindow {
@@ -35,7 +38,6 @@ Scope {
 				}
 			}
 			Row {
-				id: bar_row
 				spacing: 5
 				component BarItem: Rectangle {
 					color: "#3c3836"
@@ -65,28 +67,49 @@ Scope {
 				BarItem {
 					border.color: "#ffffff"
 					BarItemText {
-						text: "󰂄 " + root.power_cap
-					}
-				}
-				BarItem {
-					border.color: "#f5a9b8"
-					BarItemText {
 						text: "  " + cpu_load
 					}
 				}
 				BarItem {
 					border.color: "#5bcefa"
 					BarItemText {
-text: "  " + mem_used
+						text: "  " + mem_used
+					}
+				}
+				BarItem {
+					border.color: "#f5a9b8"
+					BarItemText {
+						text: "󰂄 " + root.power_cap
 					}
 				}
 			}
-			Text {
+			Rectangle {
+				anchors.right: parent.right
+				visible: is_playing
+				color: "#3c3836"
+				implicitHeight: Math.max(childrenRect.height, parent.parent.height)
+				implicitWidth: childrenRect.width + 20
+				radius: 10
+				border.width: 3
+				border.color: "#b8bb26"
+				BarItemText {
+					text: "Now playing: " + now_playing
+				}
+			}
+			Rectangle {
+				id: active_indicator
+			  	color: "#a89984"
+				radius: 5
 				anchors.centerIn: parent
-				color: "#a89984"
-				font.family: "Iosevka NF"
-				font.pointSize: 12
-				text: Hyprland.activeToplevel.title
+				height: childrenRect.height + 5
+				width: childrenRect.width + 20
+				Text {
+				 	anchors.centerIn: parent
+						color: "#ffffff"
+						font.family: "Iosevka NF"
+						font.pointSize: 12
+						text: Hyprland.activeToplevel.title
+					}
 			}
 		}
 	}
@@ -125,7 +148,7 @@ text: "  " + mem_used
 				var values = data.split(" ").filter(n => n)
 				var used = parseInt(values[5])
 				var total = parseInt(values[1]) + parseInt(values[3]) + parseInt(values[5]) + parseInt(values[7])
-				mem_used = (used / 1000000).toFixed(2) + "G /" + (total / 1000000).toFixed(2) + "G"
+				mem_used = (used / 1000000) + "G /" + (total / 1000000).toFixed() + "G"
 			}
 		}
 		Component.onCompleted: running = false;
@@ -142,6 +165,14 @@ text: "  " + mem_used
 			powerGetter.running = true;
 			cpuGetter.running = true;
 			memGetter.running = true;
+
+			for (let i = 0; i < Mpris.players.values.length; i++) {
+				let player = Mpris.players.values[i];
+				if (player.trackTitle.length > 0 && player.identity == "MPD") {
+					now_playing = player.trackTitle;
+					root.is_playing = player.isPlaying;
+				}
+			}
 		}
 	}
 }
