@@ -549,7 +549,15 @@ let inherit (lib) mkMerge getExe; in
   home-manager = {
     useGlobalPkgs = true;
     useUserPackages = true;
+
     users.melinda = { config, ... }: {
+      imports = [
+        self.inputs.obscura.homeModules.direnv-instant
+        "${self.inputs.aquaris}/module/home/emacs"
+        ./emacs.nix
+        ./tmux
+      ];
+
       systemd.user.tmpfiles.rules = [
         "L+ %h/.config/quickshell/default - - - - %h/cfg/quickshell"
       ];
@@ -641,13 +649,6 @@ let inherit (lib) mkMerge getExe; in
         };
       };
 
-      imports = [
-        self.inputs.obscura.homeModules.direnv-instant
-        "${self.inputs.aquaris}/module/home/emacs"
-        ./emacs.nix
-        ./tmux
-      ];
-
       gtk = rec {
         enable = true;
 
@@ -687,6 +688,7 @@ let inherit (lib) mkMerge getExe; in
               border-color = "#dbc823";
             };
             "app-name=flameshot" = {
+              on-notify = "true";
               invisible = true;
             };
           };
