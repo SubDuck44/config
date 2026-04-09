@@ -1,5 +1,5 @@
 { config, lib, pkgs, self, ... }:
-let inherit (lib) mkMerge getExe; in
+let inherit (lib) mkForce mkMerge getExe; in
 {
   nix = {
     settings = {
@@ -558,9 +558,23 @@ let inherit (lib) mkMerge getExe; in
         ./tmux
       ];
 
-      systemd.user.tmpfiles.rules = [
-        "L+ %h/.config/quickshell/default - - - - %h/cfg/quickshell"
-      ];
+      systemd.user = {
+        services = {
+          quickshell = {
+            Service = {
+              Restart = mkForce "always";
+            };
+
+            Unit = {
+              StartLimitIntervalSec = 0;
+            };
+          };
+        };
+
+        tmpfiles.rules = [
+          "L+ %h/.config/quickshell/default - - - - %h/cfg/quickshell"
+        ];
+      };
 
       xdg.systemDirs.data = with pkgs; map glib.getSchemaDataDirPath [
         gsettings-desktop-schemas
@@ -688,7 +702,6 @@ let inherit (lib) mkMerge getExe; in
               border-color = "#dbc823";
             };
             "app-name=flameshot" = {
-              on-notify = "true";
               invisible = true;
             };
           };
@@ -748,8 +761,11 @@ let inherit (lib) mkMerge getExe; in
 
         quickshell = {
           enable = true;
-          systemd.enable = true;
           activeConfig = "default";
+          systemd = {
+            enable = true;
+            target = "hyprland-session.target";
+          };
         };
 
         foot = {
