@@ -116,6 +116,7 @@ let inherit (lib) mkForce mkMerge getExe; in
         "/home/melinda/.local/share/umu"
         "/home/melinda/.local/share/zathura"
         "/home/melinda/.local/share/zoxide"
+        "/home/melinda/.local/share/Mindustry"
 
         "/home/melinda/.local/state/syncthing"
         "/home/melinda/.local/state/wireplumber"
