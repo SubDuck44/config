@@ -141,14 +141,14 @@ Scope {
 	}
 	Process {
 		id: memGetter
-		command: ["sh", "-c", "free -L"]
+		command: ["sh", "-c", "free  | sed -n 2p"]
 		running: true
 		stdout: SplitParser {
 			onRead: data => {
-				var values = data.split(" ").filter(n => n)
-				var used = parseInt(values[5])
-				var total = parseInt(values[1]) + parseInt(values[3]) + parseInt(values[5]) + parseInt(values[7])
-				mem_used = (used / 1000000) + "G /" + (total / 1000000).toFixed() + "G"
+				var values = data.split(" ").filter(n => n);
+				var used = parseInt(values[2]);
+				var total = parseInt(values[1]);
+				mem_used = (used / 1000000).toFixed(2) + "G/" + (total / 1000000).toFixed(2) + "G";
 			}
 		}
 		Component.onCompleted: running = false;
