@@ -429,7 +429,6 @@ let inherit (lib) mkForce mkMerge getExe; in
       flameshot
       fzf
       grim
-      hyprpaper
       mindustry-wayland
       mpv
       playerctl
