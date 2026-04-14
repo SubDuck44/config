@@ -78,6 +78,7 @@ Scope {
 				}
 				BarItem {
 					border.color: "#f5a9b8"
+					visible: root.power_cap.length > 0
 					BarItemText {
 						text: "󰂄 " + root.power_cap
 					}
