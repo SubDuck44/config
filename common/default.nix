@@ -417,6 +417,7 @@ let inherit (lib) mkForce mkMerge getExe; in
     extraGroups = [ "wheel" "gamemode" "adbusers" "libvirtd" ];
 
     packages = with pkgs; [
+      godot
       android-tools
       aseprite
       ckan
