@@ -417,31 +417,32 @@ let inherit (lib) mkForce mkMerge getExe; in
     extraGroups = [ "wheel" "gamemode" "adbusers" "libvirtd" ];
 
     packages = with pkgs; [
-      espeak
-      poppler-utils
-      mindustry-wayland
       android-tools
       aseprite
       ckan
       cmatrix
+      espeak
       feh
       ffmpeg
       file
       flameshot
       fzf
       grim
+      hyprpaper
+      mindustry-wayland
       mpv
       playerctl
+      poppler-utils
       pulsemixer
+      pwgen
       qbittorrent
       self.inputs.keysmash.packages.${stdenv.system}.default
       swaybg
+      syncplay
       thunderbird
+      umu-launcher
       wl-clipboard
       zathura
-      syncplay
-      pwgen
-      umu-launcher
     ];
 
     hashedPasswordFile = "/persist/secrets/melinda.pwhash";
