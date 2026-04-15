@@ -63,6 +63,7 @@ let inherit (lib) mkForce mkMerge getExe; in
         "/var/cache/tuigreet"
 
         "/var/lib/NetworkManager"
+        "/var/lib/flatpak"
         "/var/lib/libvirt"
         "/var/lib/nixos"
         "/var/lib/private/gomuks-web"
@@ -120,6 +121,8 @@ let inherit (lib) mkForce mkMerge getExe; in
 
         "/home/melinda/.local/state/syncthing"
         "/home/melinda/.local/state/wireplumber"
+
+        "/home/melinda/.var/app"
       ]
       {
         "/etc/NetworkManager/system-connections" = { m = "0700"; };
@@ -265,6 +268,8 @@ let inherit (lib) mkForce mkMerge getExe; in
   };
 
   services = {
+    flatpak.enable = true;
+
     scx = {
       enable = true;
       package = pkgs.scx.rustscheds;
