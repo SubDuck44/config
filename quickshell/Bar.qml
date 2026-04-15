@@ -18,7 +18,7 @@ Scope {
 	Variants {
 		model: Quickshell.screens;
 		PanelWindow {
-			color: "#282828"
+			color: "#00000000"
 			required property var modelData
 			screen: modelData
 			anchors {
@@ -27,16 +27,6 @@ Scope {
 				right: true
 			}
 			implicitHeight: 30
-			Rectangle {
-				width: parent.width
-				height: parent.height
-				gradient: Gradient {
-					orientation: Gradient.Horizontal
-					GradientStop { position: 0.0; color: "#000000" }
-					GradientStop { position: (bar_row.childrenRect.width / width) + 0.2; color: "#282828" }
-					GradientStop { position: 1.0; color: "#282828" }
-				}
-			}
 			Row {
 				spacing: 5
 				component BarItem: Rectangle {
