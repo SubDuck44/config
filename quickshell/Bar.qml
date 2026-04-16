@@ -99,7 +99,7 @@ Scope {
 						color: "#ffffff"
 						font.family: "Iosevka NF"
 						font.pointSize: 12
-						text: Hyprland.activeToplevel.title
+					text: Hyprland.activeToplevel.title.length > 50 ? Hyprland.activeToplevel.title.slice(0, 50) + "..." : Hyprland.activeToplevel.title
 					}
 			}
 		}
