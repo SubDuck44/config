@@ -79,6 +79,11 @@ let inherit (lib) mkForce remove; in {
 
       config = {
 
+        "00-theme" = {
+          package = "gruvbox-theme";
+          config = "(load-theme 'gruvbox-dark-medium t)";
+        };
+
         consult = {
           bind' = ''
             ("C-b" . consult-buffer)
@@ -401,7 +406,6 @@ let inherit (lib) mkForce remove; in {
             (add-to-list 'default-frame-alist '(alpha-background . 50))
             (add-to-list 'default-frame-alist '(font . "monospace:size=12"))
             (put 'list-timers 'disable nil)
-            (load-theme 'tsdh-dark t)
 
             (advice-add 'appt-check
               :before
