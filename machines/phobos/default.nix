@@ -1,9 +1,18 @@
-{ pkgs, lib, ... }: {
-  imports = [ ./hardware.nix ];
+{ aquaris, pkgs, lib, ... }: {
+  imports = [ ../../common ];
+
+  aquaris = {
+    machine = {
+      id = "6eb999cc2313ba866c79393469e65937";
+    };
+
+    users = lib.mkMerge [
+      { inherit (aquaris.cfg.users) melinda; }
+      { melinda.admin = true; }
+    ];
+  };
 
   networking = {
-    hostName = "boobsos";
-    hostId = "a6e15bda";
     wireless = {
       allowAuxiliaryImperativeNetworks = true;
     };
