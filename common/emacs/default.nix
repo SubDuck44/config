@@ -1,5 +1,10 @@
 { pkgs, lib, ... }: {
   home-manager.sharedModules = [{
+    services.emacs = {
+      enable = true;
+      startWithUserSession = "graphical";
+    };
+
     systemd.user.services.emacs.Service = {
       Environment = [ "LSP_USE_PLISTS=true" ];
       Restart = lib.mkForce "always";
