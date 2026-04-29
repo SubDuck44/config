@@ -18,8 +18,6 @@
       "steam-unwrapped"
       "factorio-space-age"
     ];
-
-    dnscrypt.protos.dnscrypt = false;
   };
 
   system.extraDependencies = with pkgs; [

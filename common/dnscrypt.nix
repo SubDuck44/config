@@ -1,9 +1,9 @@
-{ lib, ... }: {
+{
   aquaris.dnscrypt = {
     enable = true;
 
     protos = {
-      dnscrypt = lib.mkDefault true;
+      dnscrypt = false;
       doh = false;
       odoh = true;
     };
