@@ -61,13 +61,13 @@ Scope {
 					}
 				}
 				BarItem {
-					border.color: "#5bcefa"
+					border.color: "#f5a9b8"
 					BarItemText {
 						text: "  " + mem_used
 					}
 				}
 				BarItem {
-					border.color: "#f5a9b8"
+					border.color: "#5bcefa"
 					visible: root.power_cap.length > 0
 					BarItemText {
 						text: "󰂄 " + root.power_cap
