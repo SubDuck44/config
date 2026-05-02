@@ -342,6 +342,7 @@
               (define-globalized-minor-mode my/global-indent-bars-mode
                 indent-bars-mode
                 (lambda () (indent-bars-mode 1)))
+
               (my/global-indent-bars-mode 1)
             '';
           };
@@ -362,6 +363,7 @@
               (tool-bar-mode 0)
               (menu-bar-mode 0)
               (scroll-bar-mode 0)
+              (global-display-fill-column-indicator-mode 1)
               (global-whitespace-newline-mode 1)
               (global-whitespace-mode 1)
               (electric-indent-mode nil)
@@ -369,35 +371,8 @@
               (add-to-list 'default-frame-alist '(alpha-background . 50))
               (add-to-list 'default-frame-alist '(font . "monospace:size=12"))
               (put 'list-timers 'disable nil)
-
-              (advice-add 'appt-check
-                :before
-                (lambda (&rest args)
-                  (org-agenda-to-appt t)))
-              (appt-activate t)
-
-              (defun my/open-config () "Opens Emacs configuration file"
-                (interactive)
-                (find-file "~/cfg/common/emacs.nix"))
-
-              (defun my/open-cfg () "Opens common system configuration file"
-                (interactive)
-                (find-file "~/cfg/common/default.nix"))
-
-              (defun my/open-todo () "Opens personal task list"
-                (interactive)
-                (find-file "~/org/todo.org"))
-
-              (defun my/keyboard-config ()
-                (when (display-graphic-p)
-                  (keyboard-translate ?\C-i ?\H-i)))
-
-              (my/keyboard-config)
-              (add-hook 'after-make-frame-functions
-                (lambda (frame)
-                  (with-selected-frame frame
-                    (my/keyboard-config))))
             '';
+
             bind' = ''
               ("C-j" . next-line)
               ("H-i" . previous-line)
@@ -411,6 +386,7 @@
               ("C-w" . end-of-line)
               ("C-´" . other-window)
             '';
+
             custom = ''
               (recenter-positions '(middle top))
               (whitespace-style '(face trailing))
@@ -430,6 +406,7 @@
                    :body (substring-no-properties msg)
                    :urgency 'critical)))
               (org-agenda-prefer-last-repeat t)
+              (fill-column 80)
             '';
           };
         };

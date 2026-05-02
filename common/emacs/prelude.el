@@ -1,5 +1,7 @@
 (defvar my/temp-dir (concat user-emacs-directory "temp/"))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
   "Try to parse bytecode instead of json."
   (or
@@ -24,6 +26,8 @@
         (cons "emacs-lsp-booster" orig-result))
       orig-result)))
 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
 (defun my/flycheck-eldoc (callback &rest _ignored)
   "Print flycheck messages at point by calling CALLBACK."
@@ -43,3 +47,39 @@
                            (flycheck-error-group err))
                 :face 'font-lock-doc-face))
      flycheck-errors)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(advice-add 'appt-check
+  :before
+  (lambda (&rest args)
+    (org-agenda-to-appt t)))
+
+(appt-activate t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun my/open-config () "Opens Emacs configuration file"
+  (interactive)
+  (find-file "~/cfg/common/emacs/emacs.nix"))
+
+(defun my/open-cfg () "Opens common system configuration file"
+  (interactive)
+  (find-file "~/cfg/common/default.nix"))
+
+(defun my/open-todo () "Opens personal task list"
+  (interactive)
+  (find-file "~/org/todo.org"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun my/keyboard-config ()
+  (when (display-graphic-p)
+    (keyboard-translate ?\C-i ?\H-i)))
+
+(add-hook 'after-make-frame-functions
+  (lambda (frame)
+    (with-selected-frame frame
+      (my/keyboard-config))))
+
+(my/keyboard-config)
