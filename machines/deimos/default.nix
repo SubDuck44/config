@@ -12,10 +12,12 @@
     ];
 
     unfreeNames = [
+      "nvidia-kernel-modules"
       "nvidia-x11"
-      "nvidia-settings"
+
       "steam"
       "steam-unwrapped"
+
       "factorio-space-age"
     ];
   };
@@ -26,6 +28,7 @@
 
   hardware.nvidia = {
     open = false;
+    nvidiaSettings = false;
     powerManagement.enable = true;
   };
 

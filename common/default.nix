@@ -8,6 +8,8 @@
 
   system.stateVersion = "25.11";
 
+  boot.zfs.forceImportRoot = true;
+
   fileSystems = {
     "/proc" = {
       device = "proc";
