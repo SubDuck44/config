@@ -17,9 +17,7 @@
         espeak
         feh
         ffmpeg
-        flameshot
         godot
-        grim
         lazpaint
         libnotify
         libqalculate
@@ -52,13 +50,6 @@
       sessionVariables = {
         NIXOS_CONFIG_DIR = ''$(realpath "$HOME/cfg")'';
       };
-    };
-
-    xdg.configFile = {
-      "flameshot/flameshot.ini".text = ''
-        [General]
-        useGrimAdapter=true
-      '';
     };
 
     services = {
