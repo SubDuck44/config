@@ -355,6 +355,10 @@
             '';
           };
 
+          straight = {
+            defer = true;
+          };
+
           emacs = {
             config = ''
               (require 'notifications)
