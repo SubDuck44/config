@@ -389,6 +389,7 @@
               ("C-q" . beginning-of-line)
               ("C-w" . end-of-line)
               ("C-´" . other-window)
+              ("M-c" . avy-goto-char-timer)
             '';
 
             custom = ''
