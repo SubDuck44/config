@@ -70,5 +70,10 @@
         ];
       })
     ];
+
+    wayland.windowManager.hyprland.extraConfig = ''
+      monitor = DP-6, preferred, auto, 1
+      monitor = DP-5, preferred, auto-left, 1
+    '';
   }];
 }
