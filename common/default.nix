@@ -9,12 +9,4 @@
   system.stateVersion = "25.11";
 
   boot.zfs.forceImportRoot = true;
-
-  fileSystems = {
-    "/proc" = {
-      device = "proc";
-      fsType = "proc";
-      options = [ "nosuid" "hidepid=invisible" "gid=1" ];
-    };
-  };
 }
