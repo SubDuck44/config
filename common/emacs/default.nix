@@ -210,6 +210,7 @@
               (eldoc-idle-delay 0)
               (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
 
+              (lsp-headerline-breadcrumb-enable nil)
               (lsp-idle-delay 0)
               (lsp-enable-on-type-formatting nil)
               (lsp-clients-clangd-args '("--header-insertion=never"))
@@ -373,7 +374,7 @@
               (electric-indent-mode nil)
               (set-frame-parameter nil 'alpha-background 50)
               (add-to-list 'default-frame-alist '(alpha-background . 50))
-              (add-to-list 'default-frame-alist '(font . "monospace:size=12"))
+              (add-to-list 'default-frame-alist '(font . "monospace:size=14"))
               (put 'list-timers 'disable nil)
             '';
 
