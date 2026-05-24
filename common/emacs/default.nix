@@ -379,19 +379,20 @@
             '';
 
             bind' = ''
-              ("C-j" . next-line)
-              ("H-i" . previous-line)
-              ("C-f" . backward-char)
-              ("C-e" . forward-char)
-              ("M-j" . scroll-up-command)
-              ("M-i" . scroll-down-command)
-              ("M-f" . backward-word)
-              ("M-e" . forward-word)
-              ("C-q" . beginning-of-line)
-              ("C-w" . end-of-line)
-              ("C-´" . other-window)
-              ("M-c" . avy-goto-char-timer)
-              ("M-=" . count-words)
+              ("C-e"     . forward-char)
+              ("C-f"     . backward-char)
+              ("C-j"     . next-line)
+              ("C-q"     . beginning-of-line)
+              ("C-w"     . end-of-line)
+              ("C-x C-a" . mark-whole-buffer)
+              ("C-´"     . other-window)
+              ("H-i"     . previous-line)
+              ("M-="     . count-words)
+              ("M-c"     . avy-goto-char-timer)
+              ("M-e"     . forward-word)
+              ("M-f"     . backward-word)
+              ("M-i"     . scroll-down-command)
+              ("M-j"     . scroll-up-command)
             '';
 
             custom = ''
