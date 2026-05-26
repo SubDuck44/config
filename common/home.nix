@@ -35,7 +35,6 @@
         umu-launcher
         vesktop
         wl-clipboard
-        zathura
       ];
 
       shellAliases = {
@@ -97,7 +96,6 @@
       ".local/share/applications" = { };
       ".local/share/qBittorrent" = { };
       ".local/share/umu" = { };
-      ".local/share/zathura" = { };
 
       ".local/state/syncthing" = { };
     };
