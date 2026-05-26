@@ -2,9 +2,8 @@
   imports = [ ../../common ];
 
   aquaris = {
-    machine = {
-      id = "9f7777901bbb61ae632ed7bd69e65625";
-    };
+    machine.id = "9f7777901bbb61ae632ed7bd69e65625";
+    secrets.pub = "CqxpOPQggAlO2Et1kV064dZaLz2L8H7JeI0c1Xh3m0M";
 
     users = lib.mkMerge [
       { inherit (aquaris.cfg.users) melinda; }
