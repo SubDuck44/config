@@ -1,5 +1,9 @@
 {
   inputs = {
+    aagl = {
+      url = "github:ezKEa/aagl-gtk-on-nix";
+    };
+
     aquaris = {
       url = "github:42loco42/aquaris";
       inputs = {
