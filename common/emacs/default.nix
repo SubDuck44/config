@@ -90,6 +90,20 @@
             config = "(prescient-persist-mode t)";
           };
 
+          rustic = {
+            defer = true;
+
+            custom = ''
+              (lsp-rust-analyzer-cargo-watch-command "clippy")
+            '';
+
+            extraPackages = with pkgs; [
+              clippy
+              rust-analyzer
+              rustfmt
+            ];
+          };
+
           uxntal-mode = { };
 
           marginalia = {
