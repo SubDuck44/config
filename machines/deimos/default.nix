@@ -31,6 +31,8 @@
     powerManagement.enable = true;
   };
 
+  hardware.graphics.extraPackages = [ pkgs.monado-vulkan-layers ];
+
   services = {
     xserver.videoDrivers = [ "nvidia" ];
 
