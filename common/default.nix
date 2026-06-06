@@ -9,4 +9,6 @@
   system.stateVersion = "25.11";
 
   boot.zfs.forceImportRoot = true;
+
+  services.speechd.enable = false;
 }
