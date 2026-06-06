@@ -14,6 +14,7 @@
         aseprite
         ckan
         cmatrix
+        equibop
         espeak
         feh
         ffmpeg
@@ -33,7 +34,6 @@
         swaybg
         thunderbird
         umu-launcher
-        vesktop
         wl-clipboard
       ];
 
@@ -87,9 +87,9 @@
 
       ".config/aseprite" = { };
       ".config/dconf" = { };
+      ".config/equibop" = { };
       ".config/qBittorrent" = { };
       ".config/qalculate" = { };
-      ".config/vesktop" = { };
 
       ".local/share/CKAN" = { };
       ".local/share/Mindustry" = { };
@@ -99,5 +99,9 @@
 
       ".local/state/syncthing" = { };
     };
+
+    xdg.configFile."equibop-flags.conf".text = ''
+      --wayland
+    '';
   });
 }

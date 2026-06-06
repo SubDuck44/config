@@ -1,4 +1,4 @@
-{ pkgs, ...}: {
+{ pkgs, ... }: {
   programs.wireshark = {
     enable = true;
     usbmon.enable = true;
