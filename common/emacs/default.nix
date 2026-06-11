@@ -183,6 +183,7 @@
             custom = ''
               (typst-preview-invert-colors "never")
               (typst-preview-open-browser-automatically t)
+              (typst-preview-cmd-options '("--verbose"))
             '';
 
             config = ''
