@@ -41,6 +41,11 @@
       openFirewall = true;
       steam.importOXRRuntimes = true;
     };
+
+    udev.extraRules = ''
+      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="10f5", \
+      MODE="0660", GROUP="users", TAG+="uaccess"
+    '';
   };
 
   programs = {
@@ -60,6 +65,14 @@
     };
 
     home.packages = with pkgs; [
+      ((pkgs.runCommandCC "unfuck-yoke" {
+        nativeBuildInputs = with pkgs; [ pkg-config ];
+        buildInputs = with pkgs; [ libusb1 ];
+      }) ''
+        mkdir -p $out/bin
+        cc $(pkg-config --cflags --libs libusb-1.0) ${./unfuck-yoke.c} -o $out/bin/unfuck-yoke
+      '')
+
       factorio-space-age
 
       (prismlauncher.override {
