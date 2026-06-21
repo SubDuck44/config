@@ -12,6 +12,7 @@
 
       packages = with pkgs; [
         aseprite
+        chatterino7
         ckan
         cmatrix
         equibop
@@ -94,6 +95,7 @@
       ".local/share/CKAN" = { };
       ".local/share/Mindustry" = { };
       ".local/share/applications" = { };
+      ".local/share/chatterino" = { };
       ".local/share/qBittorrent" = { };
       ".local/share/umu" = { };
 
