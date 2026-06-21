@@ -55,6 +55,34 @@
 
     services = {
       syncthing.enable = true;
+
+      hyprsunset.enable = true;
+    };
+
+    systemd.user.services.wlsunset = {
+      Install.WantedBy = [ "graphical-session.target" ];
+
+      Unit = {
+        After = [ "graphical-session.target" ];
+        PartOf = [ "graphical-session.target" ];
+      };
+
+      Service.ExecStart = lib.mkForce [
+        (lib.getExe (pkgs.writeShellApplication {
+          name = "wlsunset-via-hyprsunset";
+
+          runtimeInputs = with pkgs; [
+            hyprland
+            wlsunset
+          ];
+
+          text = ''
+            wlsunset -l 54 -L 10 |& sed -Enu        \
+              's|.* ([0-9]+) K|hyprctl hyprsunset temperature \1|p' \
+            | bash -x
+          '';
+        }))
+      ];
     };
 
     programs = {
