@@ -21,6 +21,8 @@
     nixpkgs.url = "github:nixos/nixpkgs/nixos-unstable";
 
     obscura.url = "github:42loco42/obscura";
+
+    keysmash.url = "github:42loco42/keysmash";
   };
 
   outputs = { aquaris, self, ... }: aquaris self rec {

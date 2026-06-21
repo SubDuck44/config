@@ -1,4 +1,4 @@
-{ pkgs, lib, config, ... }: {
+{ pkgs, lib, config, self, ... }: {
   aquaris = {
     unfreeNames = [
       "aseprite"
@@ -32,6 +32,7 @@
         pulsemixer
         pwgen
         qbittorrent
+        self.inputs.keysmash.packages.${pkgs.stdenv.system}.default
         swaybg
         thunderbird
         umu-launcher
