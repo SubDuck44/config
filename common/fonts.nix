@@ -4,6 +4,7 @@
       nerd-fonts.iosevka
       noto-fonts
       noto-fonts-color-emoji
+      merriweather
     ];
 
     fontconfig.defaultFonts = {
