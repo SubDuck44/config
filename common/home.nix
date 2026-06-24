@@ -27,6 +27,7 @@
         mpv
         nvtop
         p7zip-rar
+        pcsx2
         playerctl
         poppler-utils
         pulsemixer
@@ -120,6 +121,7 @@
       ".config/equibop" = { };
       ".config/qBittorrent" = { };
       ".config/qalculate" = { };
+      ".config/PCSX2" = { };
 
       ".local/share/CKAN" = { };
       ".local/share/Mindustry" = { };
