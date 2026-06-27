@@ -1,7 +1,6 @@
 { pkgs, lib, config, self, ... }: {
   aquaris = {
     unfreeNames = [
-      "aseprite"
       "p7zip"
     ];
   };
@@ -11,7 +10,6 @@
       stateVersion = "25.11";
 
       packages = with pkgs; [
-        aseprite
         chatterino7
         ckan
         cmatrix
@@ -20,7 +18,6 @@
         feh
         ffmpeg
         godot
-        lazpaint
         libnotify
         libqalculate
         mindustry-wayland
@@ -28,6 +25,7 @@
         nvtop
         p7zip-rar
         pcsx2
+        pixelorama
         playerctl
         poppler-utils
         pulsemixer
