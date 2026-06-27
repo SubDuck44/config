@@ -92,6 +92,11 @@
 
           uxntal-mode = { };
 
+          go-mode = {
+            defer = true;
+            extraPackages = with pkgs; [ gopls ];
+          };
+
           marginalia = {
             config = "(marginalia-mode t)";
           };
@@ -223,6 +228,7 @@
 
             hook = ''
               (c-mode . lsp-deferred)
+              (go-mode . lsp-deferred)
               (typst-ts-mode . lsp-deferred)
 
               (lsp-managed-mode . (lambda ()
