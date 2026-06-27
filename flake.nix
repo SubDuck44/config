@@ -22,7 +22,7 @@
 
     obscura.url = "github:42loco42/obscura";
 
-    keysmash.url = "github:42loco42/keysmash";
+    keysmash.url = "github:42loco42/keysmash/1.2.0";
   };
 
   outputs = { aquaris, self, ... }: aquaris self rec {
