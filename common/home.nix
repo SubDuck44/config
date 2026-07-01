@@ -1,4 +1,4 @@
-{ pkgs, lib, config, self, ... }: {
+{ pkgs, lib, config, ... }: {
   aquaris = {
     unfreeNames = [
       "p7zip"
@@ -18,6 +18,7 @@
         feh
         ffmpeg
         godot
+        keysmash
         libnotify
         libqalculate
         mindustry-wayland
@@ -31,7 +32,6 @@
         pulsemixer
         pwgen
         qbittorrent
-        self.inputs.keysmash.packages.${pkgs.stdenv.system}.default
         swaybg
         thunderbird
         umu-launcher
@@ -40,11 +40,12 @@
 
       shellAliases = {
         auto = "espeak -p 0 -P 0";
-        sneeptime = "systemctl suspend";
         crush = "nix store gc -v";
-        judgement = "systemctl --user restart emacs";
-        thy-end-is-now = "sudo nix-env --delete-generations +3 --profile /nix/var/nix/profiles/system";
         emacs = "emacsclient -nc";
+        judgement = "systemctl --user restart emacs";
+        sneeptime = "systemctl suspend";
+        thy-end-is-now = "sudo nix-env --delete-generations +3 --profile /nix/var/nix/profiles/system";
+
       };
 
       sessionVariables = {
