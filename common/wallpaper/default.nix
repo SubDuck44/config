@@ -3,7 +3,7 @@
     systemd.user.services.swaybg = {
       Install.WantedBy = [ "graphical-session.target" ];
       Service.ExecStart = ''
-        ${lib.getExe pkgs.swaybg} -i ${./wallpaper.png};
+        ${lib.getExe pkgs.swaybg} -i ${./wallpaper.png}
       '';
     };
   }];
