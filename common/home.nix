@@ -32,6 +32,7 @@
         pwgen
         qbittorrent
         self.inputs.keysmash.packages.${pkgs.stdenv.system}.default
+        steamguard-cli
         swaybg
         thunderbird
         umu-launcher
@@ -114,12 +115,13 @@
 
       ".cache/thunderbird" = { };
 
+      ".config/PCSX2" = { };
       ".config/aseprite" = { };
       ".config/dconf" = { };
       ".config/equibop" = { };
       ".config/qBittorrent" = { };
       ".config/qalculate" = { };
-      ".config/PCSX2" = { };
+      ".config/steamguard-cli" = { };
 
       ".local/share/CKAN" = { };
       ".local/share/Mindustry" = { };
