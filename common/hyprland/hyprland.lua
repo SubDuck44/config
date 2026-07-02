@@ -27,12 +27,6 @@ hl.config({
 
 		no_focus_fallback = true,
 
-		-- Set to true to enable resizing windows by clicking and dragging on borders and gaps
-		resize_on_border = false,
-
-		-- Please see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Tearing/ before you turn this on
-		allow_tearing = false,
-
 		layout = "dwindle",
 	},
 
@@ -40,16 +34,8 @@ hl.config({
 		rounding       = 0,
 		rounding_power = 2,
 
-		-- Change transparency of focused and unfocused windows
 		active_opacity   = 1.0,
 		inactive_opacity = 1.0,
-
-		shadow = {
-			enabled      = false,
-			range        = 4,
-			render_power = 3,
-			color        = 0xee1a1a1a,
-		},
 
 		blur = {
 			enabled   = true,
@@ -72,21 +58,19 @@ hl.config({
 	},
 })
 
--- Default curves and animations, see https://wiki.hypr.land/Configuring/Advanced-and-Cool/Animations/
-hl.curve("easeOutQuint",   { type = "bezier", points = { {0.23, 1},    {0.32, 1}    } })
-hl.curve("easeInOutCubic", { type = "bezier", points = { {0.65, 0.05}, {0.36, 1}    } })
-hl.curve("linear",         { type = "bezier", points = { {0, 0},       {1, 1}       } })
-hl.curve("almostLinear",   { type = "bezier", points = { {0.5, 0.5},   {0.75, 1}    } })
-hl.curve("quick",          { type = "bezier", points = { {0.15, 0},    {0.1, 1}     } })
+hl.curve("easeOutQuint",   { type = "bezier", points = {{0.23, 1.00}, {0.32, 1.00}}})
+hl.curve("easeInOutCubic", { type = "bezier", points = {{0.65, 0.05}, {0.36, 1.00}}})
+hl.curve("linear",         { type = "bezier", points = {{0.00, 0.00}, {1.00, 1.00}}})
+hl.curve("almostLinear",   { type = "bezier", points = {{0.50, 0.50}, {0.75, 1.00}}})
+hl.curve("quick",          { type = "bezier", points = {{0.15, 0.00}, {0.10, 1.00}}})
 
--- Default springs
-hl.curve("easy",           { type = "spring", mass = 1, stiffness = 71.2633, dampening = 15.8273644 })
+hl.curve("easy", { type = "spring", mass = 1, stiffness = 71.2633, dampening = 15.8273644 })
 
 hl.animation({ leaf = "global",        enabled = true,  speed = 10,   bezier = "default" })
 hl.animation({ leaf = "border",        enabled = true,  speed = 5.39, bezier = "easeOutQuint" })
-hl.animation({ leaf = "windows",       enabled = true,  speed = 4.79, bezier = "linear", style = "gnomed"})
-hl.animation({ leaf = "windowsIn",     enabled = true,  speed = 4.1,  bezier = "linear", style = "gnomed" })
-hl.animation({ leaf = "windowsOut",    enabled = true,  speed = 1.49, bezier = "linear", style = "gnomed" })
+hl.animation({ leaf = "windows",       enabled = true,  speed = 1.0, bezier = "linear", style = "gnomed"})
+hl.animation({ leaf = "windowsIn",     enabled = true,  speed = 1.0,  bezier = "linear", style = "gnomed" })
+hl.animation({ leaf = "windowsOut",    enabled = true,  speed = 1.0, bezier = "linear", style = "gnomed" })
 hl.animation({ leaf = "fadeIn",        enabled = true,  speed = 1.73, bezier = "easeOutQuint" })
 hl.animation({ leaf = "fadeOut",       enabled = true,  speed = 1.46, bezier = "easeOutQuint" })
 hl.animation({ leaf = "fade",          enabled = true,  speed = 3.03, bezier = "quick" })
@@ -200,7 +184,7 @@ hl.device({
 local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
-hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd(terminal))
+hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("foot"))
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("emacsclient -nc"))
 hl.bind(mainMod .. " + G", hl.dsp.window.fullscreen({"fullscreen", "toggle"}))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({"maximized", "toggle"}))
@@ -222,13 +206,6 @@ for i = 1, 10 do
 	hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i}))
 	hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
 end
-
--- VAXRY BULLSHIT DO NOT TOUCH --
-
--- closeWindowBind:set_enabled(false)
-
--- hl.bind(mainMod .. " + S",         hl.dsp.workspace.toggle_special("magic"))
--- hl.bind(mainMod .. " + SHIFT + S", hl.dsp.window.move({ workspace = "special:magic" }))
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
 hl.bind(mainMod .. " + mouse:272", hl.dsp.window.drag(),   { mouse = true })
