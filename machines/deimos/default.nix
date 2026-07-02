@@ -86,8 +86,17 @@
     ];
 
     wayland.windowManager.hyprland.extraConfig = ''
-      monitor = DP-6, preferred, auto, 1
-      monitor = DP-5, preferred, auto-left, 1
+      hl.monitor({
+        output = "DP-6",
+        mode = "preferred",
+        position = "auto",
+      })
+
+      hl.monitor({
+        output = "DP-5",
+        mode = "preferred",
+        position = "auto-left",
+      })
     '';
   }];
 }

@@ -18,7 +18,8 @@
   home-manager.sharedModules = [{
     wayland.windowManager.hyprland = {
       enable = true;
-      extraConfig = builtins.readFile ./hyprland.conf;
+      configType = "lua";
+      extraConfig = builtins.readFile ./hyprland.lua;
     };
   }];
 }

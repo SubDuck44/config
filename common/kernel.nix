@@ -9,7 +9,7 @@ let
     inherit (pkgs.stdenv) system;
   };
 in
-  {
+{
   # HACK THIS SHOULD NOT BE REQUIRED
   # SOMETHING IS INCOMPATIBLE BETWEEN MAIN & PIN
   hardware.deviceTree.enable = false;
