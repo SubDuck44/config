@@ -211,6 +211,10 @@
             extraPackages = with pkgs; [ kdePackages.qtdeclarative ];
           };
 
+          lua-mode = {
+            defer = true;
+          };
+
           lsp-mode = {
             custom = ''
               (eldoc-idle-delay 0)
