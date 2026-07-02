@@ -16,7 +16,7 @@
     "sudoedit"
     "umount"
   ] [
-    (map (x: { ${x}.enable = false; }))
+    (map (x: { ${x}.enable = lib.mkForce false; }))
     lib.mkMerge
   ];
 }
