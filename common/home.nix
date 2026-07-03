@@ -1,4 +1,4 @@
-{ pkgs, lib, config, self, ... }: {
+{ pkgs, lib, config, ... }: {
   aquaris = {
     unfreeNames = [
       "p7zip"
@@ -18,6 +18,7 @@
         feh
         ffmpeg
         godot
+        keysmash
         libnotify
         libqalculate
         mindustry-wayland
@@ -31,7 +32,6 @@
         pulsemixer
         pwgen
         qbittorrent
-        self.inputs.keysmash.packages.${pkgs.stdenv.system}.default
         steamguard-cli
         swaybg
         thunderbird
