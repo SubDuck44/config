@@ -1,7 +1,3 @@
-hl.on("hyprland.start", function ()
-	hl.exec_cmd("swaybg -i cfg/cozy_wallpaper.png")
-end)
-
 hl.env("HYPRCURSOR_SIZE", "24")
 hl.env("XCURSOR_SIZE", "24")
 
