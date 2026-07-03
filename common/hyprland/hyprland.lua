@@ -1,5 +1,4 @@
 hl.on("hyprland.start", function ()
-	hl.exec_cmd("while sleep 1; do emacsclient -nc && break; done")
 	hl.exec_cmd("swaybg -i cfg/cozy_wallpaper.png")
 end)
 
