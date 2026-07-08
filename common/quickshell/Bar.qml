@@ -10,6 +10,7 @@ Scope {
 	id: root
 
 	property string power_cap
+	property string power_suffix
 	property string cpu_load
 	property string mem_used
 	property int last_cpu_work
@@ -18,7 +19,6 @@ Scope {
 	property int cur_cpu_total
 	property string now_playing
 	property bool is_playing
-	property bool is_charging
 
 	component BarItem: Rectangle {
 		property bool ready
@@ -86,7 +86,7 @@ Scope {
 					id: power_indicator
 					border.color: "#83a598"
 					visible: root.power_cap.length > 0
-					text: "󰂄 " + root.power_cap
+					text: "󰂄 " + root.power_cap + root.power_suffix
 
 					SequentialAnimation {
 						running: parseInt(root.power_cap.trim()) < 15
@@ -197,11 +197,6 @@ Scope {
 		stdout: StdioCollector {
 			onStreamFinished: {
 				root.power_cap = this.text.trim() + "%";
-				if (root.is_charging) {
-					root.power_cap = root.power_cap.concat(" ");
-				} else {
-					root.power_cap = root.power_cap.concat(" ");
-				}
 				powerGetter.running = false;
 			}
 		}
@@ -213,7 +208,14 @@ Scope {
 		running: true
 		stdout: StdioCollector {
 			onStreamFinished: {
-				root.is_charging = this.text.trim() == "Charging";
+				var str = this.text.trim();
+				console.log(str);
+				if (str === "Charging")
+					root.power_suffix = " ";
+				else if (str === "Not charging")
+					root.power_suffix = " ";
+				else if (str === "Discharging")
+					root.power_suffix = " ";
 				powerStateGetter.running = false;
 			}
 		}
