@@ -187,7 +187,8 @@ hl.bind(mainMod .. " + X", hl.dsp.exec_cmd("fuzzel"))
 hl.bind(mainMod .. " + I", hl.dsp.exec_cmd("foot htop"))
 hl.bind(mainMod .. " + M", hl.dsp.exec_cmd("foot ncmpcpp"))
 
-hl.bind(mainMod .. " + Q", hl.dsp.window.kill())
+hl.bind(mainMod .. " + Q", hl.dsp.window.close())
+hl.bind(mainMod .. " + SHIFT + Q", hl.dsp.window.kill())
 hl.bind(mainMod .. " + V", hl.dsp.window.float({"toggle"}))
 hl.bind(mainMod .. " + J", hl.dsp.layout("togglesplit"))    -- dwindle only
 
