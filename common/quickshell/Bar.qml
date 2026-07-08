@@ -9,16 +9,11 @@ import Quickshell.Services.Mpris
 Scope {
 	id: root
 
-	property string power_cap
-	property string power_suffix
-	property string cpu_load
-	property string mem_used
-	property int last_cpu_work
-	property int last_cpu_total
-	property int cur_cpu_work
-	property int cur_cpu_total
-	property string now_playing
 	property bool is_playing
+	property string cpu_load
+	property string mem_load
+	property string bat_load
+	property string now_playing
 
 	component BarItem: Rectangle {
 		property bool ready
@@ -80,16 +75,19 @@ Scope {
 				}
 				BarItem {
 					border.color: "#d3869b"
-					text: "  " + root.mem_used
+					text: "  " + root.mem_load
 				}
 				BarItem {
 					id: power_indicator
 					border.color: "#83a598"
-					visible: root.power_cap.length > 0
-					text: "󰂄 " + root.power_cap + root.power_suffix
+					visible: root.bat_load.length > 15
+					text: "󰂄 " + root.bat_load
 
 					SequentialAnimation {
-						running: parseInt(root.power_cap.trim()) < 15
+						running: parseInt(root.bat_load) < 15
+						alwaysRunToEnd: true
+						loops: Animation.Infinite
+
 						PropertyAnimation {
 							target: power_indicator
 							properties: "color"
@@ -190,74 +188,24 @@ Scope {
 		}
 	}
 
-	Process {
-		id: powerGetter
-		command: ["cat", "/sys/class/power_supply/BAT1/capacity"]
-		running: true
-		stdout: StdioCollector {
-			onStreamFinished: {
-				root.power_cap = this.text.trim() + "%";
-				powerGetter.running = false;
-			}
-		}
-	}
-
-	Process {
-		id: powerStateGetter
-		command: ["cat", "/sys/class/power_supply/BAT1/status"]
-		running: true
-		stdout: StdioCollector {
-			onStreamFinished: {
-				var str = this.text.trim();
-				console.log(str);
-				if (str === "Charging")
-					root.power_suffix = " ";
-				else if (str === "Not charging")
-					root.power_suffix = " ";
-				else if (str === "Discharging")
-					root.power_suffix = " ";
-				powerStateGetter.running = false;
-			}
-		}
-	}
-
-	Process {
-		id: cpuGetter
-		command: ["sh", "-c", "head -1 /proc/stat"]
-		running: true
-		stdout: SplitParser {
-			onRead: data => {
-				root.last_cpu_work = root.cur_cpu_work;
-				root.last_cpu_total = root.cur_cpu_total;
-
-				var values = data.split(" ");
-				root.cur_cpu_work = parseInt(values[2]) + parseInt(values[3]) + parseInt(values[4]);
-				root.cur_cpu_total = parseInt(values[2]) + parseInt(values[3]) + parseInt(values[4]) + parseInt(values[5]) + parseInt(values[6]) + parseInt(values[7]) + parseInt(values[8]) + parseInt(values[9]) + parseInt(values[10]) + parseInt(values[11]);
-
-				root.cpu_load = (100 * (root.cur_cpu_work - root.last_cpu_work) / (root.cur_cpu_total - root.last_cpu_total)).toFixed(1);
-			}
-		}
-		Component.onCompleted: running = false
-	}
-
-	Process {
-		id: memGetter
-		command: ["sh", "-c", "free  | sed -n 2p"]
-		running: true
-		stdout: SplitParser {
-			onRead: data => {
-				var values = data.split(" ").filter(n => n);
-				var used = parseInt(values[2]);
-				var total = parseInt(values[1]);
-				root.mem_used = (used / 1000000).toFixed(2) + "G/" + (total / 1000000).toFixed(2) + "G";
-			}
-		}
-		Component.onCompleted: running = false
-	}
-
 	SystemClock {
 		id: clock
 		precision: SystemClock.Seconds
+	}
+
+	Process {
+		id: dataGetter
+		command: ["bar-info"]
+		running: true
+		stdout: SplitParser {
+			onRead: data => {
+				var values = data.split("\t");
+
+				root.cpu_load = values[0];
+				root.mem_load = values[1];
+				root.bat_load = values[2];
+			}
+		}
 	}
 
 	Timer {
@@ -265,11 +213,6 @@ Scope {
 		running: true
 		repeat: true
 		onTriggered: {
-			powerGetter.running = true;
-			powerStateGetter.running = true;
-			cpuGetter.running = true;
-			memGetter.running = true;
-
 			for (let i = 0; i < Mpris.players.values.length; i++) {
 				let player = Mpris.players.values[i];
 				if (player.trackTitle.length > 0 && player.identity == "MPD") {
