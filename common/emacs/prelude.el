@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t -*-
+
 (defvar my/temp-dir (concat user-emacs-directory "temp/"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -19,11 +21,11 @@
              lsp-use-plists
              (not (functionp 'json-rpc-connection))  ;; native json-rpc
              (executable-find "emacs-lsp-booster"))
-      (progn
-        (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
-          (setcar orig-result command-from-exec-path))
-        (message "Using emacs-lsp-booster for %s!" orig-result)
-        (cons "emacs-lsp-booster" orig-result))
+		(progn
+          (when-let ((command-from-exec-path (executable-find (car orig-result))))  ;; resolve command from exec-path (in case not found in $PATH)
+			(setcar orig-result command-from-exec-path))
+          (message "Using emacs-lsp-booster for %s!" orig-result)
+          (cons "emacs-lsp-booster" orig-result))
       orig-result)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -51,23 +53,35 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (advice-add 'appt-check
-  :before
-  (lambda (&rest args)
-    (org-agenda-to-appt t)))
+			:before
+			(lambda (&rest args)
+			  (org-agenda-to-appt t)))
 
 (appt-activate t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun my/open-config () "Opens Emacs configuration file"
+(defun nori/smart-home ()
+  "Jump to beginning of line or first non-whitespace."
   (interactive)
-  (find-file "~/cfg/common/emacs/emacs.nix"))
+  (let ((oldpos (point)))
+    (beginning-of-visual-line 1)
+    (skip-syntax-forward " " (line-end-position))
+    (backward-prefix-chars)
+    (and (= oldpos (point)) (beginning-of-visual-line))))
 
-(defun my/open-cfg () "Opens common system configuration file"
+(defun my/open-config ()
+  "Opens Emacs configuration file"
+  (interactive)
+  (find-file "~/cfg/common/emacs/default.nix"))
+
+(defun my/open-cfg ()
+  "Opens common system configuration file"
   (interactive)
   (find-file "~/cfg/common/default.nix"))
 
-(defun my/open-todo () "Opens personal task list"
+(defun my/open-todo ()
+  "Opens personal task list"
   (interactive)
   (find-file "~/org/todo.org"))
 
@@ -78,8 +92,8 @@
     (keyboard-translate ?\C-i ?\H-i)))
 
 (add-hook 'after-make-frame-functions
-  (lambda (frame)
-    (with-selected-frame frame
-      (my/keyboard-config))))
+		  (lambda (frame)
+			(with-selected-frame frame
+			  (my/keyboard-config))))
 
 (my/keyboard-config)

@@ -36,11 +36,86 @@
 
         prelude = builtins.readFile ./prelude.el;
 
+        postlude = ''
+          (load "bootstrap")
+        '';
+
         usePackage = {
           statistics = true;
         };
 
         config = {
+
+          emacs = {
+            hook = ''
+              ; delete trailing whitespace on save
+              (before-save . delete-trailing-whitespace)
+            '';
+
+            config = ''
+              (require 'notifications)
+              (global-auto-revert-mode 1)
+              (cua-mode 1)
+              (tool-bar-mode 0)
+              (menu-bar-mode 0)
+              (scroll-bar-mode 0)
+              (global-display-fill-column-indicator-mode 1)
+              (global-whitespace-newline-mode 1)
+              (global-whitespace-mode 1)
+              (electric-indent-mode nil)
+              (set-frame-parameter nil 'alpha-background 50)
+              (add-to-list 'default-frame-alist '(alpha-background . 50))
+              (add-to-list 'default-frame-alist '(font . "monospace:size=14"))
+              (put 'list-timers 'disable nil)
+            '';
+
+            bind' = ''
+              ("C-a"     . nori/smart-home)
+              ("C-s"     . save-buffer)
+
+              ("C-x C-f" . find-file)
+              ("C-x C-l" . scratch-buffer)
+              ("C-x C-a" . mark-whole-buffer)
+              ("C-c C-s" . sort-lines)
+
+              ("C-#"   . (lambda () (interactive) (select-window (next-window))))
+              ("M-#"   . (lambda () (interactive) (select-window (previous-window))))
+              ("M-e"   . forward-word)
+              ("M-f"   . forward-to-word)
+              ("M-n"   . scroll-up-command)
+              ("M-p"   . scroll-down-command)
+
+              ("C-+" . text-scale-increase)
+              ("C--" . text-scale-decrease)
+              ("C-=" . text-scale-mode)
+
+              ("C-´"     . other-window)
+              ("M-="     . count-words)
+              ("M-c"     . avy-goto-char-timer)
+            '';
+
+            custom = ''
+              (recenter-positions '(middle top))
+              (whitespace-style '(face trailing))
+              (org-startup-indented t)
+              (org-agenda-files "/home/melinda/org/toplevel.txt")
+              (c-basic-offset 4)
+              (tab-width 4)
+              (auto-save-file-name-transforms `((".*" ,my/temp-dir t)))
+              (backup-directory-alist         `((".". ,my/temp-dir  )))
+              (lock-file-name-transforms      `((".*" ,my/temp-dir t)))
+              (appt-message-warning-time 20)
+              (appt-display-interval 5)
+              (appt-disp-window-function
+                (lambda (remaining new-time msg)
+                  (notifications-notify
+                   :title (format "In %s minutes" remaining)
+                   :body (substring-no-properties msg)
+                   :urgency 'critical)))
+              (org-agenda-prefer-last-repeat t)
+              (fill-column 80)
+            '';
+          };
 
           "00-theme" = {
             package = "gruvbox-theme";
@@ -49,11 +124,16 @@
 
           consult = {
             bind' = ''
-              ("C-b" . consult-buffer)
-              ("C-r" . consult-goto-line)
-              ("C-s" . consult-line)
-              ("M-v" . consult-yank-from-kill-ring)
-              ("M-g" . consult-grep)
+              ("C-h C-m" . consult-man)
+              ("C-x C-b" . consult-bookmark)
+              ("C-x C-i" . my/consult-imenu-or-outline)
+              ("C-x C-m" . consult-minor-mode-menu)
+              ("C-x C-r" . consult-ripgrep)
+              ("C-x C-s" . consult-buffer)
+              ("C-x C-v" . consult-fd)
+              ("M-l"     . consult-goto-line)
+              ("M-s"     . consult-line)
+              ("M-v"     . consult-yank-from-kill-ring)
             '';
             custom = ''
               (xref-show-xrefs-function       'consult-xref)
@@ -99,6 +179,10 @@
 
           marginalia = {
             config = "(marginalia-mode t)";
+          };
+
+          crdt = {
+            defer = true;
           };
 
           apheleia = {
@@ -186,6 +270,7 @@
 
           qml-ts-mode = {
             mode = ''"\\.qml\\'"'';
+
             config = ''
               (require 'lsp-mode)
               (add-to-list 'lsp-language-id-configuration '(qml-ts-mode . "qml-ts"))
@@ -196,7 +281,12 @@
               (add-hook 'qml-ts-mode-hook (lambda ()
                                             (setq-local electric-indent-chars '(?\n ?\( ?\) ?{ ?} ?\[ ?\] ?\; ?,))
                                             (lsp-deferred)))
+
+              (require 'apheleia)
+              (add-to-list 'apheleia-mode-alist '(qml-ts-mode . qmlformat))
+              (add-to-list 'apheleia-formatters '(qmlformat "qmlformat" "--tabs" filepath))
             '';
+
             package = ep: ep.trivialBuild (drv: {
               pname = "qml-ts-mode";
               version = "0.1";
@@ -208,6 +298,7 @@
                 hash = "sha256-WXK/CdFF9E2kG+uIios4HtKcEMhILS9MddJfVDeRLh0=";
               };
             });
+
             extraPackages = with pkgs; [ kdePackages.qtdeclarative ];
           };
 
@@ -361,7 +452,6 @@
 
           multiple-cursors = {
             bind' = ''
-              ("C-a" . mc/edit-lines)
               ("C-," . mc/mark-previous-like-this)
               ("C-." . mc/mark-next-like-this)
             '';
@@ -369,64 +459,6 @@
 
           straight = {
             defer = true;
-          };
-
-          emacs = {
-            config = ''
-              (require 'notifications)
-              (global-auto-revert-mode 1)
-              (cua-mode 1)
-              (tool-bar-mode 0)
-              (menu-bar-mode 0)
-              (scroll-bar-mode 0)
-              (global-display-fill-column-indicator-mode 1)
-              (global-whitespace-newline-mode 1)
-              (global-whitespace-mode 1)
-              (electric-indent-mode nil)
-              (set-frame-parameter nil 'alpha-background 50)
-              (add-to-list 'default-frame-alist '(alpha-background . 50))
-              (add-to-list 'default-frame-alist '(font . "monospace:size=14"))
-              (put 'list-timers 'disable nil)
-            '';
-
-            bind' = ''
-              ("C-e"     . forward-char)
-              ("C-f"     . backward-char)
-              ("C-j"     . next-line)
-              ("C-q"     . beginning-of-line)
-              ("C-w"     . end-of-line)
-              ("C-x C-a" . mark-whole-buffer)
-              ("C-´"     . other-window)
-              ("H-i"     . previous-line)
-              ("M-="     . count-words)
-              ("M-c"     . avy-goto-char-timer)
-              ("M-e"     . forward-word)
-              ("M-f"     . backward-word)
-              ("M-i"     . scroll-down-command)
-              ("M-j"     . scroll-up-command)
-            '';
-
-            custom = ''
-              (recenter-positions '(middle top))
-              (whitespace-style '(face trailing))
-              (org-startup-indented t)
-              (org-agenda-files "/home/melinda/org/toplevel.txt")
-              (c-basic-offset 4)
-              (tab-width 4)
-              (auto-save-file-name-transforms `((".*" ,my/temp-dir t)))
-              (backup-directory-alist         `((".". ,my/temp-dir  )))
-              (lock-file-name-transforms      `((".*" ,my/temp-dir t)))
-              (appt-message-warning-time 20)
-              (appt-display-interval 5)
-              (appt-disp-window-function
-                (lambda (remaining new-time msg)
-                  (notifications-notify
-                   :title (format "In %s minutes" remaining)
-                   :body (substring-no-properties msg)
-                   :urgency 'critical)))
-              (org-agenda-prefer-last-repeat t)
-              (fill-column 80)
-            '';
           };
         };
       };
