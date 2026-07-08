@@ -18,6 +18,7 @@ Scope {
 	property int cur_cpu_total
 	property string now_playing
 	property bool is_playing
+	property bool is_charging
 
 	component BarItem: Rectangle {
 		property bool ready
@@ -36,6 +37,7 @@ Scope {
 			color: "#fabd2f"
 			visible: true
 			text: parent.text
+			wrapMode: Text.NoWrap
 		}
 
 		Behavior on width {
@@ -50,6 +52,7 @@ Scope {
 
 	Variants {
 		model: Quickshell.screens
+
 		PanelWindow {
 			color: "#00000000"
 			required property var modelData
@@ -80,15 +83,91 @@ Scope {
 					text: "  " + root.mem_used
 				}
 				BarItem {
+					id: power_indicator
 					border.color: "#83a598"
 					visible: root.power_cap.length > 0
 					text: "󰂄 " + root.power_cap
+
+					SequentialAnimation {
+						running: parseInt(root.power_cap.trim()) < 15
+						PropertyAnimation {
+							target: power_indicator
+							properties: "color"
+							to: "#fb4934"
+							easing: Easing.InOutQuad
+							duration: 500
+						}
+						PropertyAnimation {
+							target: power_indicator
+							properties: "color"
+							to: "#282828"
+							easing: Easing.InOutQuad
+							duration: 500
+						}
+					}
 				}
 				BarItem {
 					border.color: "#fe8019"
 					width: root.is_playing ? childrenRect.width + 20 : 0
-					color: "#282828"
 					text: "Now playing: " + root.now_playing
+				}
+				Rectangle {
+					border.color: "#a89984"
+					border.width: 3
+					color: "#282828"
+
+					height: parent.height
+					width: childrenRect.width + 12
+
+					Behavior on width {
+						SequentialAnimation {
+							PropertyAnimation {
+								properties: "width"
+								easing.type: Easing.OutQuad
+							}
+						}
+					}
+
+					Row {
+						width: childrenRect.width
+						height: parent.height
+						anchors.centerIn: parent
+
+						Repeater {
+							model: Hyprland.workspaces.values
+							anchors.centerIn: parent
+
+							Rectangle {
+								required property int index
+
+								width: childrenRect.width + 10
+								height: parent.height - 6
+								anchors.verticalCenter: parent.verticalCenter
+
+								color: "#282828"
+
+								Text {
+									anchors.centerIn: parent
+
+									text: Hyprland.workspaces.values[parent.index].name
+									font.family: "Iosevka NF"
+									font.pointSize: 12
+									color: "#fabd2f"
+
+									Text {
+										anchors.centerIn: parent
+										text: "[ ]"
+										font.family: "Iosevka NF"
+										font.pointSize: 12
+										color: "#fabd2f"
+										rotation: 90
+
+										visible: Hyprland.focusedWorkspace.name == Hyprland.workspaces.values[parent.parent.index].name
+									}
+								}
+							}
+						}
+					}
 				}
 			}
 
@@ -117,8 +196,25 @@ Scope {
 		running: true
 		stdout: StdioCollector {
 			onStreamFinished: {
-				root.power_cap = this.text;
+				root.power_cap = this.text.trim() + "%";
+				if (root.is_charging) {
+					root.power_cap = root.power_cap.concat(" ");
+				} else {
+					root.power_cap = root.power_cap.concat(" ");
+				}
 				powerGetter.running = false;
+			}
+		}
+	}
+
+	Process {
+		id: powerStateGetter
+		command: ["cat", "/sys/class/power_supply/BAT1/status"]
+		running: true
+		stdout: StdioCollector {
+			onStreamFinished: {
+				root.is_charging = this.text.trim() == "Charging";
+				powerStateGetter.running = false;
 			}
 		}
 	}
@@ -168,6 +264,7 @@ Scope {
 		repeat: true
 		onTriggered: {
 			powerGetter.running = true;
+			powerStateGetter.running = true;
 			cpuGetter.running = true;
 			memGetter.running = true;
 
