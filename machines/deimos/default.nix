@@ -31,6 +31,10 @@
     powerManagement.enable = true;
   };
 
+  environment.sessionVariables = {
+    "LIBVA_DRIVER_NAME" = "nvidia";
+  };
+
   hardware.graphics.extraPackages = [ pkgs.monado-vulkan-layers ];
 
   services = {

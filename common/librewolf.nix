@@ -1,7 +1,6 @@
 {
   environment.sessionVariables = {
     "MOZ_DISABLE_RDD_SANDBOX" = "1";
-    "LIBVA_DRIVER_NAME" = "nvidia";
   };
 
   home-manager.sharedModules = [{
