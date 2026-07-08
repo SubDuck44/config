@@ -1,3 +1,5 @@
+pragma ComponentBehavior: Bound
+
 import Quickshell
 import Quickshell.Io
 import QtQuick
@@ -6,6 +8,7 @@ import Quickshell.Services.Mpris
 
 Scope {
 	id: root
+
 	property string power_cap
 	property string cpu_load
 	property string mem_used
@@ -15,8 +18,38 @@ Scope {
 	property int cur_cpu_total
 	property string now_playing
 	property bool is_playing
+
+	component BarItem: Rectangle {
+		property bool ready
+		property string text
+		color: "#282828"
+		height: parent.parent.height
+		width: childrenRect.width + 20
+		border.width: 3
+		clip: true
+
+		Text {
+			id: tex
+			font.pointSize: 12
+			anchors.centerIn: parent
+			font.family: "Iosevka NF"
+			color: "#fabd2f"
+			visible: true
+			text: parent.text
+		}
+
+		Behavior on width {
+			SequentialAnimation {
+				PropertyAnimation {
+					properties: "width"
+					easing.type: Easing.OutQuad
+				}
+			}
+		}
+	}
+
 	Variants {
-		model: Quickshell.screens;
+		model: Quickshell.screens
 		PanelWindow {
 			color: "#00000000"
 			required property var modelData
@@ -27,109 +60,88 @@ Scope {
 				right: true
 			}
 			implicitHeight: 30
+
 			Row {
-				spacing: 5
-				component BarItem: Rectangle {
-					color: "#3c3836"
-					implicitHeight: Math.max(childrenRect.height, parent.parent.height)
-					implicitWidth: childrenRect.width + 20
-					radius: 10
-					border.width: 3
-				}
-				component BarItemText: Text {
-					font.pointSize: 12
-					anchors.centerIn: parent
-					font.family: "Iosevka NF"
-					color: "#fabd2f"
+				id: bar_row
+				BarItem {
+					border.color: "#83a598"
+					text: " " + Qt.formatDateTime(clock.date, "hh:mm:ss")
 				}
 				BarItem {
-					border.color: "#5bcefa"
-					BarItemText {
-						text: " " + Qt.formatDateTime(clock.date, "hh:mm:ss")
-					}
+					border.color: "#d3869b"
+					text: "  " + Qt.formatDateTime(clock.date, "yyyy-MM-dd ddd")
 				}
 				BarItem {
-					border.color: "#f5a9b8"
-					BarItemText {
-						text: "  " + Qt.formatDateTime(clock.date, "yyyy-MM-dd ddd")
-					}
+					border.color: "#fbf1c7"
+					text: "  " + root.cpu_load
 				}
 				BarItem {
-					border.color: "#ffffff"
-					BarItemText {
-						text: "  " + cpu_load
-					}
+					border.color: "#d3869b"
+					text: "  " + root.mem_used
 				}
 				BarItem {
-					border.color: "#f5a9b8"
-					BarItemText {
-						text: "  " + mem_used
-					}
-				}
-				BarItem {
-					border.color: "#5bcefa"
+					border.color: "#83a598"
 					visible: root.power_cap.length > 0
-					BarItemText {
-						text: "󰂄 " + root.power_cap
-					}
+					text: "󰂄 " + root.power_cap
+				}
+				BarItem {
+					border.color: "#fe8019"
+					width: root.is_playing ? childrenRect.width + 20 : 0
+					color: "#282828"
+					text: "Now playing: " + root.now_playing
 				}
 			}
-			Rectangle {
-				anchors.right: parent.right
-				visible: is_playing
-				color: "#3c3836"
-				implicitHeight: Math.max(childrenRect.height, parent.parent.height)
-				implicitWidth: childrenRect.width + 20
-				radius: 10
-				border.width: 3
-				border.color: "#b8bb26"
-				BarItemText {
-					text: "Now playing: " + now_playing
-				}
-			}
+
 			Rectangle {
 				id: active_indicator
-			  	color: "#a89984"
-				radius: 5
-				anchors.centerIn: parent
-				height: childrenRect.height + 5
-				width: childrenRect.width + 20
+				color: "#282828"
+				border.color: "#b8bb26"
+				border.width: 3
+				height: parent.height
+				width: parent.width - bar_row.width
+				anchors.left: bar_row.right
 				Text {
-				 	anchors.centerIn: parent
-						color: "#ffffff"
-						font.family: "Iosevka NF"
-						font.pointSize: 12
+					anchors.centerIn: parent
+					color: "#fabd2f"
+					font.family: "Iosevka NF"
+					font.pointSize: 12
 					text: Hyprland.activeToplevel.title.length > 50 ? Hyprland.activeToplevel.title.slice(0, 50) + "..." : Hyprland.activeToplevel.title
-					}
+				}
 			}
 		}
 	}
+
 	Process {
 		id: powerGetter
 		command: ["cat", "/sys/class/power_supply/BAT1/capacity"]
 		running: true
 		stdout: StdioCollector {
-			onStreamFinished: {root.power_cap = this.text; powerGetter.running = false;}
+			onStreamFinished: {
+				root.power_cap = this.text;
+				powerGetter.running = false;
+			}
 		}
 	}
+
 	Process {
 		id: cpuGetter
 		command: ["sh", "-c", "head -1 /proc/stat"]
 		running: true
 		stdout: SplitParser {
 			onRead: data => {
-				last_cpu_work = cur_cpu_work;
-				last_cpu_total = cur_cpu_total;
+				root.last_cpu_work = root.cur_cpu_work;
+				root.last_cpu_total = root.cur_cpu_total;
 
 				var values = data.split(" ");
-				cur_cpu_work = parseInt(values[2]) + parseInt(values[3]) + parseInt(values[4]);
-				cur_cpu_total = parseInt(values[2]) + parseInt(values[3]) + parseInt(values[4]) + parseInt(values[5]) + parseInt(values[6]) + parseInt(values[7]) + parseInt(values[8]) + parseInt(values[9]) + parseInt(values[10]) + parseInt(values[11]);
+				root.cur_cpu_work = parseInt(values[2]) + parseInt(values[3]) + parseInt(values[4]);
+				root.cur_cpu_total = parseInt(values[2]) + parseInt(values[3]) + parseInt(values[4]) + parseInt(values[5]) + parseInt(values[6]) + parseInt(values[7]) + parseInt(values[8]) + parseInt(values[9]) + parseInt(values[10]) + parseInt(values[11]);
 
-				cpu_load = (100*(cur_cpu_work - last_cpu_work) / (cur_cpu_total - last_cpu_total)).toFixed(1);
+				root.cpu_load = (100 * (root.cur_cpu_work - root.last_cpu_work) / (root.cur_cpu_total - root.last_cpu_total)).toFixed(1);
 			}
 		}
 		Component.onCompleted: running = false
 	}
+
 	Process {
 		id: memGetter
 		command: ["sh", "-c", "free  | sed -n 2p"]
@@ -139,15 +151,17 @@ Scope {
 				var values = data.split(" ").filter(n => n);
 				var used = parseInt(values[2]);
 				var total = parseInt(values[1]);
-				mem_used = (used / 1000000).toFixed(2) + "G/" + (total / 1000000).toFixed(2) + "G";
+				root.mem_used = (used / 1000000).toFixed(2) + "G/" + (total / 1000000).toFixed(2) + "G";
 			}
 		}
-		Component.onCompleted: running = false;
+		Component.onCompleted: running = false
 	}
+
 	SystemClock {
 		id: clock
 		precision: SystemClock.Seconds
 	}
+
 	Timer {
 		interval: 1000
 		running: true
@@ -160,11 +174,10 @@ Scope {
 			for (let i = 0; i < Mpris.players.values.length; i++) {
 				let player = Mpris.players.values[i];
 				if (player.trackTitle.length > 0 && player.identity == "MPD") {
-					now_playing = player.trackTitle;
+					root.now_playing = player.trackTitle;
 					root.is_playing = player.isPlaying;
 				}
 			}
 		}
 	}
 }
-
