@@ -151,12 +151,25 @@
             '';
           };
 
+          jinx = {
+            hook = "typst-ts-mode org-mode text-mode";
+
+            bind' = ''
+              ("C-M-i" . jinx-correct)
+            '';
+
+            config = ''
+              (add-to-list 'vertico-multiform-categories
+                '(jinx grid (vertico-grid-annotate . 20) (vertico-count . 4)))
+              (vertico-multiform-mode)
+            '';
+          };
+
           consult-flycheck = {
             bind' = ''
               ("C-x C-c" . consult-flycheck)
             '';
           };
-
 
           vertico = {
             init = "(vertico-mode)";
