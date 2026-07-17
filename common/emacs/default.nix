@@ -159,6 +159,7 @@
             '';
 
             config = ''
+              (require 'vertico-multiform)
               (add-to-list 'vertico-multiform-categories
                 '(jinx grid (vertico-grid-annotate . 20) (vertico-count . 4)))
               (vertico-multiform-mode)

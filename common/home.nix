@@ -37,6 +37,10 @@
         thunderbird
         umu-launcher
         wl-clipboard
+
+        (greenfoot.overrideAttrs (old: {
+          installPhase = lib.replaceString "UNNAMED" "UNNAMED --add-opens javafx.graphics/com.sun.javafx.scene.input=ALL-UNNAMED" old.installPhase;
+        }))
       ];
 
       shellAliases = {

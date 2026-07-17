@@ -104,11 +104,6 @@ Scope {
 						}
 					}
 				}
-				BarItem {
-					border.color: "#fe8019"
-					width: root.is_playing ? childrenRect.width + 20 : 0
-					text: "Now playing: " + root.now_playing
-				}
 				Rectangle {
 					border.color: "#a89984"
 					border.width: 3
@@ -166,6 +161,11 @@ Scope {
 							}
 						}
 					}
+				}
+				BarItem {
+					border.color: "#fe8019"
+					width: root.is_playing ? childrenRect.width + 20 : 0
+					text: "Now playing: " + root.now_playing
 				}
 			}
 
