@@ -213,6 +213,12 @@
             '';
           };
 
+          web-mode = {
+            defer = true;
+
+            hook = "html-mode css-mode";
+          };
+
           typst-ts-mode = {
             defer = true;
 

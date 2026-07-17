@@ -1,8 +1,10 @@
-{ pkgs, lib, ...}:let
-  inherit(lib)
-  pipe
-  ;
-in {
+{ pkgs, lib, ... }:
+let
+  inherit (lib)
+    pipe
+    ;
+in
+{
   home-manager.sharedModules = [{
     systemd.user.tmpfiles.rules = pipe [
       "en_US-large"

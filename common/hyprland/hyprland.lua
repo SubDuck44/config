@@ -129,6 +129,7 @@ hl.config({
 		on_focus_under_fullscreen = 2,
 		enable_swallow = true,
 		swallow_regex = "foot",
+		initial_workspace_tracking = 2,
 	},
 })
 

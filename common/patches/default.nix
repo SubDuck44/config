@@ -30,6 +30,14 @@
         ];
       };
 
+      # https://github.com/3timeslazy/nix-search-tv/pull/30
+      nix-search-tv.__output.src.__assign = prev.fetchFromGitHub {
+        owner = "42LoCo42";
+        repo = "nix-search-tv";
+        rev = "3d4e8d6d6a3b2a8a857690378bfd03ef2856f72e";
+        hash = "sha256-FLiUAztKoFScjg4gfnPfo1jSfIn8xQuJNKrgYhUDo0k=";
+      };
+
       factorio-space-age.__input.makeDesktopItem.__hijack.exec.__prepend = "gamemoderun ";
 
       syncplay.__output = {
