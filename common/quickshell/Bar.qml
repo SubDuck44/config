@@ -80,7 +80,7 @@ Scope {
 				BarItem {
 					id: power_indicator
 					border.color: "#83a598"
-					visible: root.bat_load.length > 0
+					visible: parseInt(root.bat_load) > 0
 					text: "󰂄 " + root.bat_load
 
 					SequentialAnimation {

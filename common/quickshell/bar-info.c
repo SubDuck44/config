@@ -39,7 +39,7 @@ int main(void) {
 
 #define X(name, path)                                                          \
 	int name##_file = open(path, O_RDONLY);                                    \
-	if(name##_file < 0) die("Could not open " path);
+	if(name##_file < 0) warn("Could not open %s\n", path);
 
 	FILES
 
@@ -50,7 +50,7 @@ int main(void) {
 	do {                                                                       \
 		lseek(name##_file, 0, SEEK_SET);                                       \
 		len = read(name##_file, buf, sizeof(buf));                             \
-		if(len < 0) die("Failed to read " #name);                              \
+		if(len < 0) warn("Failed to read %s\n", #name);					\
 		buf[len - 1] = 0;                                                      \
 	} while(0)
 
