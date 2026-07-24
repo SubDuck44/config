@@ -268,14 +268,13 @@ hl.window_rule({
 		title = "flameshot"
 	},
 
-	monitor = "DP-5",
-	no_initial_focus = false,
-	float = true,
 	pin = true,
+	no_initial_focus = false,
+	stay_focused = true,
+	float = true,
 	decorate = false,
 	border_size = 0,
 	rounding = 0,
-	move = {0, 0},
 })
 
 hl.window_rule({
