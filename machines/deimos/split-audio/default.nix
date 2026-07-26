@@ -7,7 +7,7 @@
         text = ''
           modprobe -C /dev/null snd-hda-intel
 
-          dir="/sys/class/sound/hwC2D0"
+          dir="/sys/class/sound/hwC3D0"
           while [ ! -e "$dir" ]; do sleep 0.25; done
 
           while read -r line; do echo "$line" > "$dir/hints"; done << EOF
@@ -34,7 +34,7 @@
 
           echo 1 > "$dir/reconfig"
 
-          while ! amixer -c2 sset 'Independent HP' Enabled; do :; done
+          while ! amixer -c3 sset 'Independent HP' Enabled; do :; done
         '';
       });
     in
