@@ -119,7 +119,21 @@
         };
       };
 
-      fuzzel.enable = true;
+      fuzzel = {
+        enable = true;
+
+        settings = {
+          colors = {
+            background = "282828A0";
+            text = "ebdbb2ff";
+            placeholder = "83a598ff";
+            input = "83a598ff";
+            selection = "928374ff";
+            selection-text = "fbf1c7ff";
+            match = "fbf1c7ff";
+          };
+        };
+      };
     };
 
     aquaris.git.sshKeyFile = _: config.aquaris.secret "user/${hm.config.home.username}/ssh/main";
