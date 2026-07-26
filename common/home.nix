@@ -43,6 +43,7 @@
         mindustry-wayland
         mpv
         nvtop
+        openttd
         p7zip-rar
         pcsx2
         pixelorama
@@ -153,6 +154,7 @@
       ".local/share/chatterino" = { };
       ".local/share/qBittorrent" = { };
       ".local/share/umu" = { };
+      ".local/share/openttd" = { };
 
       ".local/state/syncthing" = { };
     };
