@@ -167,6 +167,7 @@
       ".local/share/applications" = { };
       ".local/share/chatterino" = { };
       ".local/share/qBittorrent" = { };
+      ".local/share/typst/packages/local" = { };
       ".local/share/umu" = { };
       ".local/share/openttd" = { };
 
