@@ -156,6 +156,7 @@
 
             bind' = ''
               ("C-M-i" . jinx-correct)
+              ("C-M-n" . jinx-next)
             '';
 
             config = ''
