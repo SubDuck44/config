@@ -49,9 +49,11 @@ Scope {
 		model: Quickshell.screens
 
 		PanelWindow {
+			id: panel
 			color: "#00000000"
 			required property var modelData
 			screen: modelData
+
 			anchors {
 				top: true
 				left: true
@@ -127,11 +129,11 @@ Scope {
 						anchors.centerIn: parent
 
 						Repeater {
-							model: Hyprland.workspaces.values
+							model: Hyprland.workspaces.values.filter(w => w.monitor.name == panel.screen.name)
 							anchors.centerIn: parent
 
 							Rectangle {
-								required property int index
+								required property HyprlandWorkspace modelData
 
 								width: childrenRect.width + 10
 								height: parent.height - 6
@@ -142,7 +144,7 @@ Scope {
 								Text {
 									anchors.centerIn: parent
 
-									text: Hyprland.workspaces.values[parent.index].name
+									text: parent.modelData.id % 100
 									font.family: "Iosevka NF"
 									font.pointSize: 12
 									color: "#fabd2f"
@@ -155,7 +157,7 @@ Scope {
 										color: "#fabd2f"
 										rotation: 90
 
-										visible: Hyprland.focusedWorkspace.name == Hyprland.workspaces.values[parent.parent.index].name
+										visible: Hyprland.focusedWorkspace.id == parent.parent.modelData.id
 									}
 								}
 							}

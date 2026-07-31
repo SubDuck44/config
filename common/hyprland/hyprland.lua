@@ -198,9 +198,23 @@ hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
 
 for i = 1, 10 do
+	local offset = 100
 	local key = i % 10 -- 10 maps to key 0
-	hl.bind(mainMod .. " + " .. key,             hl.dsp.focus({ workspace = i}))
-	hl.bind(mainMod .. " + SHIFT + " .. key,     hl.dsp.window.move({ workspace = i }))
+	hl.bind(mainMod .. " + " .. key, function()
+		hl.dsp.focus({ workspace = i })
+		if hl.get_active_monitor().x < 0 then
+			hl.dispatch(hl.dsp.focus({ workspace = i + offset }))
+		else
+			hl.dispatch(hl.dsp.focus({ workspace = i }))
+		end
+	end)
+	hl.bind(mainMod .. " + SHIFT + " .. key, function()
+		if hl.get_active_monitor().x < 0 then
+			hl.dispatch(hl.dsp.window.move({ workspace = i + offset }))
+		else
+			hl.dispatch(hl.dsp.window.move({ workspace = i }))
+		end
+	end)
 end
 
 -- Move/resize windows with mainMod + LMB/RMB and dragging
