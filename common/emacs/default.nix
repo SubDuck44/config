@@ -257,7 +257,7 @@
 
             custom = ''
               (flash-rainbow       t)
-              (flash-rainbow-shade 5)
+              (flash-rainbow-shade 1)
             '';
           };
 
