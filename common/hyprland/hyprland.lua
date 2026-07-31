@@ -209,6 +209,9 @@ hl.bind(mainMod .. " + right", hl.dsp.focus({ direction = "right" }))
 hl.bind(mainMod .. " + up", hl.dsp.focus({ direction = "up" }))
 hl.bind(mainMod .. " + down", hl.dsp.focus({ direction = "down" }))
 
+hl.workspace_rule({ workspace = "1", monitor = "DP-6", default = true })
+hl.workspace_rule({ workspace = "101", monitor = "DP-5", default = true })
+
 for i = 1, 10 do
 	local offset = 100
 	local key = i % 10 -- 10 maps to key 0
