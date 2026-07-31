@@ -164,6 +164,7 @@
       ".config/qBittorrent" = { };
       ".config/qalculate" = { };
       ".config/steamguard-cli" = { };
+      ".config/openttd" = { };
 
       ".local/share/CKAN" = { };
       ".local/share/Mindustry" = { };
