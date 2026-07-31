@@ -174,13 +174,8 @@ hl.device({
 })
 
 hl.bind("SUPER + SHIFT + M", function()
-	if mouse_active then
-		hl.device({ name = "razer-razer-basilisk-v3", enabled = false })
-		mouse_active = false
-	else
-		hl.device({ name = "razer-razer-basilisk-v3", enabled = true })
-		mouse_active = true
-	end
+	mouse_active = not mouse_active
+	hl.device({ name = "razer-razer-basilisk-v3", enabled = mouse_active })
 end)
 
 ---------------------
