@@ -28,10 +28,12 @@
 
     home = {
       pointerCursor = {
-        name = "Vanilla-DMZ";
-        size = 24;
-        package = pkgs.vanilla-dmz;
+        enable = true;
         gtk.enable = true;
+
+        name = "catppuccin-macchiato-dark-cursors";
+        size = 24;
+        package = pkgs.catppuccin-cursors.macchiatoLight;
       };
 
       packages = with pkgs; [
