@@ -3,12 +3,27 @@
     let
       script = pkgs.lib.getExe (pkgs.writeShellApplication {
         name = "audio-config";
-        runtimeInputs = with pkgs; [ kmod alsa-utils ];
+
+        runtimeInputs = with pkgs; [
+          alsa-utils
+          gnugrep
+          kmod
+        ];
+
         text = ''
+          shopt -s nullglob
           modprobe -C /dev/null snd-hda-intel
 
-          dir="/sys/class/sound/hwC3D0"
-          while [ ! -e "$dir" ]; do sleep 0.25; done
+          dir=
+          while [ -z "$dir" ]; do
+            for i in /sys/class/sound/hw*; do
+              if [ "$(< "$i/vendor_name")" = "Realtek" ]; then
+                dir="$i"
+                break
+              fi
+            done
+            sleep 0.25
+          done
 
           while read -r line; do echo "$line" > "$dir/hints"; done << EOF
           indep_hp = true
@@ -34,19 +49,26 @@
 
           echo 1 > "$dir/reconfig"
 
-          while ! amixer -c3 sset 'Independent HP' Enabled; do :; done
+          id="$(grep -oP 'hwC\K\d' <<< "$dir")"
+          while ! amixer -c "$id" sset 'Independent HP' Enabled; do :; done
         '';
       });
     in
-    ''
-      install snd-hda-intel ${script}
-    '';
+    "install snd-hda-intel ${script}";
 
   hardware.alsa.enablePersistence = true;
 
   services.udev.extraRules = ''
     SUBSYSTEMS=="pci", ATTRS{vendor}=="0x1022", ATTRS{device}=="0x15e3", \
     ENV{ACP_PROFILE_SET}="${./profile.conf}"
+
+    # remove Nvidia HDMI audio
+    ACTION=="add", SUBSYSTEM=="pci", KERNEL=="0000:01:00.1", \
+    RUN+="/bin/sh -c 'echo 1 > /sys/$devpath/remove'"
+
+    # remove AMD HDMI audio
+    ACTION=="add", SUBSYSTEM=="pci", KERNEL=="0000:10:00.1", \
+    RUN+="/bin/sh -c 'echo 1 > /sys/$devpath/remove'"
   '';
 
   aquaris.persist.dirs = {
