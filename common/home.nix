@@ -176,6 +176,7 @@
 
     xdg.configFile."equibop-flags.conf".text = ''
       --wayland
+      --force_high_performance_gpu
     '';
   });
 }
