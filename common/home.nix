@@ -118,7 +118,10 @@
             alpha = 0.0;
             blur = true;
           };
-          main.include = "${pkgs.foot.themes}/share/foot/themes/gruvbox-dark";
+          main = {
+            font = "monospace:size=10.5";
+            include = "${pkgs.foot.themes}/share/foot/themes/gruvbox-dark";
+          };
         };
       };
 
