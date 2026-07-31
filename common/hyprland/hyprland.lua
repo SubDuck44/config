@@ -187,6 +187,8 @@ local mainMod = "SUPER" -- Sets "Windows" key as main modifier
 
 -- Example binds, see https://wiki.hypr.land/Configuring/Basics/Binds/ for more
 hl.bind(mainMod .. " + Return", hl.dsp.exec_cmd("foot"))
+hl.bind(mainMod .. "+ SHIFT + Return", hl.dsp.exec_cmd("foot", { floating = true }))
+
 hl.bind(mainMod .. " + E", hl.dsp.exec_cmd("emacsclient -nc"))
 hl.bind(mainMod .. " + G", hl.dsp.window.fullscreen({ "fullscreen", "toggle" }))
 hl.bind(mainMod .. " + F", hl.dsp.window.fullscreen({ "maximized", "toggle" }))
