@@ -130,6 +130,7 @@ hl.config({
 		enable_swallow = true,
 		swallow_regex = "foot",
 		initial_workspace_tracking = 2,
+		enable_anr_dialog = false,
 	},
 })
 
