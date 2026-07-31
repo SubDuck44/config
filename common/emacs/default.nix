@@ -324,6 +324,12 @@
 
           lua-mode = {
             defer = true;
+
+            extraPackages = with pkgs; [ lua-language-server stylua ];
+          };
+
+          meson-mode = {
+            defer = true;
           };
 
           lsp-mode = {
@@ -339,11 +345,14 @@
               ;; performance
               (lsp-log-io nil)
               (read-process-output-max (* 1024 1024))
+
+              (lsp-clients-lua-language-server-command "lua-language-server")
             '';
 
             hook = ''
-              (c-mode . lsp-deferred)
-              (go-mode . lsp-deferred)
+              (c-mode        . lsp-deferred)
+              (go-mode       . lsp-deferred)
+              (lua-mode      . lsp-deferred)
               (typst-ts-mode . lsp-deferred)
 
               (lsp-managed-mode . (lambda ()
@@ -359,6 +368,9 @@
 
               (advice-add 'lsp-resolve-final-command :around
                 #'lsp-booster--advice-final-command)
+
+              (advice-add 'lsp-clients-lua-language-server-test :override
+                (lambda () t))
             '';
 
             extraPackages = with pkgs; [
