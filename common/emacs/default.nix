@@ -56,9 +56,12 @@
               (require 'notifications)
               (global-auto-revert-mode 1)
               (cua-mode 1)
-              (tool-bar-mode 0)
-              (menu-bar-mode 0)
-              (scroll-bar-mode 0)
+
+              (blink-cursor-mode 0) ; no blinking cursor
+              (menu-bar-mode     0) ; no menu bar
+              (scroll-bar-mode   0) ; no scroll bar
+              (tool-bar-mode     0) ; no tool bar
+
               (global-display-fill-column-indicator-mode 1)
               (global-whitespace-newline-mode 1)
               (global-whitespace-mode 1)
