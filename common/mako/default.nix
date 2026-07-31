@@ -14,7 +14,7 @@
         icon-border-radius = 999;
         output = "DP-6";
         layer = "overlay";
-        anchor = "bottom-left";
+        anchor = "top-right";
         on-notify = "exec mpv ${./notif.opus}";
 
         "app-name=Emacs" = {
