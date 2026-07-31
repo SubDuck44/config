@@ -166,10 +166,22 @@ hl.gesture({
 
 -- Example per-device config
 -- See https://wiki.hypr.land/Configuring/Advanced-and-Cool/Devices/ for more
+local mouse_active = true
 hl.device({
 	name = "epic-mouse-v1",
 	sensitivity = -0.5,
+	enabled = mouse_active,
 })
+
+hl.bind("SUPER + SHIFT + M", function()
+	if mouse_active then
+		hl.device({ name = "razer-razer-basilisk-v3", enabled = false })
+		mouse_active = false
+	else
+		hl.device({ name = "razer-razer-basilisk-v3", enabled = true })
+		mouse_active = true
+	end
+end)
 
 ---------------------
 ---- KEYBINDINGS ----
