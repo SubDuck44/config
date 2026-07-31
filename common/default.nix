@@ -11,4 +11,6 @@
   boot.zfs.forceImportRoot = true;
 
   services.speechd.enable = false;
+
+  systemd.services.keysmash = { };
 }
