@@ -40,7 +40,7 @@
         keysmash
         libnotify
         libqalculate
-        mindustry-wayland
+        # mindustry-wayland
         mpv
         nvtop
         openttd
@@ -114,7 +114,10 @@
       foot = {
         enable = true;
         settings = {
-          colors-dark.alpha = 0.0;
+          colors-dark = {
+            alpha = 0.0;
+            blur = true;
+          };
           main.include = "${pkgs.foot.themes}/share/foot/themes/gruvbox-dark";
         };
       };

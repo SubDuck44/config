@@ -2,33 +2,21 @@
   nixpkgs.overlays = lib.singleton (_: prev:
     let obscura = self.inputs.obscura.packages.${prev.stdenv.system}; in
     self.inputs.obscura.lib.infuse prev ({
-      nix-output-monitor.__assign = obscura.my-nom;
-      prettypst.__assign = obscura.my-prettypst;
+      # TODO https://github.com/openzfs/zfs/issues/18760
+      linuxPackages_zen.__extend.zfs_2_4.__output = {
+        configureFlags.__append = [ "--enable-linux-experimental" ];
 
-      wivrn.__output = {
-        version.__assign = "26.6";
-        src.__output.hash.__assign = "sha256-0RvQnaxASPcv3JkEp1OON/n4C9qEAAJ8R7m2FKPlVK0=";
-
-        monado.__output.src.__assign = prev.fetchFromGitLab {
-          domain = "gitlab.freedesktop.org";
-          owner = "monado";
-          repo = "monado";
-          rev = "1b526bb3a0ff326ecd05af4c2c541407f53c6d4b";
-          hash = "sha256-SzuCQ1uX15vFGwGt3gswlVF2Su8sIND4R3tsTJ4T1LY=";
-        };
-
-        nativeBuildInputs.__append = with prev; [
-          hexdump
+        patches.__append = [
+          (prev.fetchpatch {
+            url = "https://github.com/openzfs/zfs/commit/223b8bc446851e5e796e5446ac24d03bbf468f43.diff";
+            hash = "sha256-I29A+NLYLzy7cMC8FQpBdSYbjFu/kscgTW8mAauPVf4=";
+          })
         ];
 
-        buildInputs.__append = with prev; [
-          kdePackages.kirigami-addons
-        ];
-
-        cmakeFlags.__append = [
-          "-DGIT_COMMIT=26.6"
-        ];
+        meta.broken.__assign = false;
       };
+
+      prettypst.__assign = obscura.my-prettypst;
 
       # https://github.com/3timeslazy/nix-search-tv/pull/30
       nix-search-tv.__output.src.__assign = prev.fetchFromGitHub {
