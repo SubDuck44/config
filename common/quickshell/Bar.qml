@@ -13,6 +13,7 @@ Scope {
 	property string cpu_load
 	property string mem_load
 	property string bat_load
+	property string bat_stat
 	property string now_playing
 
 	component BarItem: Rectangle {
@@ -79,14 +80,15 @@ Scope {
 					border.color: "#d3869b"
 					text: "  " + root.mem_load
 				}
+
 				BarItem {
 					id: power_indicator
 					border.color: "#83a598"
-					visible: parseInt(root.bat_load) > 0
-					text: "󰂄 " + root.bat_load
+					visible: root.bat_load > 0
+					text: `󰂄 ${root.bat_load}%${root.bat_stat}`
 
 					SequentialAnimation {
-						running: parseInt(root.bat_load) < 15
+						running: power_indicator.visible && root.bat_load < 15
 						alwaysRunToEnd: true
 						loops: Animation.Infinite
 
@@ -97,6 +99,7 @@ Scope {
 							easing: Easing.InOutQuad
 							duration: 500
 						}
+
 						PropertyAnimation {
 							target: power_indicator
 							properties: "color"
@@ -106,6 +109,7 @@ Scope {
 						}
 					}
 				}
+
 				Rectangle {
 					border.color: "#a89984"
 					border.width: 3
@@ -164,6 +168,7 @@ Scope {
 						}
 					}
 				}
+
 				BarItem {
 					border.color: "#fe8019"
 					width: root.is_playing ? childrenRect.width + 20 : 0
@@ -205,7 +210,8 @@ Scope {
 
 				root.cpu_load = values[0];
 				root.mem_load = values[1];
-				root.bat_load = values[2];
+				root.bat_load = parseInt(values[2]);
+				root.bat_stat = values[3];
 			}
 		}
 	}

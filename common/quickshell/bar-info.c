@@ -111,7 +111,7 @@ int main(void) {
 		////////////////////
 
 		printf(
-			"%.1f%%\t%.2fG/%.2fG\t%d%%%s\n", //
+			"%.1f%%\t%.2fG/%.2fG\t%d\t%s\n", //
 			cpu_load,                        //
 			mem_used / 1e6,                  //
 			mem_total / 1e6,                 //
