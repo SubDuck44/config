@@ -344,3 +344,10 @@ hl.window_rule({
 	no_initial_focus = true,
 	no_follow_mouse = true,
 })
+
+hl.window_rule({
+	name = "floating-windows",
+	match = { float = true },
+
+	animation = "slide top",
+})
