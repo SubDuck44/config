@@ -46,4 +46,9 @@
       };
     };
   };
+
+  services.dnscrypt-proxy.settings = {
+    block_ipv6 = true;
+    ipv6_servers = false;
+  };
 }
