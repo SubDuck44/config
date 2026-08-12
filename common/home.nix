@@ -29,6 +29,7 @@
           	--message-color '#ebdbb2ff' \
           	--hide-prompt --minimal-lines
         '')
+        # mindustry-wayland
         chatterino7
         ckan
         cmatrix
@@ -40,11 +41,11 @@
         keysmash
         libnotify
         libqalculate
-        # mindustry-wayland
         mpv
         nvtop
         openttd
         p7zip-rar
+        pcmanfm
         pcsx2
         pixelorama
         playerctl
@@ -181,9 +182,16 @@
       ".local/state/syncthing" = { };
     };
 
-    xdg.configFile."equibop-flags.conf".text = ''
-      --wayland
-      --force_high_performance_gpu
-    '';
+    xdg = {
+      configFile."equibop-flags.conf".text = ''
+        --wayland
+        --force_high_performance_gpu
+      '';
+
+      mimeApps = {
+        enable = true;
+        defaultApplicationPackages = with pkgs; [ pcmanfm ];
+      };
+    };
   });
 }
