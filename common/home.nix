@@ -1,6 +1,11 @@
 { pkgs, lib, config, ... }: {
   aquaris = {
     unfreeNames = [
+      "blender"
+      "cuda_cccl"
+      "cuda_cudart"
+      "cuda_nvcc"
+      "libcublas"
       "p7zip"
     ];
   };
@@ -38,6 +43,7 @@
         feh
         ffmpeg
         godot
+        gucharmap
         keysmash
         libnotify
         libqalculate
@@ -48,6 +54,7 @@
         pcmanfm
         pcsx2
         pixelorama
+        pkgsCuda.blender
         playerctl
         poppler-utils
         pulsemixer
@@ -58,7 +65,6 @@
         thunderbird
         umu-launcher
         wl-clipboard
-        gucharmap
 
         (greenfoot.overrideAttrs (old: {
           installPhase = lib.replaceString "UNNAMED" "UNNAMED --add-opens javafx.graphics/com.sun.javafx.scene.input=ALL-UNNAMED" old.installPhase;
