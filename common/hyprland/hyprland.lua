@@ -179,6 +179,26 @@ hl.bind("SUPER + SHIFT + M", function()
 	hl.device({ name = "razer-razer-basilisk-v3", enabled = mouse_active })
 end)
 
+hl.bind("SUPER + SHIFT + S", function()
+	if hl.get_config("input.kb_variant") == "nodeadkeys" then
+		hl.notification.create({
+			text = "Dead keys on - spanish mode",
+			duration = 2000,
+			icon = "info",
+			color = "#fe8019",
+		})
+		hl.config({ input = { kb_variant = " " } })
+	else
+		hl.notification.create({
+			text = "Dead keys off - normal mode",
+			duration = 2000,
+			icon = "info",
+			color = "#83e598",
+		})
+		hl.config({ input = { kb_variant = "nodeadkeys" } })
+	end
+end)
+
 ---------------------
 ---- KEYBINDINGS ----
 ---------------------
