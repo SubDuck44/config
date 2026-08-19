@@ -1,9 +1,10 @@
 {
   services.i2pd = {
     enable = true;
-
-    proto.http.enable = false;
-    proto.socksProxy.enable = true;
+    settings = {
+      http.enabled = false;
+      socksproxy.enabled = true;
+    };
   };
 
   aquaris.persist.dirs = {

@@ -180,22 +180,32 @@ hl.bind("SUPER + SHIFT + M", function()
 end)
 
 hl.bind("SUPER + SHIFT + S", function()
-	if hl.get_config("input.kb_variant") == "nodeadkeys" then
+	if hl.get_config("input.kb_layout") == "de" then
 		hl.notification.create({
-			text = "Dead keys on - spanish mode",
+			text = "Spanish mode",
 			duration = 2000,
 			icon = "info",
 			color = "#fe8019",
 		})
-		hl.config({ input = { kb_variant = " " } })
+		hl.config({
+			input = {
+				kb_layout = "spanish",
+				kb_variant = "",
+			}
+		})
 	else
 		hl.notification.create({
-			text = "Dead keys off - normal mode",
+			text = "German mode",
 			duration = 2000,
 			icon = "info",
 			color = "#83e598",
 		})
-		hl.config({ input = { kb_variant = "nodeadkeys" } })
+		hl.config({
+			input = {
+				kb_layout = "de",
+				kb_variant = "nodeadkeys",
+			}
+		})
 	end
 end)
 

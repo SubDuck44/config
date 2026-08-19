@@ -1,4 +1,4 @@
-{
+{ lib, ... }: {
   aquaris.dnscrypt = {
     enable = true;
 
@@ -48,7 +48,7 @@
   };
 
   services.dnscrypt-proxy.settings = {
-    block_ipv6 = true;
-    ipv6_servers = false;
+    block_ipv6 = lib.mkForce true;
+    ipv6_servers = lib.mkForce false;
   };
 }

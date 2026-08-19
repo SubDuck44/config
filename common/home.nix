@@ -5,6 +5,7 @@
       "cuda_cccl"
       "cuda_cudart"
       "cuda_nvcc"
+      "cuda_nvrtc"
       "libcublas"
       "p7zip"
     ];
