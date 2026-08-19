@@ -88,7 +88,7 @@ Scope {
 					text: `󰂄 ${root.bat_load}%${root.bat_stat}`
 
 					SequentialAnimation {
-						running: power_indicator.visible && root.bat_load < 15
+						running: power_indicator.visible && root.bat_load < 15 && root.bat_stat != " "
 						alwaysRunToEnd: true
 						loops: Animation.Infinite
 
