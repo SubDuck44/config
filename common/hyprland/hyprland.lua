@@ -143,7 +143,7 @@ hl.config({
 		kb_layout = "de",
 		kb_variant = "nodeadkeys",
 		kb_model = "",
-		kb_options = "compose:sclk",
+		kb_options = "compose:ins",
 		kb_rules = "",
 
 		repeat_rate = 50,
