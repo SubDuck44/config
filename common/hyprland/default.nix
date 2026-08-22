@@ -36,6 +36,10 @@
       enable = true;
       configType = "lua";
       extraConfig = builtins.readFile ./hyprland.lua;
+      plugins = with pkgs.hyprlandPlugins; [
+        hyprfocus
+        # imgborders
+      ];
     };
   }];
 }
