@@ -117,6 +117,11 @@
               (org-agenda-prefer-last-repeat t)
               (fill-column 80)
             '';
+
+            extraPackages = with pkgs; [
+              bash-language-server
+              shellcheck
+            ];
           };
 
           "00-theme" = {
@@ -206,6 +211,8 @@
             hook = "prog-mode typst-ts-mode";
 
             config = ''
+              (add-to-list 'apheleia-mode-alist '(sh-mode . shfmt))
+
               (add-to-list 'apheleia-mode-alist '(scheme-mode . lisp-indent))
               (setf (alist-get 'python-mode apheleia-mode-alist)
                     '(isort black))
@@ -214,6 +221,10 @@
               (add-to-list 'apheleia-formatters '(my/clang-format
                 "clang-format" "--style=file:${./clang-format.yaml}"))
             '';
+
+            extraPackages = with pkgs; [
+              shfmt
+            ];
           };
 
           web-mode = {
@@ -341,6 +352,7 @@
               (c-mode        . lsp-deferred)
               (go-mode       . lsp-deferred)
               (lua-mode      . lsp-deferred)
+              (sh-mode       . lsp-deferred)
               (typst-ts-mode . lsp-deferred)
 
               (lsp-managed-mode . (lambda ()
