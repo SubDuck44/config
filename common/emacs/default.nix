@@ -234,7 +234,29 @@
           };
 
           typst-ts-mode = {
-            defer = true;
+            # TODO all of this just for a single patch...
+            # elpaBuild, with which typst-ts-mode is built by default,
+            # (afaik) does not support adding patches,
+            # because it fetches & compiles the source in installPhase
+            # fix: declare the entire package as trivialBuild
+            package = ep: ep.trivialBuild {
+              pname = "typst-ts-mode";
+              version = "0.12.2";
+
+              src = pkgs.fetchurl {
+                url = "https://elpa.nongnu.org/nongnu/typst-ts-mode-0.12.2.tar";
+                sha256 = "170q09ma08cksyg9bapfhid28f0xi46ssdv7bzdyiy3gc4x61i4b";
+              };
+
+              patches = [
+                (pkgs.fetchpatch {
+                  url = "https://codeberg.org/meow_king/typst-ts-mode/pulls/106.diff";
+                  hash = "sha256-fKEN4+ZT9IMicd4ZSjSUhzHMwi1RM/IFglaVbkNB5/A=";
+                })
+              ];
+            };
+
+            demand = true;
 
             extraPackages = with pkgs; [
               prettypst

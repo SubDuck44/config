@@ -2,20 +2,28 @@
   nixpkgs.overlays = lib.singleton (_: prev:
     let obscura = self.inputs.obscura.packages.${prev.stdenv.system}; in
     self.inputs.obscura.lib.infuse prev ({
-      # TODO https://github.com/openzfs/zfs/issues/18760
-      linuxPackages_zen.__extend.zfs_2_4.__output = {
-        configureFlags.__append = [ "--enable-linux-experimental" ];
-        meta.broken.__assign = false;
-      };
-
       prettypst.__assign = obscura.my-prettypst;
 
-      # https://github.com/3timeslazy/nix-search-tv/pull/30
-      nix-search-tv.__output.src.__assign = prev.fetchFromGitHub {
-        owner = "42LoCo42";
-        repo = "nix-search-tv";
-        rev = "3d4e8d6d6a3b2a8a857690378bfd03ef2856f72e";
-        hash = "sha256-FLiUAztKoFScjg4gfnPfo1jSfIn8xQuJNKrgYhUDo0k=";
+      hyprlandPlugins.imgborders.__output = {
+        version.__assign = "2.0.0-unstable-2026-08-16";
+
+        src.__output = {
+          rev.__assign = "08be22236144d3c91607bcfa955ed0d457f4f50b";
+          hash.__assign = "sha256-O+896T2qrisxiWTotB5HlzKw8XEJqPDTgSUHAAVUD18=";
+        };
+
+        strictDeps.__assign = true;
+
+        prePatch.__append = ''
+          sed -i \
+            -e '/VERSION_RAW/d' \
+            -e '6aset(VERSION 2.0.0)' \
+            CMakeLists.txt
+        '';
+
+        nativeBuildInputs.__append = with prev; [
+          breakpointHook
+        ];
       };
 
       factorio-space-age.__input.makeDesktopItem.__hijack.exec.__prepend = "gamemoderun ";

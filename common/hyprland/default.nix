@@ -1,9 +1,4 @@
 { pkgs, ... }: {
-  programs.hyprland = {
-    enable = true;
-    withUWSM = true;
-  };
-
   home-manager.sharedModules = [{
     xdg = {
       portal = {
@@ -32,14 +27,14 @@
       '';
     };
 
-    wayland.windowManager.hyprland = {
+    aquaris.hyprland = {
       enable = true;
-      configType = "lua";
-      extraConfig = builtins.readFile ./hyprland.lua;
-      plugins = with pkgs.hyprlandPlugins; [
-        hyprfocus
-        # imgborders
-      ];
+      precfg = builtins.readFile ./hyprland.lua;
     };
+
+    wayland.windowManager.hyprland.plugins = with pkgs.hyprlandPlugins; [
+      hyprfocus
+      imgborders
+    ];
   }];
 }

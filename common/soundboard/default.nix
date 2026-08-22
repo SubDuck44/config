@@ -19,8 +19,8 @@
         '';
       in
       ''
-        hl.bind(mainMod .. " + KP_Divide",   hl.dsp.exec_cmd("${order}"))
-        hl.bind(mainMod .. " + KP_Multiply", hl.dsp.exec_cmd("${godswill}"))
+        hl.bind("SUPER + KP_Divide",   hl.dsp.exec_cmd("${order}"))
+        hl.bind("SUPER + KP_Multiply", hl.dsp.exec_cmd("${godswill}"))
       '';
   }];
 }

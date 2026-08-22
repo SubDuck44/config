@@ -381,3 +381,33 @@ hl.window_rule({
 
 	animation = "slide top",
 })
+
+function is_plugin_loaded(name)
+	for _, v in pairs(hl.get_loaded_plugins()) do
+		if v.name == name then
+			return true
+		end
+	end
+	return false
+end
+
+if is_plugin_loaded("imgborders") then
+	hl.config({
+		plugin = {
+			imgborders = {
+				image = "~/cfg/common/hyprland/borders.png",
+				sizes = 1,
+				2,
+				3,
+				4, -- top, right, bottom, left
+				insets = 1,
+				2,
+				3,
+				4, -- top, right, bottom, left
+				scale = 1.2,
+				smooth = true,
+				blur = false,
+			},
+		},
+	})
+end
