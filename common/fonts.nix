@@ -5,6 +5,7 @@
       noto-fonts
       noto-fonts-color-emoji
       merriweather
+      overused-grotesk
     ];
 
     fontconfig.defaultFonts = {
