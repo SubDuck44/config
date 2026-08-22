@@ -191,7 +191,7 @@ hl.bind("SUPER + SHIFT + S", function()
 			input = {
 				kb_layout = "spanish",
 				kb_variant = "",
-			}
+			},
 		})
 	else
 		hl.notification.create({
@@ -204,7 +204,7 @@ hl.bind("SUPER + SHIFT + S", function()
 			input = {
 				kb_layout = "de",
 				kb_variant = "nodeadkeys",
-			}
+			},
 		})
 	end
 end)
