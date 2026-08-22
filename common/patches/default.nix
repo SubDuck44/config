@@ -33,6 +33,7 @@
       };
     } // builtins.mapAttrs (_: x: { __assign = x; }) {
       inherit (obscura)
+        avahi-proxy
         keysmash
         yellowcake
         ;
