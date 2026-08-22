@@ -53,8 +53,7 @@
     };
 
     udev.extraRules = ''
-      KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="10f5", \
-      MODE="0660", GROUP="users", TAG+="uaccess"
+      ATTRS{idVendor}=="10f5", MODE="0660", GROUP="users", TAG+="uaccess"
     '';
   };
 
