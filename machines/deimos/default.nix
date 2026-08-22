@@ -21,6 +21,12 @@
     ];
   };
 
+  boot.kernelParams = [
+    # ¿fix? random freezing
+    "intel_idle.max_cstate=0"
+    "processor.max_cstate=5"
+  ];
+
   system.extraDependencies = with pkgs; [
     factorio-space-age.src
   ];
