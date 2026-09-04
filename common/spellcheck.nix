@@ -9,6 +9,7 @@ in
     systemd.user.tmpfiles.rules = pipe [
       "en_US-large"
       "de_DE"
+      "es-es"
     ] [
       (map (x: pkgs.hunspellDicts.${x}))
       (x: pkgs.symlinkJoin {
