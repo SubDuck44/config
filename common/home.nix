@@ -1,12 +1,6 @@
 { pkgs, lib, config, ... }: {
   aquaris = {
     unfreeNames = [
-      "blender"
-      "cuda_cccl"
-      "cuda_cudart"
-      "cuda_nvcc"
-      "cuda_nvrtc"
-      "libcublas"
       "p7zip"
     ];
   };
@@ -54,7 +48,6 @@
         pcmanfm
         pcsx2
         pixelorama
-        pkgsCuda.blender
         playerctl
         poppler-utils
         pulsemixer

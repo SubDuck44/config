@@ -18,6 +18,13 @@
       "steam-unwrapped"
 
       "factorio-space-age"
+
+      "blender"
+      "cuda_cccl"
+      "cuda_cudart"
+      "cuda_nvcc"
+      "cuda_nvrtc"
+      "libcublas"
     ];
   };
 
@@ -83,6 +90,7 @@
       '')
 
       factorio-space-age
+      pkgsCuda.blender
 
       (prismlauncher.override {
         jdks = with pkgs.javaPackages.compiler.temurin-bin; [
