@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
+shopt -s nullglob
 
 x() {
 	(
@@ -47,15 +48,17 @@ else
 	anrede="Sehr geehrte"
 fi
 
+x rm -fv work-*.pdf
+
 typst compile tasks.typ
 
 x pdfseparate tasks.pdf work-%d.pdf -f "$firs" -l "$last"
 if ((firs != last)); then
 	mapfile -t files < <(printf 'work-%s.pdf\n' $(seq "$firs" "$last"))
-	x pdfunite "${files[@]}" workres.pdf
+	x pdfunite "${files[@]}" work-res.pdf
+else
+	mv "work-$firs.pdf" "work-res.pdf"
 fi
-
-x rm -v work-*.pdf
 
 x swaks \
 	--to "$(yank "email")" \
@@ -64,7 +67,7 @@ x swaks \
 	--server 'smtp.mail.de' \
 	--tls-on-connect \
 	--h-Subject "Aufgabenzustellung $date" \
-	--attach '@workres.pdf' \
+	--attach '@work-res.pdf' \
 	--body - <<-EOF
 		$anrede $name,
 
@@ -84,3 +87,5 @@ x swaks \
 	EOF
 
 notify-send --app-name="submit.sh" "Finished sending to $name."
+
+x rm -v work-*.pdf
