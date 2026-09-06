@@ -28,10 +28,7 @@
         package = pkgs.emacs-pgtk;
 
         extraPackages = epkgs: with epkgs; [
-          (treesit-grammars.with-grammars (g: with g; [
-            tree-sitter-typst
-            tree-sitter-qmljs
-          ]))
+          treesit-grammars.with-all-grammars
         ];
 
         prelude = builtins.readFile ./prelude.el;
@@ -160,6 +157,17 @@
             '';
           };
 
+          posframe = {
+            defer = true;
+
+            config = ''
+              (advice-add #'posframe-show :filter-args (lambda (args)
+                (push '(alpha-background . 100)
+                       (plist-get (cdr args) :override-parameters))
+                args))
+            '';
+          };
+
           jinx = {
             hook = "typst-ts-mode org-mode text-mode";
 
@@ -173,6 +181,22 @@
               (add-to-list 'vertico-multiform-categories
                 '(jinx grid (vertico-grid-annotate . 20) (vertico-count . 4)))
               (vertico-multiform-mode)
+
+              (add-to-list 'jinx-exclude-faces '(typst-ts-mode
+                font-lock-comment-face font-lock-string-face font-lock-doc-face font-lock-doc-markup-face
+                font-lock-warning-face font-lock-function-name-face font-lock-function-call-face
+                font-lock-variable-name-face font-lock-variable-use-face font-lock-keyword-face
+                font-lock-comment-delimiter-face font-lock-type-face font-lock-constant-face
+                font-lock-builtin-face font-lock-preprocessor-face
+                font-lock-negation-char-face font-lock-escape-face font-lock-number-face
+                font-lock-operator-face font-lock-property-use-face font-lock-punctuation-face
+                font-lock-bracket-face font-lock-delimiter-face font-lock-misc-punctuation-face
+                typst-ts-markup-item-indicator-face typst-ts-markup-term-indicator-face
+                typst-ts-markup-rawspan-indicator-face typst-ts-markup-rawspan-blob-face
+                typst-ts-markup-rawblock-indicator-face typst-ts-markup-rawblock-lang-face
+                typst-ts-markup-rawblock-blob-face
+                typst-ts-error-face typst-ts-shorthand-face typst-ts-markup-linebreak-face
+                typst-ts-markup-quote-face typst-ts-markup-url-face typst-ts-math-indicator-face))
             '';
           };
 
@@ -258,7 +282,7 @@
               ];
             };
 
-            demand = true;
+            mode = ''"\\.typ\\'"'';
 
             extraPackages = with pkgs; [
               prettypst
@@ -266,14 +290,33 @@
               typst
             ];
 
+            bind' = ''
+              :map typst-ts-mode-map
+              ("C-c C-p" . nori/typst-pin)
+            '';
+
             config = ''
-              (require 'lsp-mode)
-              (add-to-list 'lsp-language-id-configuration '(typst-ts-mode . "typst"))
-              (lsp-register-client
-               (make-lsp-client
+              (require 'lsp-typst)
+              (lsp-register-client (make-lsp-client
+                :server-id 'nori/tinymist
                 :new-connection (lsp-stdio-connection "tinymist")
-                :major-modes '(typst-ts-mode)
-                :server-id 'tinymist))
+                :activation-fn (lsp-activate-on "typst")
+                :initialized-fn
+                  (lambda (workspace)
+                    (with-lsp-workspace workspace
+                      (lsp--set-configuration
+                       (lsp-configuration-section "tinymist")))
+
+                    (lsp-send-execute-command "tinymist.doStartBrowsingPreview"
+                      (vector (vector "--host=127.0.0.1:0"
+                                      "--control-plane-host=127.0.0.1:0"
+                                      "--data-plane-host=127.0.0.1:0"
+                                      "--open" buffer-file-name))))
+                :synchronize-sections '("tinymist")
+                :notification-handlers (ht ("tinymist/documentOutline" #'ignore))))
+
+              (add-hook 'lsp-nori/tinymist-after-open-hook (lambda ()
+                (when nori/typst-pin (nori/typst-pin))))
 
               (require 'apheleia)
               (add-to-list 'apheleia-mode-alist '(typst-ts-mode . prettypst))
@@ -282,6 +325,7 @@
 
             custom = ''
               (typst-ts-mode-indent-offset 2)
+              (typst-ts-enable-raw-blocks-highlight t)
             '';
           };
 
@@ -295,21 +339,6 @@
 
             custom-face = ''
               (flash-label ((t (:background "black" :foreground "white" :weight bold))))
-            '';
-          };
-
-          typst-preview = {
-            hook = "typst-ts-mode";
-
-            custom = ''
-              (typst-preview-invert-colors "never")
-              (typst-preview-open-browser-automatically t)
-            '';
-
-            config = ''
-              ;; always set master file to current buffer; skip manual input
-              (advice-add 'typst-preview-start :before (lambda (&rest r)
-                (setq typst-preview--master-file (f-canonical buffer-file-name))))
             '';
           };
 
@@ -362,15 +391,16 @@
               (eldoc-idle-delay 0)
               (eldoc-documentation-strategy 'eldoc-documentation-compose-eagerly)
 
+              (lsp-enable-on-type-formatting nil)
               (lsp-headerline-breadcrumb-enable nil)
               (lsp-idle-delay 0)
-              (lsp-enable-on-type-formatting nil)
-              (lsp-clients-clangd-args '("--header-insertion=never"))
+              (lsp-semantic-tokens-enable t)
 
               ;; performance
               (lsp-log-io nil)
               (read-process-output-max (* 1024 1024))
 
+              (lsp-clients-clangd-args '("--header-insertion=never"))
               (lsp-clients-lua-language-server-command "lua-language-server")
             '';
 

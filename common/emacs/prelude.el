@@ -103,3 +103,29 @@
 			  (my/keyboard-config))))
 
 (my/keyboard-config)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defvar-local nori/typst-pin nil "Should this file be pinned automatically?")
+(put 'nori/typst-pin 'safe-local-variable #'booleanp)
+
+(defvar nori/typst-pins (make-hash-table) "Mapping of LSP PID -> pinned file.")
+
+(defun nori/lsp-pid ()
+  "Returns the PID of the LSP server attached to this buffer."
+  (if-let* ((ws (car (lsp-workspaces))))
+      (lsp-process-id (lsp--workspace-cmd-proc ws))))
+
+(defun nori/typst-pin ()
+  "Pin or unpin the current Typst buffer."
+  (interactive)
+  (let* ((pid (nori/lsp-pid))
+         (old (gethash pid nori/typst-pins))
+         (cur buffer-file-name)
+         (new (if (equal old cur) nil cur)))
+    (puthash pid new nori/typst-pins)
+    (lsp-send-execute-command "tinymist.pinMain" (vector new))
+    (if new
+      (message "Pinned Typst buffer %s!" new)
+      (message "Unpinned Typst buffer %s!" old))))
+
