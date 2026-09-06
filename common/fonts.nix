@@ -6,6 +6,7 @@
       noto-fonts-color-emoji
       merriweather
       overused-grotesk
+      courier-prime
     ];
 
     fontconfig.defaultFonts = {
