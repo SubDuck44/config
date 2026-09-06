@@ -1,4 +1,4 @@
-{ lib, ... }: {
+{ pkgs, lib, ... }: {
   environment.sessionVariables = {
     "MOZ_DISABLE_RDD_SANDBOX" = "1";
   };
@@ -24,10 +24,19 @@
         "services.sync.scheduler.idleInterval" = 10;
         "services.sync.scheduler.idleTime" = 10;
         "services.sync.scheduler.immediateInterval" = 10;
+
+        # so we can load custom extensions
+        "xpinstall.signatures.required" = false;
       };
 
       policies = {
         DisableFirefoxAccounts = lib.mkForce false;
+      };
+
+      extensions = {
+        "deadname-remover@willhaycode.com" = {
+          url = "file://${pkgs.deadname-remover}";
+        };
       };
     };
   }];

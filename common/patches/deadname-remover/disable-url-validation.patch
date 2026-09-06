@@ -1,0 +1,16 @@
+diff --git a/utils/validations.ts b/utils/validations.ts
+index 8ef67272f9..a92b7808cc 100644
+--- a/utils/validations.ts
++++ b/utils/validations.ts
+@@ -51,9 +51,7 @@
+ }
+ 
+ export const validURLMatcher = {
+-  match: (url: string) => {
+-    // Allow wildcard patterns and flexible domain/path matching for site filtering
+-    // Supports: domain.com, *.domain.com, domain.com/path*, https://domain.com, etc.
+-    return /^(https?:\/\/)?[\w*.-]+\.[\w*.-]+([/\w*._~:/?#[\]@!$&'()+,;=%-]*)?$/.test(url)
++  match: (_: string) => {
++    return true
+   },
+ }
