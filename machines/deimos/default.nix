@@ -1,5 +1,5 @@
 { aquaris, pkgs, lib, ... }: {
-  imports = [ ../../common ];
+  imports = [ ../../common ./nixremote.nix ];
 
   aquaris = {
     machine.id = "9f7777901bbb61ae632ed7bd69e65625";
