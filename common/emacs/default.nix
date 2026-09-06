@@ -94,6 +94,8 @@
 
               ("C-´"     . other-window)
               ("M-="     . count-words)
+
+              ("C-M-<backspace>" . nori/join-line)
             '';
 
             custom = ''

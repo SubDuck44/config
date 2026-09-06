@@ -70,6 +70,12 @@
     (backward-prefix-chars)
     (and (= oldpos (point)) (beginning-of-visual-line))))
 
+(defun nori/join-line ()
+  (interactive)
+  (join-line)
+  (forward-line 1)
+  (back-to-indentation))
+
 (defun my/open-config ()
   "Opens Emacs configuration file"
   (interactive)
