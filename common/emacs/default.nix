@@ -289,8 +289,10 @@
             '';
 
             custom = ''
-              (flash-rainbow       t)
-              (flash-rainbow-shade 1)
+            '';
+
+            custom-face = ''
+              (flash-label ((t (:background "black" :foreground "white" :weight bold))))
             '';
           };
 
