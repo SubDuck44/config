@@ -337,21 +337,6 @@ hl.window_rule({
 })
 
 hl.window_rule({
-	name = "fix-flameshot",
-	match = {
-		title = "flameshot",
-	},
-
-	pin = true,
-	no_initial_focus = false,
-	stay_focused = true,
-	float = true,
-	decorate = false,
-	border_size = 0,
-	rounding = 0,
-})
-
-hl.window_rule({
 	name = "fix-popups",
 	match = {
 		modal = true,
