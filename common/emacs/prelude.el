@@ -130,3 +130,10 @@
       (message "Pinned Typst buffer %s!" new)
       (message "Unpinned Typst buffer %s!" old))))
 
+(defvar nori/modeline-typst-pin-segment
+  `(:eval
+    (if-let* ((pin (gethash (nori/lsp-pid) nori/typst-pins)))
+        (when (equal buffer-file-name pin)
+          ,(propertize "󰐃" 'face '(bold :foreground "light blue"))))))
+
+(put 'nori/modeline-typst-pin-segment 'risky-local-variable t)

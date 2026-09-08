@@ -115,6 +115,14 @@
                    :urgency 'critical)))
               (org-agenda-prefer-last-repeat t)
               (fill-column 80)
+
+              (mode-line-format
+               '("%e" mode-line-front-space mode-line-mule-info mode-line-client
+                 mode-line-modified mode-line-remote mode-line-window-dedicated
+                 mode-line-frame-identification mode-line-buffer-identification
+                 nori/modeline-typst-pin-segment "   " mode-line-position
+                 (project-mode-line project-mode-line-format) (vc-mode vc-mode)
+                 "  " mode-line-modes mode-line-misc-info mode-line-end-spaces))
             '';
 
             extraPackages = with pkgs; [
