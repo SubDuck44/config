@@ -113,7 +113,8 @@
 
 (defun nori/lsp-pid ()
   "Returns the PID of the LSP server attached to this buffer."
-  (if-let* ((ws (car (lsp-workspaces))))
+  (if-let* ((_ (fboundp 'lsp-workspaces))
+            (ws (car (lsp-workspaces))))
       (lsp-process-id (lsp--workspace-cmd-proc ws))))
 
 (defun nori/typst-pin ()

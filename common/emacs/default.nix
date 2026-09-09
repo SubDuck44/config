@@ -254,9 +254,11 @@
           };
 
           web-mode = {
-            defer = true;
-
             hook = "html-mode css-mode";
+
+            extraPackages = with pkgs; [
+              prettier
+            ];
           };
 
           typst-ts-mode = {
@@ -410,6 +412,7 @@
               (lua-mode      . lsp-deferred)
               (sh-mode       . lsp-deferred)
               (typst-ts-mode . lsp-deferred)
+              (web-mode      . lsp-deferred)
 
               (lsp-managed-mode . (lambda ()
                 (add-hook 'eldoc-documentation-functions #'my/flycheck-eldoc 90 t)))
