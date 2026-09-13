@@ -30,6 +30,7 @@
           	--hide-prompt --minimal-lines
         '')
         # mindustry-wayland
+        chatterino7
         ckan
         cmatrix
         equibop
@@ -59,11 +60,6 @@
         timer
         umu-launcher
         wl-clipboard
-        chatterino7
-
-        (greenfoot.overrideAttrs (old: {
-          installPhase = lib.replaceString "UNNAMED" "UNNAMED --add-opens javafx.graphics/com.sun.javafx.scene.input=ALL-UNNAMED" old.installPhase;
-        }))
       ];
 
       shellAliases = {

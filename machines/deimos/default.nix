@@ -25,6 +25,9 @@
       "cuda_nvcc"
       "cuda_nvrtc"
       "libcublas"
+      "libcusolver"
+      "libcusparse"
+      "libnvjitlink"
     ];
   };
 
