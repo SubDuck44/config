@@ -5,6 +5,7 @@
       noto-fonts
       noto-fonts-color-emoji
       merriweather
+      cardo
       overused-grotesk
       courier-prime
     ];
