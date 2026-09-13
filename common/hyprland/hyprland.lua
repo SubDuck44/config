@@ -367,6 +367,13 @@ hl.window_rule({
 	animation = "slide top",
 })
 
+hl.window_rule({
+	name = "fix-flameshot",
+	match = { title = "flameshot" },
+
+	float = true,
+})
+
 function is_plugin_loaded(name)
 	for _, v in pairs(hl.get_loaded_plugins()) do
 		if v.name == name then
