@@ -266,6 +266,17 @@
 
             extraPackages = with pkgs; [
               prettier
+              vscode-css-languageserver
+              vscode-html-languageserver
+            ];
+          };
+
+          typescript-mode = {
+            defer = true;
+
+            extraPackages = with pkgs; [
+              typescript_5
+              typescript-language-server
             ];
           };
 
@@ -415,12 +426,12 @@
             '';
 
             hook = ''
-              (c-mode        . lsp-deferred)
-              (go-mode       . lsp-deferred)
-              (lua-mode      . lsp-deferred)
-              (sh-mode       . lsp-deferred)
-              (typst-ts-mode . lsp-deferred)
-              (web-mode      . lsp-deferred)
+              (c-mode          . lsp-deferred)
+              (go-mode         . lsp-deferred)
+              (lua-mode        . lsp-deferred)
+              (sh-mode         . lsp-deferred)
+              (typescript-mode . lsp-deferred)
+              (typst-ts-mode   . lsp-deferred)
 
               (lsp-managed-mode . (lambda ()
                 (add-hook 'eldoc-documentation-functions #'my/flycheck-eldoc 90 t)))
