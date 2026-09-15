@@ -177,6 +177,7 @@ hl.device({
 hl.bind("SUPER + SHIFT + M", function()
 	mouse_active = not mouse_active
 	hl.device({ name = "razer-razer-basilisk-v3", enabled = mouse_active })
+	hl.device({ name = "elan0307:00-04f3:3282-touchpad", enabled = mouse_active })
 end)
 
 hl.bind("SUPER + SHIFT + S", function()
