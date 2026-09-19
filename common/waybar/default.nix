@@ -67,7 +67,7 @@
         clock = {
           timezone = "Germany/Berlin";
           interval = 1;
-          format = "{:%T +++ %F}";
+          format = "{:%T +++ %F %a}";
         };
 
         cpu = {
