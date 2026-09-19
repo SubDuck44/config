@@ -1,6 +1,8 @@
-{ self, lib, ... }: let
+{ self, lib, ... }:
+let
   inherit (lib) any cmakeFeature filter flip hasInfix;
-in {
+in
+{
   nixpkgs.overlays = lib.singleton (next: prev:
     let obscura = self.inputs.obscura.packages.${prev.stdenv.system}; in
     self.inputs.obscura.lib.infuse prev ({
@@ -37,26 +39,35 @@ in {
         ];
       };
 
-      hyprlandPlugins.imgborders.__output = {
-        version.__assign = "2.0.0-unstable-2026-08-16";
+      hyprlandPlugins = {
+        imgborders.__output = {
+          version.__assign = "2.0.0-unstable-2026-08-16";
 
-        src.__output = {
-          rev.__assign = "08be22236144d3c91607bcfa955ed0d457f4f50b";
-          hash.__assign = "sha256-O+896T2qrisxiWTotB5HlzKw8XEJqPDTgSUHAAVUD18=";
+          src.__output = {
+            rev.__assign = "08be22236144d3c91607bcfa955ed0d457f4f50b";
+            hash.__assign = "sha256-O+896T2qrisxiWTotB5HlzKw8XEJqPDTgSUHAAVUD18=";
+          };
+
+          strictDeps.__assign = true;
+
+          prePatch.__append = ''
+            sed -i \
+              -e '/VERSION_RAW/d' \
+              -e '6aset(VERSION 2.0.0)' \
+              CMakeLists.txt
+          '';
         };
 
-        strictDeps.__assign = true;
+        hypr-dynamic-cursors.__output = {
+          version.__assign = "0-unstable-2026-08-06";
 
-        prePatch.__append = ''
-          sed -i \
-            -e '/VERSION_RAW/d' \
-            -e '6aset(VERSION 2.0.0)' \
-            CMakeLists.txt
-        '';
+          src.__output = {
+            rev.__assign = "5a224284872208b5324759d535d65061043725de";
+            hash.__assign = "sha256-BQjuQplkQFA30/7evDxmEAvr2ArIG09JffEBQhuzo80=";
+          };
 
-        nativeBuildInputs.__append = with prev; [
-          breakpointHook
-        ];
+          enableParallelBuilding.__assign = true;
+        };
       };
 
       #################### PERMANENT ####################
