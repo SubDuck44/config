@@ -63,6 +63,9 @@
     };
 
     udev.extraRules = ''
+      ACTION=="add", SUBSYSTEM=="hwmon", DRIVERS=="k10temp", \
+      RUN+="${pkgs.coreutils}/bin/ln -sf /sys$devpath/temp1_input /dev/cpu_temp"
+
       ATTRS{idVendor}=="10f5", MODE="0660", GROUP="users", TAG+="uaccess"
     '';
   };
