@@ -31,9 +31,9 @@
         enable = true;
         gtk.enable = true;
 
-        name = "catppuccin-macchiato-dark-cursors";
+        name = "Vanilla-DMZ-AA";
         size = 24;
-        package = pkgs.catppuccin-cursors.macchiatoLight;
+        package = pkgs.vanilla-dmz;
       };
 
       packages = with pkgs; [
