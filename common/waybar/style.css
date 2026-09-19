@@ -160,6 +160,9 @@ label:focus {
 }
 
 #mpd {
+	background-color: #665c54;
+	border-width: 0px;
+	border-radius: 7px;
 }
 
 #mpd.disconnected {

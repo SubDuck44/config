@@ -52,8 +52,8 @@
             on = "「y」";
           };
           state-icons = {
-            paused = "Now playing: ";
-            playing = "Ready: ";
+            playing = "Now playing:";
+            paused = "Ready:";
           };
           tooltip-format = "";
           tooltip-format-disconnected = "";
@@ -67,7 +67,7 @@
         clock = {
           timezone = "Germany/Berlin";
           interval = 1;
-          format = "{:%T %F}";
+          format = "{:%T +++ %F}";
         };
 
         cpu = {
