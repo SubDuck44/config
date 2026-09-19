@@ -415,6 +415,10 @@
             extraPackages = with pkgs; [ lua-language-server stylua ];
           };
 
+          json-mode = {
+            defer = true;
+          };
+
           meson-mode = {
             defer = true;
           };
