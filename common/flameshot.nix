@@ -1,4 +1,4 @@
-{ config, lib, pkgs, ... }: {
+{ pkgs, ... }: {
   home-manager.sharedModules = [{
     home.packages = with pkgs; [
       flameshot
