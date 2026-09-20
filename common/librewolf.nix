@@ -12,7 +12,7 @@
 
         # can't connect to livekit calls when DTLS v1.3 (772) is enabled
         # https://bugzilla.mozilla.org/show_bug.cgi?id=2033783
-        "media.peerconnection.dtls.version.max" = 771;
+        # "media.peerconnection.dtls.version.max" = 771;
 
         "identity.fxaccounts.enabled" = true;
         "identity.sync.tokenserver.uri" = "https://firefox-sync.bunny/1.0/sync/1.5";
