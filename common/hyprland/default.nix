@@ -258,6 +258,13 @@
           match.title = "flameshot";
           float = true;
         }
+        {
+          name = "smart-gaps";
+          match = { float = false; workspace = "w[tv1]"; };
+
+          border_size = 0;
+          rounding = 0;
+        }
       ];
 
       workspaceRules = [
@@ -270,6 +277,11 @@
           workspace = "101";
           monitor = "DP-5";
           default = true;
+        }
+        {
+          workspace = "w[tv1]";
+          gaps_out = 0;
+          gaps_in = 0;
         }
       ];
 
