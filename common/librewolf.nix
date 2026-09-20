@@ -33,11 +33,11 @@
         DisableFirefoxAccounts = lib.mkForce false;
       };
 
-      extensions = {
-        "deadname-remover@willhaycode.com" = {
-          url = "file://${pkgs.deadname-remover}";
-        };
-      };
+      # extensions = {
+      #   "deadname-remover@willhaycode.com" = {
+      #     url = "file://${pkgs.deadname-remover}";
+      #   };
+      # };
     };
   }];
 }

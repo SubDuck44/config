@@ -88,33 +88,34 @@ in
         '';
       };
 
-      deadname-remover.__assign = next.bun2nix.mkDerivation (drv: {
-        pname = "deadname-remover";
-        version = "2.3.1";
+      # deadname-remover.__assign = next.bun2nix.mkDerivation (drv: {
+      #   pname = "deadname-remover";
+      #   version = "2.3.1";
 
-        src = prev.fetchFromGitHub {
-          owner = "arimgibson";
-          repo = drv.pname;
-          rev = "4a791d744e4efeffdfdf55cc8faacd5648d5ba59";
-          hash = "sha256-o5TNmm6gV12xYCtscVaCYMGkU+dWlJ3zce5/RjDcbAQ=";
-        };
+      #   src = prev.fetchFromGitHub {
+      #     owner = "arimgibson";
+      #     repo = drv.pname;
+      #     rev = "4a791d744e4efeffdfdf55cc8faacd5648d5ba59";
+      #     hash = "sha256-o5TNmm6gV12xYCtscVaCYMGkU+dWlJ3zce5/RjDcbAQ=";
+      #   };
 
-        patches = [
-          ./deadname-remover/disable-url-validation.patch
-        ];
+      #   patches = [
+      #     ./deadname-remover/disable-url-validation.patch
+      #   ];
 
-        bunDeps = next.bun2nix.fetchBunDeps {
-          bunNix = ./deadname-remover/bun.nix;
-        };
+      #   bunDeps = next.bun2nix.fetchBunDeps {
+      #     bunNix = ./deadname-remover/bun.nix;
+      #   };
 
-        buildPhase = ''
-          bun run zip:firefox
-        '';
+      #   buildPhase = ''
+      #     bun run zip:firefox
+      #   '';
 
-        installPhase = ''
-          install -Dm644 .output/${drv.pname}-${drv.version}-firefox.zip $out
-        '';
-      });
+      #   installPhase = ''
+      #     install -Dm644 .output/${drv.pname}-${drv.version}-firefox.zip $out
+      #   '';
+      # });
+
     } // builtins.mapAttrs (_: x: { __assign = x; }) {
       inherit (obscura)
         avahi-proxy
