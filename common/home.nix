@@ -176,6 +176,7 @@
       ".local/share/typst/packages/local" = { };
       ".local/share/umu" = { };
       ".local/share/openttd" = { };
+      ".local/share/typst/packages/local" = { };
 
       ".local/state/syncthing" = { };
     };
