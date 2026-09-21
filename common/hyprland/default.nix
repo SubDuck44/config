@@ -287,7 +287,7 @@
 
       binds = f: with f; {
         ##### programs #####
-        Return = exec "foot";
+        Return = function "terminal()";
         S-Return = execR "foot" { floating = true; };
 
         e = exec "emacsclient -nc";
