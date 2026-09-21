@@ -293,8 +293,8 @@
         e = exec "emacsclient -nc";
         x = exec "fuzzel";
         i = exec "foot htop";
-        m = exec "foot ncmpcpp";
-        p = exec "foot pulsemixer";
+        m = execR "foot ncmpcpp" { floating = true; };
+        p = execR "foot pulsemixer" { floating = true; };
         w = exec "librewolf";
 
         ##### kill things #####
