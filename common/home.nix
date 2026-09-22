@@ -54,6 +54,7 @@
         pulsemixer
         pwgen
         qbittorrent
+        sl
         steamguard-cli
         swaybg
         thunderbird
