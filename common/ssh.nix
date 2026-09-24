@@ -16,7 +16,7 @@
     {
       mounts = [{
         name = "${pfx}.mount";
-        what = "mel@exit.bunny.vpn:";
+        what = "mel@exit.bunny.vpn:/persist/home/mel";
         where = dst;
         type = "fuse.sshfs";
         options = lib.join "," [
