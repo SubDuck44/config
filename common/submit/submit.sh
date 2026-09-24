@@ -32,8 +32,7 @@ fi
 cd "$HOME/org/school"
 
 prefix="$1"
-firs="$2"
-last="${3-$2}"
+file="$2"
 date="$(date --iso-8601)"
 
 name="$(yank "name")"
@@ -48,17 +47,7 @@ else
 	anrede="Sehr geehrte"
 fi
 
-x rm -fv work-*.pdf
-
-typst compile tasks.typ
-
-x pdfseparate tasks.pdf work-%d.pdf -f "$firs" -l "$last"
-if ((firs != last)); then
-	mapfile -t files < <(printf 'work-%s.pdf\n' $(seq "$firs" "$last"))
-	x pdfunite "${files[@]}" work-res.pdf
-else
-	mv "work-$firs.pdf" "work-res.pdf"
-fi
+typst compile "$file" "work-res.pdf"
 
 x swaks \
 	--to "$(yank "email")" \
@@ -88,4 +77,4 @@ x swaks \
 
 notify-send --app-name="submit.sh" "Finished sending to $name."
 
-x rm -v work-*.pdf
+x rm -v work-res.pdf
