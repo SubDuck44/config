@@ -91,6 +91,7 @@ in
       inherit (obscura)
         bun2nix
         keysmash
+        molecule
         yellowcake
         ;
 

@@ -84,30 +84,43 @@
       hyprsunset.enable = true;
     };
 
-    systemd.user.services.wlsunset = {
-      Install.WantedBy = [ "graphical-session.target" ];
+    systemd.user.services = {
+      molecule = {
+        Install.WantedBy = [ "default.target" ];
 
-      Unit = {
-        After = [ "graphical-session.target" ];
-        PartOf = [ "graphical-session.target" ];
+        Unit = {
+          After = [ "pipewire.service" ];
+          BindsTo = [ "pipewire.service" ];
+        };
+
+        Service.ExecStart = lib.getExe pkgs.molecule;
       };
 
-      Service.ExecStart = lib.mkForce [
-        (lib.getExe (pkgs.writeShellApplication {
-          name = "wlsunset-via-hyprsunset";
+      wlsunset = {
+        Install.WantedBy = [ "graphical-session.target" ];
 
-          runtimeInputs = with pkgs; [
-            hyprland
-            wlsunset
-          ];
+        Unit = {
+          After = [ "graphical-session.target" ];
+          PartOf = [ "graphical-session.target" ];
+        };
 
-          text = ''
-            wlsunset -l 54 -L 10 |& sed -Enu        \
-              's|.* ([0-9]+) K|hyprctl hyprsunset temperature \1|p' \
-            | bash -x
-          '';
-        }))
-      ];
+        Service.ExecStart = lib.mkForce [
+          (lib.getExe (pkgs.writeShellApplication {
+            name = "wlsunset-via-hyprsunset";
+
+            runtimeInputs = with pkgs; [
+              hyprland
+              wlsunset
+            ];
+
+            text = ''
+              wlsunset -l 54 -L 10 |& sed -Enu        \
+                's|.* ([0-9]+) K|hyprctl hyprsunset temperature \1|p' \
+              | bash -x
+            '';
+          }))
+        ];
+      };
     };
 
     programs = {
