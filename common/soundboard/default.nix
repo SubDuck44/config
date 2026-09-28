@@ -6,7 +6,7 @@
           if pgrep -f 'mpv.*ORDER'; then
             pkill -f 'mpv.*ORDER'
           else
-            mpv ${./ORDER.opus}
+            mpv ${./ORDER.opus} --volume=70
           fi
         '';
 
@@ -14,7 +14,7 @@
           if pgrep -f 'mpv.*deathofgodswill'; then
             pkill -f 'mpv.*deathofgodswill'
           else
-            mpv ${./deathofgodswill.opus}
+            mpv ${./deathofgodswill.opus} --volume=70
           fi
         '';
       in
