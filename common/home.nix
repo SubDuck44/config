@@ -5,6 +5,13 @@
     ];
   };
 
+  # DF doesn't like persist T_T
+  fileSystems."/home/melinda/.local/share/Bay 12 Games" = {
+    device = "/persist/home/melinda/.local/share/Bay 12 Games";
+    fsType = "none";
+    options = [ "bind" ];
+  };
+
   home-manager.sharedModules = lib.singleton (hm: {
     home = {
       stateVersion = "25.11";
@@ -186,11 +193,11 @@
       ".local/share/Mindustry" = { };
       ".local/share/applications" = { };
       ".local/share/chatterino" = { };
+      ".local/share/openttd" = { };
       ".local/share/qBittorrent" = { };
       ".local/share/typst/packages/local" = { };
-      ".local/share/umu" = { };
-      ".local/share/openttd" = { };
       ".local/share/typst/packages/local" = { };
+      ".local/share/umu" = { };
 
       ".local/state/syncthing" = { };
     };
