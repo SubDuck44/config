@@ -113,20 +113,26 @@
               ("C-t C-i" . timeclock-in)
               ("C-t C-o" . timeclock-out)
               ("C-t C-p" . timeclock-change)
-              ("C-t C-t" . (lamda () (interactive)
+              ("C-t C-t" . (lambda () (interactive)
                 (message (timeclock-status-string))))
             '';
 
             custom = ''
               (recenter-positions '(middle top))
-              (whitespace-style '(face trailing))
+
+              (whitespace-style '(face trailing indentation tab-mark
+                                  missing-newline-at-eof))
+
               (org-startup-indented t)
               (org-agenda-files "/home/melinda/org/toplevel.txt")
+
               (c-basic-offset 4)
               (tab-width 4)
+
               (auto-save-file-name-transforms `((".*" ,my/temp-dir t)))
               (backup-directory-alist         `((".". ,my/temp-dir  )))
               (lock-file-name-transforms      `((".*" ,my/temp-dir t)))
+
               (appt-message-warning-time 20)
               (appt-display-interval 5)
               (appt-disp-window-function
@@ -135,7 +141,9 @@
                    :title (format "In %s minutes" remaining)
                    :body (substring-no-properties msg)
                    :urgency 'critical)))
+
               (org-agenda-prefer-last-repeat t)
+
               (fill-column 80)
 
               (timeclock-workday 3600)
