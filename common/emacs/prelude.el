@@ -93,19 +93,6 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun my/keyboard-config ()
-  (when (display-graphic-p)
-    (keyboard-translate ?\C-i ?\H-i)))
-
-(add-hook 'after-make-frame-functions
-		  (lambda (frame)
-			(with-selected-frame frame
-			  (my/keyboard-config))))
-
-(my/keyboard-config)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 (defvar-local nori/typst-pin nil "Should this file be pinned automatically?")
 (put 'nori/typst-pin 'safe-local-variable #'booleanp)
 

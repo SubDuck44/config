@@ -79,6 +79,10 @@
               (add-to-list 'default-frame-alist '(alpha-background . 50))
               (add-to-list 'default-frame-alist '(font . "monospace:size=14"))
               (put 'list-timers 'disable nil)
+
+              (timeclock-reread-log)
+              (timeclock-mode-line-display 1)
+              (display-time-mode 1)
             '';
 
             bind' = ''
@@ -105,6 +109,12 @@
               ("M-="     . count-words)
 
               ("C-M-<backspace>" . nori/join-line)
+
+              ("C-t C-i" . timeclock-in)
+              ("C-t C-o" . timeclock-out)
+              ("C-t C-p" . timeclock-change)
+              ("C-t C-t" . (lamda () (interactive)
+                (message (timeclock-status-string))))
             '';
 
             custom = ''
@@ -127,6 +137,9 @@
                    :urgency 'critical)))
               (org-agenda-prefer-last-repeat t)
               (fill-column 80)
+
+              (timeclock-workday 3600)
+              (timeclock-file "~/org/emacs-timelog")
 
               (mode-line-format
                '("%e" mode-line-front-space mode-line-mule-info mode-line-client
