@@ -30,7 +30,7 @@
         mpd = {
           format = ''
             {stateIcon}{consumeIcon}{randomIcon}{repeatIcon}{singleIcon}
-            {artist} - {title} ({elapsedTime:%M:%S}/{totalTime:%M:%S})
+            {title} - {artist} ({elapsedTime:%M:%S}/{totalTime:%M:%S})
             ⸨{songPosition}|{queueLength}⸩
           '';
           format-disconnected = "disconnected from mpd";
