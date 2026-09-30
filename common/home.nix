@@ -5,13 +5,6 @@
     ];
   };
 
-  # DF doesn't like persist T_T
-  fileSystems."/home/melinda/.local/share/Bay 12 Games" = {
-    device = "/persist/home/melinda/.local/share/Bay 12 Games";
-    fsType = "none";
-    options = [ "bind" ];
-  };
-
   home-manager.sharedModules = lib.singleton (hm: {
     home = {
       stateVersion = "25.11";
