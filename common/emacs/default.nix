@@ -60,6 +60,10 @@
               ; delete trailing whitespace on save
               (before-save . delete-trailing-whitespace)
 
+              ; highlight space indents
+              (font-lock-mode . nori/highlight-indent)
+
+              ; highlight region, indent and trailing spaces
               (server-after-make-frame . (lambda ()
                 (custom-set-faces
                   '(region                 ((t (:background "#712246"))))
@@ -354,6 +358,10 @@
               tinymist
               typst
             ];
+
+            hook = ''
+              (typst-ts-mode . (lambda () (setq-local tab-width 2)))
+            '';
 
             bind' = ''
               :map typst-ts-mode-map

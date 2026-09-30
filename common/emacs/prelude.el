@@ -124,3 +124,20 @@
           ,(propertize "󰐃" 'face '(bold :foreground "light blue"))))))
 
 (put 'nori/modeline-typst-pin-segment 'risky-local-variable t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun nori/highlight-indent ()
+  (font-lock-add-keywords
+   nil
+   '(("^[ ]+"
+      (0 (prog1 whitespace-tab
+           (let* ((beg (match-beginning 0))
+                  (end (match-end 0))
+                  (tab (floor (- end beg) tab-width))
+                  (off (+ beg (* tab tab-width))))
+             (cl-loop for i from beg below off
+                      for c = (if (= 0 (mod (- i beg) tab-width)) ?› 32)
+                      do (put-text-property i (1+ i) 'display (string c)))
+             (cl-loop for i from off below end do
+                      (put-text-property i (1+ i) 'display (string ?·))))))))))
