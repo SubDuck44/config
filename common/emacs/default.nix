@@ -59,6 +59,13 @@
             hook = ''
               ; delete trailing whitespace on save
               (before-save . delete-trailing-whitespace)
+
+              (server-after-make-frame . (lambda ()
+                (custom-set-faces
+                  '(region                 ((t (:background "#712246"))))
+                  '(whitespace-indentation ((t (:background "red"    ))))
+                  '(whitespace-trailing    ((t (:background "red"    ))))
+                  )))
             '';
 
             config = ''
@@ -597,7 +604,7 @@
                 indent-bars-mode
                 (lambda () (indent-bars-mode 1)))
 
-              (my/global-indent-bars-mode 1)
+              (my/global-indent-bars-mode 0)
             '';
           };
 
