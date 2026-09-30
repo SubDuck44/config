@@ -47,7 +47,7 @@ else
 	anrede="Sehr geehrte"
 fi
 
-typst compile "$file" "work-res.pdf"
+typst compile "$file" "work-res.pdf" --root /persist/home/melinda/org/school
 
 x swaks \
 	--to "$(yank "email")" \
