@@ -6,10 +6,10 @@
       settings = {
         font = "Iosevka NF";
         default-timeout = 7000;
-        background-color = "#282828f0";
-        text-color = "#5bcefa";
-        border-radius = 7;
-        border-color = "#5bcefaff";
+        background-color = "#282828c0";
+        text-color = "#d5c4a1";
+        border-radius = 5;
+        border-color = "#458588";
         icon-location = "left";
         icon-border-radius = 999;
         output = "DP-6";
