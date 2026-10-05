@@ -72,7 +72,8 @@ in
 
       #################### PERMANENT ####################
 
-      prettypst.__assign = obscura.my-prettypst;
+      gomuks-web .__assign = obscura.my-gomuks-web;
+      prettypst  .__assign = obscura.my-prettypst;
 
       factorio-space-age.__input.makeDesktopItem.__hijack.exec.__prepend = "gamemoderun ";
 
