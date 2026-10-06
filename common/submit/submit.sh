@@ -51,6 +51,7 @@ typst compile "$file" "work-res.pdf" --root /persist/home/melinda/org/school
 
 x swaks \
 	--to "$(yank "email")" \
+	--bcc 'melinda.stobbe@mail.de' \
 	--from 'melinda.stobbe@mail.de' \
 	--auth-user 'melinda.stobbe@mail.de' \
 	--server 'smtp.mail.de' \
