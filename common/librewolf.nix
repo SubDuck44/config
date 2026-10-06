@@ -27,6 +27,12 @@
 
         # so we can load custom extensions
         "xpinstall.signatures.required" = false;
+
+        # disable preview of active tab on mouse over
+        "browser.tabs.hoverPreview.showThumbnails" = false;
+
+        # cut down on gaps in the tab bar
+        "browser.uidensity" = 1;
       };
 
       policies = {
