@@ -333,6 +333,7 @@
 
         ##### misc ######
         Print = raw (exec "flameshot gui -r | wl-copy");
+        l = function ''switchMood()'';
 
         "code:47" = dsp ''
           send_shortcut({mods = " ctrl ", key = " code:47 ", window = " class: ^(com\\.obsproject\\.Studio)$"})
@@ -387,5 +388,9 @@
       hyprfocus
       hypr-dynamic-cursors
     ];
+
+    services.hyprpaper = {
+      enable = true;
+    };
   }];
 }

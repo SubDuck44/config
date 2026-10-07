@@ -1,0 +1,4 @@
+*.png
+*.jpg
+!gruvbox_room.png
+!wallpaper.png
