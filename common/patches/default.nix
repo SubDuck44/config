@@ -1,42 +1,13 @@
-{ self, lib, ... }:
-let
-  inherit (lib) any cmakeFeature filter flip hasInfix;
-in
-{
+{ self, lib, ... }: {
   nixpkgs.overlays = lib.singleton (_: prev:
     let obscura = self.inputs.obscura.packages.${prev.stdenv.system}; in
     self.inputs.obscura.lib.infuse prev ({
-
-      # TODO https://github.com/NixOS/nixpkgs/pull/564140
-      tree-sitter-grammars.__scope.tree-sitter-cuda.__output = {
-        src.__output = {
-          hash.__assign = "sha256-s2qrZx5fEu/I6xE2paX/Nlmgvo6T27qqvy1cI8iznAA=";
-        };
-      };
-
-      # TODO https://github.com/NixOS/nixpkgs/pull/562838
-      wivrn.__output = let version = "26.9"; in {
-        version.__assign = version;
-        src.__output.hash.__assign = "sha256-/kXgbku/4EeYY5YTwtY71csgxOP8bRACLqOvKXolg5g=";
-
-        monado.__output.src.__assign = prev.fetchFromGitLab {
-          domain = "gitlab.freedesktop.org";
-          owner = "monado";
-          repo = "monado";
-          rev = "f037264d23e2472a444a157370647fcd601ed81b";
-          hash = "sha256-exHbecudAy57szL7kut7/fBYCoekEs3riZzhMtFWS/c=";
-        };
-
-        cmakeFlags.__pipe = [
-          (filter (x: !(any (flip hasInfix x) [
-            "GIT_DESC"
-            "GIT_COMMIT"
-            "USE_PULSEAUDIO"
-          ])))
-          (x: x ++ [
-            (cmakeFeature "GIT_TAG" "v${version}")
-          ])
-        ];
+      wivrn.__output = {
+        buildInputs.__append = with prev; [ sdl2-compat ];
+        cmakeFlags.__append = [ "-DWIVRN_FEATURE_DEBUG_GUI=ON" ];
+        postPatch.__append = ''
+          sed -i '/XRT_FEATURE_WINDOW_PEEK/s|OFF|ON|p' server/CMakeLists.txt
+        '';
       };
 
       hyprlandPlugins = {
