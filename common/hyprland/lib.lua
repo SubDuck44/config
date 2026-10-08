@@ -11,7 +11,7 @@ function switchMood()
 		hl.config({ general = { col = { active_border = { angle = 45, colors = { "rgb(bdae93)", "rgb(a89984)" } } } } })
 	else
 		hl.exec_cmd("systemctl --user restart waybar.service")
-		hl.exec_cmd("hyprctl hyprpaper wallpaper ', /persist/home/melinda/cfg/common/wallpaper/gruvbox_room.png'")
+		hl.exec_cmd("hyprctl hyprpaper wallpaper ', /persist/home/melinda/cfg/common/wallpaper/train.jpg'")
 		hl.config({ general = { col = { active_border = { angle = 45, colors = { "rgb(5bcefa)", "rgb(f5a9b8)" } } } } })
 	end
 end
