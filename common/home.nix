@@ -37,12 +37,14 @@
         espeak
         feh
         ffmpeg
+        gamescope
         godot
         gucharmap
         keysmash
         libnotify
         libqalculate
         mpv
+        neo
         nvtop
         openttd
         p7zip-rar
@@ -60,6 +62,7 @@
         thunderbird
         timer
         umu-launcher
+        wayvr
         wl-clipboard
       ];
 
@@ -171,6 +174,7 @@
       ".thunderbird" = { };
 
       ".cache/thunderbird" = { };
+      ".cache/wayvr" = { };
 
       ".config/PCSX2" = { };
       ".config/aseprite" = { };
