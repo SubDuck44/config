@@ -71,7 +71,12 @@
   };
 
   programs = {
-    steam.enable = true;
+    steam = {
+      enable = true;
+      package = pkgs.steam.override {
+        privateTmp = false; # xplane xpconnect shared memory
+      };
+    };
   };
 
   home-manager.sharedModules = [{
