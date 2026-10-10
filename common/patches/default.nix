@@ -45,6 +45,7 @@
 
       gomuks-web .__assign = obscura.my-gomuks-web;
       prettypst  .__assign = obscura.my-prettypst;
+      tuigreet   .__assign = obscura.my-tuigreet;
 
       factorio-space-age.__input.makeDesktopItem.__hijack.exec.__prepend = "gamemoderun ";
 
