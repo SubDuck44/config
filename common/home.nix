@@ -67,6 +67,7 @@
       ];
 
       shellAliases = {
+        nya = "neo --defaultbg";
         shutdown = "hrtrack; sudo poweroff";
         auto = "espeak -p 0 -P 0";
         sneeptime = "systemctl suspend";
