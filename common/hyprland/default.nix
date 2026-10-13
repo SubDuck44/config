@@ -316,9 +316,9 @@
         '';
 
         ##### fullscreen #####
-        f = fullscreen 1 0;
-        C-f = fullscreen 2 2;
-        A-f = fullscreen 0 2;
+        f = fullscreen { internal = 1; };
+        C-f = fullscreen { internal = 2; };
+        A-f = fullscreen { client = 2; };
 
         ##### media keys #####
         XF86AudioLowerVolume = raw (exec "wpctl set-volume @DEFAULT_AUDIO_SINK@ 10%-");
@@ -336,7 +336,11 @@
         l = function ''switchMood()'';
 
         "code:47" = dsp ''
-          send_shortcut({mods = " ctrl ", key = " code:47 ", window = " class: ^(com\\.obsproject\\.Studio)$"})
+          send_shortcut({
+            mods = "ctrl",
+            key = "code:47",
+            window = "class: ^(com\\.obsproject\\.Studio)$",
+          })
         '';
 
         v = dsp ''window.float({ "toggle" })'';
