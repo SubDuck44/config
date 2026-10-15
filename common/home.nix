@@ -145,6 +145,10 @@
         enable = true;
 
         settings = {
+          main = {
+            enable-mouse = false;
+          };
+
           colors = {
             background = "282828A0";
             text = "ebdbb2ff";
