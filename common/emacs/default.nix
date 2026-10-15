@@ -103,6 +103,7 @@
               ("C-x C-f" . find-file)
               ("C-x C-l" . scratch-buffer)
               ("C-x C-a" . mark-whole-buffer)
+              ("C-x C-k" . kill-buffer)
               ("C-c C-s" . sort-lines)
 
               ("C-x C-1" . delete-window)
@@ -159,6 +160,7 @@
 
               (appt-message-warning-time 20)
               (appt-display-interval 5)
+              (appt-display-mode-line nil)
               (appt-disp-window-function
                 (lambda (remaining new-time msg)
                   (notifications-notify
