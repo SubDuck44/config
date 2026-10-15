@@ -30,6 +30,7 @@
           	--hide-prompt --minimal-lines
         '')
         # mindustry-wayland
+        audacity
         chatterino7
         ckan
         cmatrix
@@ -181,6 +182,8 @@
       ".cache/thunderbird" = { };
       ".cache/wayvr" = { };
 
+      ".config/Audacity" = { };
+      ".config/audacity4" = { };
       ".config/PCSX2" = { };
       ".config/aseprite" = { };
       ".config/dconf" = { };
