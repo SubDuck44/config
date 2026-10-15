@@ -161,7 +161,7 @@
     aquaris.git.sshKeyFile = _: config.aquaris.secret "user/${hm.config.home.username}/ssh/main";
     aquaris.persist = {
       "cfg" = { };
-      "cod" = { };
+      "dev" = { };
       "doc" = { };
       "gay" = { };
       "gps" = { };
