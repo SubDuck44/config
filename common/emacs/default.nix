@@ -302,6 +302,20 @@
             defer = true;
           };
 
+          visual-regexp-steroids = {
+            custom = ''
+              (vr/engine 'python)
+            '';
+
+            bind' = ''
+              ("C-r C-r" . vr/query-replace)
+            '';
+
+            extraPackages = with pkgs; [
+              python3
+            ];
+          };
+
           apheleia = {
             hook = "prog-mode typst-ts-mode";
 
