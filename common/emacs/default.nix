@@ -590,8 +590,8 @@
           centaur-tabs = {
             demand = true;
             bind' = ''
-              ("C-<prior>" . centaur-tabs-forward)
-              ("C-<next>" . centaur-tabs-backward)
+              ("C-<next>" . centaur-tabs-forward)
+              ("C-<prior>" . centaur-tabs-backward)
             '';
             config = ''
               (centaur-tabs-mode 1)
