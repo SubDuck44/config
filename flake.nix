@@ -1,15 +1,20 @@
 {
   inputs = {
-    aagl = {
-      url = "github:ezKEa/aagl-gtk-on-nix";
-    };
-
     aquaris = {
       url = "github:42loco42/aquaris";
       inputs = {
         home-manager.follows = "home-manager";
         nixpkgs.follows = "nixpkgs";
         obscura.follows = "obscura";
+      };
+    };
+
+    blender-cuda = {
+      url = "github:adithyagenie/blender-cuda-nixos";
+      inputs = {
+        flake-parts.inputs.nixpkgs-lib.follows = "nixpkgs";
+        nixpkgs.follows = "nixpkgs";
+        systems.follows = "aquaris/flake-utils/systems";
       };
     };
 

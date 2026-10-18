@@ -10,6 +10,11 @@
       { melinda.admin = true; }
     ];
 
+    caches = [{
+      url = "https://adithyagenie.cachix.org";
+      key = "adithyagenie.cachix.org-1:h6BSMboeVfxyrULWuRQqAyweo4AJRATekb88xotfQwc=";
+    }];
+
     unfreeNames = [
       "nvidia-kernel-modules"
       "nvidia-x11"
@@ -18,16 +23,6 @@
       "steam-unwrapped"
 
       "factorio-space-age"
-
-      "blender"
-      "cuda_cccl"
-      "cuda_cudart"
-      "cuda_nvcc"
-      "cuda_nvrtc"
-      "libcublas"
-      "libcusolver"
-      "libcusparse"
-      "libnvjitlink"
     ];
   };
 
@@ -97,11 +92,13 @@
         buildInputs = with pkgs; [ libusb1 ];
       }) ''
         mkdir -p $out/bin
-        cc $(pkg-config --cflags --libs libusb-1.0) ${./unfuck-yoke.c} -o $out/bin/unfuck-yoke
+        cc -Wall -Wextra \
+          $(pkg-config --cflags --libs libusb-1.0) \
+          ${./unfuck-yoke.c} -o $out/bin/unfuck-yoke
       '')
 
+      blender
       factorio-space-age
-      pkgsCuda.blender
 
       (prismlauncher.override {
         jdks = with pkgs.javaPackages.compiler.temurin-bin; [

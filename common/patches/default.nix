@@ -1,14 +1,13 @@
 { self, lib, ... }: {
   nixpkgs.overlays = lib.singleton (_: prev:
-    let obscura = self.inputs.obscura.packages.${prev.stdenv.system}; in
+    let
+      inherit (prev.stdenv) system;
+      obscura = self.inputs.obscura.packages.${system};
+      blender-cuda = self.inputs.blender-cuda.packages.${system};
+    in
     self.inputs.obscura.lib.infuse prev ({
-      wivrn.__output = {
-        buildInputs.__append = with prev; [ sdl2-compat ];
-        cmakeFlags.__append = [ "-DWIVRN_FEATURE_DEBUG_GUI=ON" ];
-        postPatch.__append = ''
-          sed -i '/XRT_FEATURE_WINDOW_PEEK/s|OFF|ON|p' server/CMakeLists.txt
-        '';
-      };
+      lixPackageSets.latest.__assign = prev.lixPackageSets.lix_2_96;
+      lix.__assign = prev.lixPackageSets.lix_2_96.lix;
 
       hyprlandPlugins = {
         imgborders.__output = {
@@ -43,7 +42,9 @@
 
       #################### PERMANENT ####################
 
-      gomuks-web .__assign = obscura.my-gomuks-web;
+      blender.__assign = blender-cuda.blender-with-cuda-unstable;
+
+      gomuks-web.__assign = obscura.my-gomuks-web;
       prettypst  .__assign = obscura.my-prettypst;
       tuigreet   .__assign = obscura.my-tuigreet;
 
