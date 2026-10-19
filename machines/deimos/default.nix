@@ -70,6 +70,7 @@
       enable = true;
       package = pkgs.steam.override {
         privateTmp = false; # xplane xpconnect shared memory
+        extraBwrapArgs = [ "--bind /persist /persist" ];
       };
     };
   };
