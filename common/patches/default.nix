@@ -1,4 +1,4 @@
-{ self, lib, ... }: {
+{ config, self, lib, ... }: {
   nixpkgs.overlays = lib.singleton (_: prev:
     let
       inherit (prev.stdenv) system;
@@ -10,24 +10,6 @@
       lix.__assign = prev.lixPackageSets.lix_2_96.lix;
 
       hyprlandPlugins = {
-        imgborders.__output = {
-          version.__assign = "2.0.0-unstable-2026-08-16";
-
-          src.__output = {
-            rev.__assign = "08be22236144d3c91607bcfa955ed0d457f4f50b";
-            hash.__assign = "sha256-O+896T2qrisxiWTotB5HlzKw8XEJqPDTgSUHAAVUD18=";
-          };
-
-          strictDeps.__assign = true;
-
-          prePatch.__append = ''
-            sed -i \
-              -e '/VERSION_RAW/d' \
-              -e '6aset(VERSION 2.0.0)' \
-              CMakeLists.txt
-          '';
-        };
-
         hypr-dynamic-cursors.__output = {
           version.__assign = "0-unstable-2026-08-06";
 
@@ -40,11 +22,23 @@
         };
       };
 
+      # TODO https://github.com/NixOS/nixpkgs/issues/576406
+      linuxPackages_zen.__extend.v4l2loopback.__assign =
+        prev.runCommand "v4l2loopback-fix" { } ''
+          subdir=lib/modules/${config.boot.kernelPackages.kernel.modDirVersion}
+          mkdir -p $out/$subdir
+          cd ${prev.linuxPackages_zen.v4l2loopback}/$subdir
+          for f in *; do
+            if [[ $f =~ ^modules ]]; then continue; fi
+            cp -r $f $out/$subdir/$f
+          done
+        '';
+
       #################### PERMANENT ####################
 
       blender.__assign = blender-cuda.blender-with-cuda-unstable;
 
-      gomuks-web.__assign = obscura.my-gomuks-web;
+      gomuks-web .__assign = obscura.my-gomuks-web;
       prettypst  .__assign = obscura.my-prettypst;
       tuigreet   .__assign = obscura.my-tuigreet;
 
@@ -57,8 +51,8 @@
 
         postFixup.__append = ''
           rm $out/share/applications/syncplay-server.desktop
-          sed -Ei 's|(Exec=syncplay .*)|\1 --no-store|' \
-            $out/share/applications/syncplay.desktop
+          sed -Ei 's|(Exec=syncplay.*)|\1 --no-store|' \
+          $out/share/applications/syncplay.desktop
         '';
       };
     } // builtins.mapAttrs (_: x: { __assign = x; }) {

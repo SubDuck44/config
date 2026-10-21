@@ -30,7 +30,7 @@
           	--hide-prompt --minimal-lines
         '')
         # mindustry-wayland
-        audacity
+        # audacity
         chatterino7
         ckan
         cmatrix
