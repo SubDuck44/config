@@ -5,8 +5,6 @@
 }
 
 window#waybar {
-	border-bottom: 3px solid rgba(100, 114, 125, 0.5);
-
 	transition-property: background-color;
 	transition-duration: 0.5s;
 
@@ -87,14 +85,12 @@ button:hover {
 	margin: 0 4px;
 }
 
-/* If workspaces is the leftmost module, omit left margin */
-.modules-left > widget:first-child > #workspaces {
-	margin-left: 0;
+.modules-left {
+	border: 3px solid #b8bb26;
 }
 
-/* If workspaces is the rightmost module, omit right margin */
-.modules-right > widget:last-child > #workspaces {
-	margin-right: 0;
+.modules-right {
+	border: 3px solid #b16286;
 }
 
 #clock {
@@ -160,9 +156,6 @@ label:focus {
 }
 
 #mpd {
-	background-color: #665c54;
-	border-width: 0px;
-	border-radius: 7px;
 }
 
 #mpd.disconnected {
