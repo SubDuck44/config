@@ -25,25 +25,22 @@
         "services.sync.scheduler.idleTime" = 10;
         "services.sync.scheduler.immediateInterval" = 10;
 
-        # so we can load custom extensions
-        "xpinstall.signatures.required" = false;
-
         # disable preview of active tab on mouse over
         "browser.tabs.hoverPreview.showThumbnails" = false;
 
         # cut down on gaps in the tab bar
         "browser.uidensity" = 1;
+
+        # vertical tabs
+        "sidebar.verticalTabs" = true;
+        "sidebar.verticalTabs.dragToPinPromo.dismissed" = true;
+        "sidebar.animation.expand-on-hover.delay-duration-ms" = 10;
+        "sidebar.animation.expand-on-hover.duration-ms" = 10;
       };
 
       policies = {
         DisableFirefoxAccounts = lib.mkForce false;
       };
-
-      # extensions = {
-      #   "deadname-remover@willhaycode.com" = {
-      #     url = "file://${pkgs.deadname-remover}";
-      #   };
-      # };
     };
   }];
 }
