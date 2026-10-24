@@ -143,10 +143,8 @@
             };
 
             hyprfocus = {
-              keyboard_focus_animation = "flash";
-              mouse_focus_animation = "flash";
-              fade_opacity = 0.9;
-              only_on_monitor_change = true;
+              keyboard_focus_animation = "slide";
+              mouse_focus_animation = "slide";
             };
           };
         };
