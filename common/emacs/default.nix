@@ -479,9 +479,7 @@
           };
 
           lua-mode = {
-            defer = true;
-
-            extraPackages = with pkgs; [ lua-language-server stylua ];
+            extraPackages = with pkgs; [ stylua ];
           };
 
           json-mode = {
@@ -513,7 +511,6 @@
             hook = ''
               (c-mode          . lsp-deferred)
               (go-mode         . lsp-deferred)
-              (lua-mode        . lsp-deferred)
               (sh-mode         . lsp-deferred)
               (typescript-mode . lsp-deferred)
               (typst-ts-mode   . lsp-deferred)
