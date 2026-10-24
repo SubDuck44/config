@@ -216,6 +216,13 @@
 
       windowRules = [
         {
+          name = "fix-sequencer";
+          match.class = "sequencer";
+
+          no_blur = true;
+          decorate = false;
+        }
+        {
           name = "fix-xwayland-drags";
           match = {
             class = "^$";
