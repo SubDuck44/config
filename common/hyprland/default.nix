@@ -53,20 +53,14 @@
             col = {
               active_border = {
                 colors = [
-                  "rgba(bdae93ff)"
-                  "rgba(a89984ff)"
+                  "rgba(ebdbb2ff)"
                 ];
-
-                angle = 45;
               };
 
               inactive_border = {
                 colors = [
-                  "rgba(282828ee)"
-                  "rgba(32302fee)"
+                  "rgba(ebdbb2a0)"
                 ];
-
-                angle = 45;
               };
             };
 

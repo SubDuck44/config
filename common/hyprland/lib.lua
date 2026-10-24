@@ -6,13 +6,9 @@ local workMood = false
 function switchMood()
 	workMood = not workMood
 	if workMood then
-		hl.exec_cmd("systemctl --user restart waybar-work.service")
 		hl.exec_cmd("hyprctl hyprpaper wallpaper ', /persist/home/melinda/cfg/common/wallpaper/wallpaper.png'")
-		hl.config({ general = { col = { active_border = { angle = 45, colors = { "rgb(bdae93)", "rgb(a89984)" } } } } })
 	else
-		hl.exec_cmd("systemctl --user restart waybar.service")
-		hl.exec_cmd("hyprctl hyprpaper wallpaper ', /persist/home/melinda/cfg/common/wallpaper/train.jpg'")
-		hl.config({ general = { col = { active_border = { angle = 45, colors = { "rgb(5bcefa)", "rgb(f5a9b8)" } } } } })
+		hl.exec_cmd("hyprctl hyprpaper wallpaper ', /persist/home/melinda/cfg/common/wallpaper/plain.png'")
 	end
 end
 
