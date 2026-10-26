@@ -78,7 +78,7 @@
               enabled = true;
               size = 4;
               passes = 1;
-              brightness = 0.7;
+              brightness = 1.0;
               vibrancy = 0.0;
 
               new_optimizations = true;
