@@ -110,6 +110,10 @@
           fallback = "nothing here...";
           tooltip-format = "init: {initialTitle}\nclass: {class}\ninit-class: {initialClass}";
           separate-outputs = false;
+          expand = false;
+          rewrite = {
+            ".*Discord.*" = ">_ MelOS Communications Terminal";
+          };
 
           icon = true;
           icon-size = 15;
