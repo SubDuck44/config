@@ -73,7 +73,6 @@
         auto = "espeak -p 0 -P 0";
         sneeptime = "systemctl suspend";
         crush = "nix store gc -v";
-        judgement = "systemctl --user restart emacs";
         thy-end-is-now = "sudo nix-env --delete-generations +3 --profile /nix/var/nix/profiles/system";
       };
 

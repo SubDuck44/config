@@ -290,6 +290,7 @@
         S-Return = execR "foot" { floating = true; };
 
         e = exec "emacsclient -nc";
+        S-e = exec "emacsclient -e '(save-buffers-kill-emacs)'";
         x = exec "fuzzel";
         i = exec "foot htop";
         m = execR "foot ncmpcpp" { floating = true; focus_on_activate = true; dim_around = true; };
