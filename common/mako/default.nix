@@ -15,10 +15,11 @@
         output = "DP-6";
         layer = "overlay";
         anchor = "top-right";
-        on-notify = "exec mpv ${./notif.opus}";
+        on-notify = "exec mpv ${./notif.opus} --volume=75";
 
         "app-name=Emacs" = {
-          on-notify = "exec mpv ${./error.opus}";
+          on-notify = "exec mpv ${./high-prio-notif.opus} --volume=75";
+          default-timeout = 0;
           text-color = "#dbc823";
           border-color = "#dbc823";
         };
