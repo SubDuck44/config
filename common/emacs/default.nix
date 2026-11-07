@@ -35,6 +35,7 @@
         ".config/emacs" = { };
       };
 
+      # emacs config
       emacs = {
         enable = true;
         package = pkgs.emacs-pgtk;
@@ -57,19 +58,45 @@
 
           emacs = {
             hook = ''
-              ; delete trailing whitespace on save
-              (before-save . delete-trailing-whitespace)
+                           ; delete trailing whitespace on save
+                           (before-save . delete-trailing-whitespace)
 
-              ; highlight space indents
-              (font-lock-mode . nori/highlight-indent)
+                           ; highlight space indents
+                           (font-lock-mode . nori/highlight-indent)
 
-              ; highlight region, indent and trailing spaces
-              (server-after-make-frame . (lambda ()
-                (custom-set-faces
-                  '(region                 ((t (:background "#712246"))))
-                  '(whitespace-indentation ((t (:background "red"    ))))
-                  '(whitespace-trailing    ((t (:background "red"    ))))
-                  )))
+                           ; highlight region, indent and trailing spaces
+                           (server-after-make-frame . (lambda ()
+                             (custom-set-faces
+                               '(region                 ((t (:background "#712246"))))
+                               '(whitespace-indentation ((t (:background "red"    ))))
+                               '(whitespace-trailing    ((t (:background "red"    ))))
+                               )))
+
+                           ;; un-german agenda view
+                           (server-after-make-frame . (lambda ()
+                             (custom-set-faces
+                               '(org-agenda-structure ((t
+                                 (:inherit    font-lock-comment-face
+                                  :foreground "#8ec07c"
+                                  :underline  t))))
+                               '(org-agenda-date-today ((t
+                                 (:foreground "#fdf4c1"
+                                  :slant      normal
+                                  :weight     bold))))
+                               '(org-scheduled-previously ((t
+                                 (:foreground "#edbdbb2"))))
+                               '(org-scheduled ((t
+                                 (:foreground "#d3869b"))))
+                               '(org-scheduled-today ((t
+                                 (:foreground "#d3869b"))))
+                               '(org-priority ((t
+                                 (:inherit font-lock-keyword-face
+                                  :foreground "#458588"))))
+                               '(org-imminent-deadline ((t
+              (:inherit   org-warning
+              :foreground "#fb4934"
+              :underline  t))))
+                               )))
             '';
 
             config = ''
@@ -91,9 +118,14 @@
               (add-to-list 'default-frame-alist '(font . "monospace:size=14"))
               (put 'list-timers 'disable nil)
 
+              ;; org-mode config config
               (timeclock-reread-log)
               (timeclock-mode-line-display 1)
               (display-time-mode 1)
+
+              (set-face-foreground 'org-agenda-structure "#8ec07c")
+              (set-face-underline 'org-agenda-structure "#8ec07c")
+              (set-face-foreground 'org-agenda-date-today "#b8bb26")
             '';
 
             bind' = ''
@@ -105,6 +137,7 @@
               ("C-x C-a" . mark-whole-buffer)
               ("C-x C-k" . kill-buffer)
               ("C-c C-s" . sort-lines)
+              ("C-c C-x" . nori/align-regexp)
 
               ("C-x C-1" . delete-window)
               ("C-x C-2" . (lambda ()
@@ -140,16 +173,85 @@
               ("C-t C-p" . timeclock-change)
               ("C-t C-t" . (lambda () (interactive)
                 (message (timeclock-status-string))))
+
+              ("C-t <up>"   . org-priority-up)
+              ("C-t <down>" . org-priority-down)
+              ("C-c C-a"    . org-agenda)
+              ("C-t C-c"    . org-capture)
+              ("C-t C-s"    . org-todo)
+
+              ("C-k" . consult-yank-from-kill-ring)
             '';
 
             custom = ''
+              ;; org-mode custom config
+
+              (org-startup-indented t)
+              (org-agenda-files "/home/melinda/org/toplevel.txt")
+              (org-agenda-prefer-last-repeat t)
+              (org-return-follows-link t)
+              (org-agenda-start-on-weekday nil)
+              (org-agenda-start-day "-3d")
+
+              (org-capture-templates
+                '(("t" "Todo" entry (file+headline "~/org/todo.org" "Tasks")
+                "* TODO [#B] %? :sterm:short:leisure:\n:Created: %T\n")
+                ("r" "Recorring Task" entry (file+headline "~/org/todo.org" "Recurring")
+                "* TODO [#B] %? :short:work:\n:Created: %T\n")
+                ))
+
+              (org-todo-keywords
+                '((sequence "TODO(t)"
+                            "WIP(w!)"
+                            "BLOCKED(b@/!)"
+                            "|"
+                            "CANCELED(c@/!)"
+                            "DONE(d@/!)")))
+
+              (org-todo-keyword-faces '(
+                ("TODO"     . (:foreground "#cc241d" :weight bold))
+                ("WIP"      . (:foreground "#458588" :weight bold))
+                ("BLOCKED"  . (:foreground "#d65d0e" :weight bold))
+                ("CANCELED" . (:foreground "#928374" :weight bold))
+                ("DONE"     . (:foreground "#98971a" :weight bold))))
+
+              (org-tag-alist '(
+                ;; task size
+                (:startgroup . nil)
+                ("small"     . nil)
+                ("medium"    . nil)
+                ("large"     . nil)
+                (:endgroup   . nil)
+
+                ;; urgency
+                (:startgroup . nil)
+                ("sterm"     . nil)
+                ("mterm"     . nil)
+                ("lterm"     . nil)
+                (:endgroup   . nil)
+
+                ;; field
+                ("school"      . nil)
+                ("leisure"     . nil)
+                ("nori"        . nil)
+                ("work"        . nil)
+                ("programming" . nil)
+
+                ;; misc
+                ("afswe-relevant" . nil)
+                ("financial"      . nil)
+                ("recurring"      . nil)
+              ))
+
+              (org-tag-faces '(
+                ("short"  . (:foreground "#b8bb26" :weight bold))
+                ("medium" . (:foreground "#fabd2f" :weight bold))
+                ("long"   . (:foreground "#fb4934" :weight bold))))
+
               (recenter-positions '(middle top))
 
               (whitespace-style '(face trailing indentation tab-mark
                                   missing-newline-at-eof))
-
-              (org-startup-indented t)
-              (org-agenda-files "/home/melinda/org/toplevel.txt")
 
               (c-basic-offset 4)
               (tab-width 4)
@@ -167,8 +269,6 @@
                    :title (format "In %s minutes" remaining)
                    :body (substring-no-properties msg)
                    :urgency 'critical)))
-
-              (org-agenda-prefer-last-repeat t)
 
               (fill-column 80)
 
@@ -190,11 +290,42 @@
             ];
           };
 
+          # styling
           "00-theme" = {
             package = "gruvbox-theme";
             config = "(load-theme 'gruvbox-dark-medium t)";
           };
 
+          rainbow-delimiters = {
+            config = ''
+              (set-face-foreground 'rainbow-delimiters-depth-1-face "#67a9ef")
+              (set-face-foreground 'rainbow-delimiters-depth-2-face "#9349d1")
+              (set-face-foreground 'rainbow-delimiters-depth-3-face "#e0dc04")
+              (set-face-foreground 'rainbow-delimiters-depth-4-face "#29ce31")
+
+              (define-globalized-minor-mode my/global-rainbow-delimiters-mode
+                rainbow-delimiters-mode
+                (lambda () (rainbow-delimiters-mode 1)))
+              (my/global-rainbow-delimiters-mode 1)
+            '';
+            custom = "(rainbow-delimiters-max-face-count 4)";
+          };
+
+          org-fancy-priorities = {
+            hook = ''
+              (org-mode . org-fancy-priorities-mode)
+            '';
+
+            custom = ''
+              (org-fancy-priorities-list '(
+                "DEFCON-1"
+                "STANDARD"
+                "ANYTIME"
+              ))
+            '';
+          };
+
+          # utility essentials
           consult = {
             bind' = ''
               ("C-h C-m" . consult-man)
@@ -271,6 +402,25 @@
             '';
           };
 
+          yasnippet = {
+            hook = "(lsp-mode . yas-minor-mode)";
+          };
+
+          company = {
+            custom = ''
+              (company-dabbrev-downcase nil)
+              (company-dabbrev-ignore-case t)
+              (company-idle-delay 0)
+              (company-minimum-prefix-length 1)
+              (company-show-numbers t)
+            '';
+          };
+
+          direnv = {
+            config = "(direnv-mode 1)";
+            custom = "(direnv-always-show-summary nil)";
+          };
+
           consult-flycheck = {
             bind' = ''
               ("C-x C-c" . consult-flycheck)
@@ -289,19 +439,25 @@
             config = "(prescient-persist-mode t)";
           };
 
-          uxntal-mode = { };
-
-          go-mode = {
-            defer = true;
-            extraPackages = with pkgs; [ gopls ];
-          };
-
           marginalia = {
             config = "(marginalia-mode t)";
           };
 
           crdt = {
             defer = true;
+          };
+
+          flash = {
+            bind' = ''
+              ("M-c" . flash-jump)
+            '';
+
+            custom = ''
+            '';
+
+            custom-face = ''
+              (flash-label ((t (:background "black" :foreground "white" :weight bold))))
+            '';
           };
 
           visual-regexp-steroids = {
@@ -316,6 +472,124 @@
             extraPackages = with pkgs; [
               python3
             ];
+          };
+
+          centaur-tabs = {
+            demand = true;
+            bind' = ''
+              ("C-<next>" . centaur-tabs-forward)
+              ("C-<prior>" . centaur-tabs-backward)
+            '';
+            config = ''
+              (centaur-tabs-mode 1)
+              (centaur-tabs-change-fonts "monospace" 100)
+              (centaur-tabs-headline-match)
+            '';
+            custom = ''
+              (centaur-tabs-cycle-scope 'tabs)
+              (centaur-tabs-modified-marker "*")
+              (centaur-tabs-set-bar 'under)
+              (centaur-tabs-show-new-tab-button nil)
+              (centaur-tabs-set-close-button nil)
+              (centaur-tabs-set-icons t)
+              (centaur-tabs-set-modified-marker t)
+              (centaur-tabs-style "bar")
+            '';
+          };
+
+          display-line-numbers = {
+            config = ''
+              (global-display-line-numbers-mode t)
+              (set-face-background 'line-number nil)
+              (set-face-foreground 'line-number "#ebdbb2")
+            '';
+            custom = "(display-line-numbers-type 'visual)";
+          };
+
+          indent-bars = {
+            config = ''
+              (define-globalized-minor-mode my/global-indent-bars-mode
+                indent-bars-mode
+                (lambda () (indent-bars-mode 1)))
+
+              (my/global-indent-bars-mode 0)
+            '';
+          };
+
+          multiple-cursors = {
+            bind' = ''
+              ("C-," . mc/mark-previous-like-this)
+              ("C-." . mc/mark-next-like-this)
+            '';
+          };
+
+          org-super-agenda = {
+            config = ''
+              (require 'org-super-agenda)
+              (org-super-agenda-mode 1)
+            '';
+
+            custom = ''
+              (org-agenda-custom-commands '(
+                 ("g" "Only Good View"
+                  (
+                   (agenda ""
+                           (
+                            (org-agenda-remove-tags t)
+                            (org-agenda-span 7)
+                            )
+                           )
+
+                   (alltodo ""
+                            (
+                             ;; Remove tags to make the view cleaner
+                             (org-agenda-remove-tags nil)
+                             (org-agenda-prefix-format "  %t  %s")
+                             (org-agenda-overriding-header "CURRENT STATUS")
+
+                             ;; Define the super agenda groups (sorts by order)
+                             (org-super-agenda-groups
+                              '(
+                                (:name "Today"
+                                  :date today)
+                                (:discard (
+                                  :tag "recurring"))
+                                (:name "DEFCON 1 DO IT NOW"
+                                  :priority "A"
+                                )
+                                (:name "In progress"
+                                  :todo "WIP"
+                                )
+                                (:name "School"
+                                  :tag "school"
+                                )
+                                (:name "Work"
+                                  :tag "work")
+                                (:name "Leisure"
+                                  :tag "leisure"
+                                  )
+                                )
+                              )
+                             )
+                            )
+                   ))
+                 ))
+            '';
+          };
+
+          # straight
+
+          straight = {
+            defer = true;
+          };
+
+          # lsp stuff
+
+          uxntal-mode = { };
+
+          go-mode = {
+            defer = true;
+            extraPackages = with pkgs; [ gopls ];
           };
 
           apheleia = {
@@ -431,19 +705,6 @@
             '';
           };
 
-          flash = {
-            bind' = ''
-              ("M-c" . flash-jump)
-            '';
-
-            custom = ''
-            '';
-
-            custom-face = ''
-              (flash-label ((t (:background "black" :foreground "white" :weight bold))))
-            '';
-          };
-
           qml-ts-mode = {
             mode = ''"\\.qml\\'"'';
 
@@ -554,25 +815,6 @@
             extraPackages = with pkgs; [ basedpyright ];
           };
 
-          yasnippet = {
-            hook = "(lsp-mode . yas-minor-mode)";
-          };
-
-          company = {
-            custom = ''
-              (company-dabbrev-downcase nil)
-              (company-dabbrev-ignore-case t)
-              (company-idle-delay 0)
-              (company-minimum-prefix-length 1)
-              (company-show-numbers t)
-            '';
-          };
-
-          direnv = {
-            config = "(direnv-mode 1)";
-            custom = "(direnv-always-show-summary nil)";
-          };
-
           nix-mode = {
             extraPackages = with pkgs; [
               nixpkgs-fmt
@@ -583,74 +825,6 @@
               (add-to-list 'apheleia-mode-alist '(nix-mode . nixpkgs-fmt))
               (add-to-list 'apheleia-formatters '(nixpkgs-fmt "nixpkgs-fmt"))
             '';
-          };
-
-          rainbow-delimiters = {
-            config = ''
-              (set-face-foreground 'rainbow-delimiters-depth-1-face "#67a9ef")
-              (set-face-foreground 'rainbow-delimiters-depth-2-face "#9349d1")
-              (set-face-foreground 'rainbow-delimiters-depth-3-face "#e0dc04")
-              (set-face-foreground 'rainbow-delimiters-depth-4-face "#29ce31")
-
-              (define-globalized-minor-mode my/global-rainbow-delimiters-mode
-                rainbow-delimiters-mode
-                (lambda () (rainbow-delimiters-mode 1)))
-              (my/global-rainbow-delimiters-mode 1)
-            '';
-            custom = "(rainbow-delimiters-max-face-count 4)";
-          };
-
-          centaur-tabs = {
-            demand = true;
-            bind' = ''
-              ("C-<next>" . centaur-tabs-forward)
-              ("C-<prior>" . centaur-tabs-backward)
-            '';
-            config = ''
-              (centaur-tabs-mode 1)
-              (centaur-tabs-change-fonts "monospace" 100)
-              (centaur-tabs-headline-match)
-            '';
-            custom = ''
-              (centaur-tabs-cycle-scope 'tabs)
-              (centaur-tabs-modified-marker "*")
-              (centaur-tabs-set-bar 'under)
-              (centaur-tabs-show-new-tab-button nil)
-              (centaur-tabs-set-close-button nil)
-              (centaur-tabs-set-icons t)
-              (centaur-tabs-set-modified-marker t)
-              (centaur-tabs-style "bar")
-            '';
-          };
-
-          display-line-numbers = {
-            config = ''
-              (global-display-line-numbers-mode t)
-              (set-face-background 'line-number nil)
-              (set-face-foreground 'line-number "#ebdbb2")
-            '';
-            custom = "(display-line-numbers-type 'visual)";
-          };
-
-          indent-bars = {
-            config = ''
-              (define-globalized-minor-mode my/global-indent-bars-mode
-                indent-bars-mode
-                (lambda () (indent-bars-mode 1)))
-
-              (my/global-indent-bars-mode 0)
-            '';
-          };
-
-          multiple-cursors = {
-            bind' = ''
-              ("C-," . mc/mark-previous-like-this)
-              ("C-." . mc/mark-next-like-this)
-            '';
-          };
-
-          straight = {
-            defer = true;
           };
         };
       };
