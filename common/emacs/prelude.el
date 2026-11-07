@@ -4,6 +4,16 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun nori/align-regexp ()
+  "Run align-regexp with indent-tabs disabled."
+  (interactive)
+  (let ((state indent-tabs-mode))
+    (indent-tabs-mode -1)
+    (call-interactively #'align-regexp)
+    (indent-tabs-mode (if state 1 -1))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 (defun lsp-booster--advice-json-parse (old-fn &rest args)
   "Try to parse bytecode instead of json."
   (or
@@ -114,7 +124,7 @@
     (puthash pid new nori/typst-pins)
     (lsp-send-execute-command "tinymist.pinMain" (vector new))
     (if new
-      (message "Pinned Typst buffer %s!" new)
+		(message "Pinned Typst buffer %s!" new)
       (message "Unpinned Typst buffer %s!" old))))
 
 (defvar nori/modeline-typst-pin-segment
