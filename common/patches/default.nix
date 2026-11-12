@@ -9,18 +9,8 @@
       lixPackageSets.latest.__assign = prev.lixPackageSets.lix_2_96;
       lix.__assign = prev.lixPackageSets.lix_2_96.lix;
 
-      hyprlandPlugins = {
-        hypr-dynamic-cursors.__output = {
-          version.__assign = "0-unstable-2026-08-06";
-
-          src.__output = {
-            rev.__assign = "5a224284872208b5324759d535d65061043725de";
-            hash.__assign = "sha256-BQjuQplkQFA30/7evDxmEAvr2ArIG09JffEBQhuzo80=";
-          };
-
-          enableParallelBuilding.__assign = true;
-        };
-      };
+      hyprland.__assign = obscura.my-hypr-plugins.hyprland;
+      hyprlandPlugins.__assign = obscura.my-hypr-plugins.entries;
 
       # TODO https://github.com/NixOS/nixpkgs/issues/576406
       linuxPackages_zen.__extend.v4l2loopback.__assign =

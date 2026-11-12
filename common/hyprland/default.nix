@@ -1,4 +1,7 @@
-{ pkgs, ... }: {
+{ pkgs, lib, ... }: {
+  programs.hyprland.withUWSM =
+    lib.elem "hyprland-uwsm" pkgs.hyprland.providedSessions;
+
   home-manager.sharedModules = [{
     xdg = {
       portal = {
