@@ -246,7 +246,8 @@
               (org-tag-faces '(
                 ("short"  . (:foreground "#b8bb26" :weight bold))
                 ("medium" . (:foreground "#fabd2f" :weight bold))
-                ("long"   . (:foreground "#fb4934" :weight bold))))
+                ("long"   . (:foreground "#fb4934" :weight bold))
+                ("leisure". (:foreground "#bb77ff" :weight bold))))
 
               (recenter-positions '(middle top))
 
