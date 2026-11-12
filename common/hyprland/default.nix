@@ -142,6 +142,7 @@
             hyprfocus = {
               keyboard_focus_animation = "slide";
               mouse_focus_animation = "slide";
+              slide_height = 5.0;
             };
           };
         };
