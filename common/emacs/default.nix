@@ -523,6 +523,75 @@
             '';
           };
 
+          org-typst-preview = {
+            defer = true;
+
+            package = ep: ep.trivialBuild (drv: {
+              pname = "org-typst-preview";
+              version = "0.3.1-unstable-2026-10-29";
+
+              src = pkgs.fetchFromGitHub {
+                owner = "roife";
+                repo = drv.pname;
+                rev = "46f22fc9a2f2259ead4a4253c511c935f3488195";
+                hash = "sha256-IlSO+2/5fI4m7AQWEtf0i5J4m4kpG1mGv+e68gKSP+U=";
+              };
+            });
+
+            commands = ''
+              org-typst-preview-auto-mode
+              org-typst-preview
+            '';
+
+            hook = ''
+              (org-mode . (lambda ()
+                (org-typst-preview-auto-mode)
+                (org-typst-preview)))
+            '';
+
+            config = ''
+              (advice-add 'org-edit-special :before-until 'nori/org-typst-edit)
+            '';
+          };
+
+          smartparens = {
+            hook = "prog-mode text-mode conf-mode";
+            config = ''
+              (require 'smartparens-config)
+
+              (defun indent-between-pair (&rest _ignored)
+                (newline)
+                (indent-according-to-mode)
+                (forward-line -1)
+                (indent-according-to-mode))
+
+              (sp-local-pair 'prog-mode "(" nil :post-handlers '((indent-between-pair "RET")))
+              (sp-local-pair 'prog-mode "[" nil :post-handlers '((indent-between-pair "RET")))
+              (sp-local-pair 'prog-mode "{" nil :post-handlers '((indent-between-pair "RET")))
+            '';
+
+            bind' = ''
+              :map minibuffer-mode-map
+              ("M-DEL" . sp-backward-kill-symbol)
+            '';
+          };
+
+          org = {
+            defer = true;
+
+            package = null;
+
+            bind = ''
+              :map org-mode-map
+              ("C-c C-#" . org-edit-special)
+
+              :map org-src-mode-map
+              ("C-c C-#" . org-edit-src-exit)
+              ("C-s"     . org-edit-src-save)
+            '';
+          };
+
+
           org-super-agenda = {
             config = ''
               (require 'org-super-agenda)
