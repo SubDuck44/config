@@ -58,45 +58,43 @@
 
           emacs = {
             hook = ''
-                           ; delete trailing whitespace on save
-                           (before-save . delete-trailing-whitespace)
+              ;; delete trailing whitespace on save
+              (before-save . delete-trailing-whitespace)
 
-                           ; highlight space indents
-                           (font-lock-mode . nori/highlight-indent)
+              ;; highlight space indents
+              (font-lock-mode . nori/highlight-indent)
 
-                           ; highlight region, indent and trailing spaces
-                           (server-after-make-frame . (lambda ()
-                             (custom-set-faces
-                               '(region                 ((t (:background "#712246"))))
-                               '(whitespace-indentation ((t (:background "red"    ))))
-                               '(whitespace-trailing    ((t (:background "red"    ))))
-                               )))
+              ;; highlight region, indent and trailing spaces
+              (server-after-make-frame . (lambda ()
+                (custom-set-faces
+                  '(region                 ((t (:background "#712246"))))
+                  '(whitespace-indentation ((t (:background "red"    ))))
+                  '(whitespace-trailing    ((t (:background "red"    )))))))
 
-                           ;; un-german agenda view
-                           (server-after-make-frame . (lambda ()
-                             (custom-set-faces
-                               '(org-agenda-structure ((t
-                                 (:inherit    font-lock-comment-face
-                                  :foreground "#8ec07c"
-                                  :underline  t))))
-                               '(org-agenda-date-today ((t
-                                 (:foreground "#fdf4c1"
-                                  :slant      normal
-                                  :weight     bold))))
-                               '(org-scheduled-previously ((t
-                                 (:foreground "#edbdbb2"))))
-                               '(org-scheduled ((t
-                                 (:foreground "#d3869b"))))
-                               '(org-scheduled-today ((t
-                                 (:foreground "#d3869b"))))
-                               '(org-priority ((t
-                                 (:inherit font-lock-keyword-face
-                                  :foreground "#458588"))))
-                               '(org-imminent-deadline ((t
-              (:inherit   org-warning
-              :foreground "#fb4934"
-              :underline  t))))
-                               )))
+              ;; un-german agenda view
+              (server-after-make-frame . (lambda ()
+                (custom-set-faces
+                  '(org-agenda-structure ((t
+                    (:inherit    font-lock-comment-face
+                     :foreground "#8ec07c"
+                     :underline  t))))
+                  '(org-agenda-date-today ((t
+                    (:foreground "#fdf4c1"
+                     :slant      normal
+                     :weight     bold))))
+                  '(org-scheduled-previously ((t
+                    (:foreground "#edbdbb2"))))
+                  '(org-scheduled ((t
+                    (:foreground "#d3869b"))))
+                  '(org-scheduled-today ((t
+                    (:foreground "#d3869b"))))
+                  '(org-priority ((t
+                    (:inherit font-lock-keyword-face
+                     :foreground "#458588"))))
+                  '(org-imminent-deadline ((t
+                    (:inherit   org-warning
+                     :foreground "#fb4934"
+                     :underline  t)))))))
             '';
 
             config = ''
@@ -596,49 +594,37 @@
 
             custom = ''
               (org-agenda-custom-commands '(
-                 ("g" "Only Good View"
-                  (
-                   (agenda ""
-                           (
-                            (org-agenda-remove-tags t)
-                            (org-agenda-span 7)
-                            )
-                           )
+                ("g" "Only Good View" (
+                  (agenda "" (
+                    (org-agenda-remove-tags t)
+                    (org-agenda-span 7)))
 
-                   (alltodo ""
-                            (
-                             ;; Remove tags to make the view cleaner
-                             (org-agenda-remove-tags nil)
-                             (org-agenda-prefix-format "  %t  %s")
-                             (org-agenda-overriding-header "CURRENT STATUS")
+                  (alltodo "" (
+                    ;; Remove tags to make the view cleaner
+                    (org-agenda-remove-tags nil)
+                    (org-agenda-prefix-format "  %t  %s")
+                    (org-agenda-overriding-header "CURRENT STATUS")
 
-                             ;; Define the super agenda groups (sorts by order)
-                             (org-super-agenda-groups
-                              '(
-                                (:name "Today"
-                                  :date today)
-                                (:discard (
-                                  :tag "recurring"))
-                                (:name "DEFCON 1 DO IT NOW"
-                                  :priority "A"
-                                )
-                                (:name "In progress"
-                                  :todo "WIP"
-                                )
-                                (:name "School"
-                                  :tag "school"
-                                )
-                                (:name "Work"
-                                  :tag "work")
-                                (:name "Leisure"
-                                  :tag "leisure"
-                                  )
-                                )
-                              )
-                             )
-                            )
-                   ))
-                 ))
+                    ;; Define the super agenda groups (sorts by order)
+                    (org-super-agenda-groups
+                     '(
+                       (:name "Today"
+                         :date today)
+                       (:discard (
+                         :tag "recurring"))
+                       (:name "DEFCON 1 DO IT NOW"
+                         :priority "A"
+                       )
+                       (:name "In progress"
+                         :todo "WIP"
+                       )
+                       (:name "School"
+                         :tag "school"
+                       )
+                       (:name "Work"
+                         :tag "work")
+                       (:name "Leisure"
+                         :tag "leisure")))))))))
             '';
           };
 
