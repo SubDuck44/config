@@ -5,216 +5,227 @@
     ];
   };
 
-  home-manager.sharedModules = lib.singleton (hm: {
-    home = {
-      stateVersion = "25.11";
+  home-manager.sharedModules = lib.singleton
+    (hm: {
+      home = {
+        stateVersion = "25.11";
 
-      packages = with pkgs; [
-        (pkgs.writeShellScriptBin "hrtrack" ''
-          #!/usr/bin/env bash
-          set -euo pipefail
+        packages = with pkgs; [
+          (pkgs.writeShellScriptBin "hrtrack" ''
+            #!/usr/bin/env bash
+            set -euo pipefail
 
-          # only activate in the evening
-          hour="$(date +%-H)"
-          if ((4 < hour && hour < 20)); then exit; fi
+            # only activate in the evening
+            hour="$(date +%-H)"
+            if ((4 < hour && hour < 20)); then exit; fi
 
-          extra=""
-          if (($(date +%s) / 86400 % 6 == 0)); then
-          	extra=" and Cypro"
-          fi
+            extra=""
+            if (($(date +%s) / 86400 % 6 == 0)); then
+            	extra=" and Cypro"
+            fi
 
-          mesg="$(printf 'Take Estrogen%s!' "$extra")"
-          echo -e 'Done\0icon\x1fhrtrack' | fuzzel -d \
-          	--mesg "$mesg" --mesg-mode expand \
-          	--message-color '#ebdbb2ff' \
-          	--hide-prompt --minimal-lines
-        '')
-        # mindustry-wayland
-        # audacity
-        chatterino7
-        ckan
-        cmatrix
-        equibop
-        espeak
-        feh
-        ffmpeg
-        gamescope
-        godot
-        gucharmap
-        keysmash
-        libnotify
-        libqalculate
-        mpv
-        neo
-        nvtop
-        openttd
-        p7zip-rar
-        pcmanfm
-        pcsx2
-        pixelorama
-        playerctl
-        poppler-utils
-        pulsemixer
-        pwgen
-        qbittorrent
-        sl
-        steamguard-cli
-        swaybg
-        thunderbird
-        timer
-        umu-launcher
-        wayvr
-        wl-clipboard
-      ];
-
-      shellAliases = {
-        nya = "neo --defaultbg";
-        shutdown = "hrtrack; sudo poweroff";
-        auto = "espeak -p 0 -P 0";
-        sneeptime = "systemctl suspend";
-        crush = "nix store gc -v";
-        thy-end-is-now = "sudo nix-env --delete-generations +3 --profile /nix/var/nix/profiles/system";
-      };
-
-      sessionVariables = {
-        NIXOS_CONFIG_DIR = ''$(realpath "$HOME/cfg")'';
-      };
-    };
-
-    services = {
-      syncthing.enable = true;
-
-      hyprsunset.enable = true;
-    };
-
-    systemd.user.services = {
-      molecule = {
-        Install.WantedBy = [ "default.target" ];
-
-        Unit = {
-          After = [ "pipewire.service" ];
-          BindsTo = [ "pipewire.service" ];
-        };
-
-        Service.ExecStart = lib.getExe pkgs.molecule;
-      };
-
-      wlsunset = {
-        Install.WantedBy = [ "graphical-session.target" ];
-
-        Unit = {
-          After = [ "graphical-session.target" ];
-          PartOf = [ "graphical-session.target" ];
-        };
-
-        Service.ExecStart = lib.mkForce [
-          (lib.getExe (pkgs.writeShellApplication {
-            name = "wlsunset-via-hyprsunset";
-
-            runtimeInputs = with pkgs; [
-              hyprland
-              wlsunset
-            ];
-
-            text = ''
-              wlsunset -l 54 -L 10 |& sed -Enu        \
-                's|.* ([0-9]+) K|hyprctl hyprsunset temperature \1|p' \
-              | bash -x
-            '';
-          }))
+            mesg="$(printf 'Take Estrogen%s!' "$extra")"
+            echo -e 'Done\0icon\x1fhrtrack' | fuzzel -d \
+            	--mesg "$mesg" --mesg-mode expand \
+            	--message-color '#ebdbb2ff' \
+            	--hide-prompt --minimal-lines
+          '')
+          # mindustry-wayland
+          # audacity
+          chatterino7
+          ckan
+          cmatrix
+          equibop
+          espeak
+          feh
+          ffmpeg
+          gamescope
+          godot
+          gucharmap
+          keysmash
+          libnotify
+          libqalculate
+          mpv
+          neo
+          nvtop
+          openttd
+          p7zip-rar
+          pcmanfm
+          pcsx2
+          pixelorama
+          playerctl
+          poppler-utils
+          pulsemixer
+          pwgen
+          qbittorrent
+          sl
+          steamguard-cli
+          swaybg
+          thunderbird
+          timer
+          umu-launcher
+          wayvr
+          wl-clipboard
         ];
-      };
-    };
 
-    programs = {
-      foot = {
-        enable = true;
-        settings = {
-          colors-dark = {
-            alpha = 0.0;
-            blur = true;
+        shellAliases = {
+          nya = "neo --defaultbg";
+          shutdown = "hrtrack; sudo poweroff";
+          auto = "espeak -p 0 -P 0";
+          sneeptime = "systemctl suspend";
+          crush = "nix store gc -v";
+          thy-end-is-now = "sudo nix-env --delete-generations +3 --profile /nix/var/nix/profiles/system";
+        };
+
+        sessionVariables = {
+          NIXOS_CONFIG_DIR = ''$(realpath "$HOME/cfg")'';
+        };
+      };
+
+      services = {
+        syncthing.enable = true;
+
+        hyprsunset.enable = true;
+      };
+
+      systemd.user.services = {
+        molecule = {
+          Install.WantedBy = [ "default.target" ];
+
+          Unit = {
+            After = [ "pipewire.service" ];
+            BindsTo = [ "pipewire.service" ];
           };
-          main = {
-            font = "monospace:size=10.5";
-            include = "${pkgs.foot.themes}/share/foot/themes/gruvbox-dark";
+
+          Service.ExecStart = lib.getExe pkgs.molecule;
+        };
+
+        wlsunset = {
+          Install.WantedBy = [ "graphical-session.target" ];
+
+          Unit = {
+            After = [ "graphical-session.target" ];
+            PartOf = [ "graphical-session.target" ];
+          };
+
+          Service.ExecStart = lib.mkForce [
+            (lib.getExe (pkgs.writeShellApplication {
+              name = "wlsunset-via-hyprsunset";
+
+              runtimeInputs = with pkgs; [
+                hyprland
+                wlsunset
+              ];
+
+              text = ''
+                wlsunset -l 54 -L 10 |& sed -Enu        \
+                  's|.* ([0-9]+) K|hyprctl hyprsunset temperature \1|p' \
+                | bash -x
+              '';
+            }))
+          ];
+        };
+      };
+
+      programs = {
+        concord = {
+          enable = true;
+          settings = {
+            display.media_playback = true;
+            presence.share_rich_presence = false;
+            updates.check_for_updates = false;
+          };
+        };
+
+        foot = {
+          enable = true;
+          settings = {
+            colors-dark = {
+              alpha = 0.0;
+              blur = true;
+            };
+            main = {
+              font = "monospace:size=10.5";
+              include = "${pkgs.foot.themes}/share/foot/themes/gruvbox-dark";
+            };
+          };
+        };
+
+        fuzzel = {
+          enable = true;
+
+          settings = {
+            main = {
+              enable-mouse = false;
+            };
+
+            colors = {
+              background = "282828A0";
+              text = "ebdbb2ff";
+              placeholder = "83a598ff";
+              input = "83a598ff";
+              selection = "928374ff";
+              selection-text = "fbf1c7ff";
+              match = "fbf1c7ff";
+            };
           };
         };
       };
 
-      fuzzel = {
-        enable = true;
+      aquaris.git.sshKeyFile = _: config.aquaris.secret "user/${hm.config.home.username}/ssh/main";
+      aquaris.persist = {
+        "cfg" = { };
+        "dev" = { };
+        "doc" = { };
+        "gay" = { };
+        "gps" = { };
+        "img" = { };
+        "mem" = { };
+        "mov" = { };
+        "org" = { };
+        "rnd" = { };
+        "sfx" = { };
 
-        settings = {
-          main = {
-            enable-mouse = false;
-          };
+        ".thunderbird" = { };
 
-          colors = {
-            background = "282828A0";
-            text = "ebdbb2ff";
-            placeholder = "83a598ff";
-            input = "83a598ff";
-            selection = "928374ff";
-            selection-text = "fbf1c7ff";
-            match = "fbf1c7ff";
-          };
+        ".cache/thunderbird" = { };
+        ".cache/wayvr" = { };
+
+        ".config/Audacity" = { };
+        ".config/audacity4" = { };
+        ".config/PCSX2" = { };
+        ".config/aseprite" = { };
+        ".config/dconf" = { };
+        ".config/equibop" = { };
+        ".config/qBittorrent" = { };
+        ".config/qalculate" = { };
+        ".config/steamguard-cli" = { };
+        ".config/openttd" = { };
+
+        ".local/share/CKAN" = { };
+        ".local/share/Mindustry" = { };
+        ".local/share/applications" = { };
+        ".local/share/chatterino" = { };
+        ".local/share/openttd" = { };
+        ".local/share/qBittorrent" = { };
+        ".local/share/typst/packages/local" = { };
+        ".local/share/typst/packages/local" = { };
+        ".local/share/umu" = { };
+
+        ".local/state/syncthing" = { };
+        ".local/state/concord" = { };
+      };
+
+      xdg = {
+        configFile."equibop-flags.conf".text = ''
+          --wayland
+          --force_high_performance_gpu
+        '';
+
+        mimeApps = {
+          enable = true;
+          defaultApplicationPackages = with pkgs; [ pcmanfm ];
         };
       };
-    };
-
-    aquaris.git.sshKeyFile = _: config.aquaris.secret "user/${hm.config.home.username}/ssh/main";
-    aquaris.persist = {
-      "cfg" = { };
-      "dev" = { };
-      "doc" = { };
-      "gay" = { };
-      "gps" = { };
-      "img" = { };
-      "mem" = { };
-      "mov" = { };
-      "org" = { };
-      "rnd" = { };
-      "sfx" = { };
-
-      ".thunderbird" = { };
-
-      ".cache/thunderbird" = { };
-      ".cache/wayvr" = { };
-
-      ".config/Audacity" = { };
-      ".config/audacity4" = { };
-      ".config/PCSX2" = { };
-      ".config/aseprite" = { };
-      ".config/dconf" = { };
-      ".config/equibop" = { };
-      ".config/qBittorrent" = { };
-      ".config/qalculate" = { };
-      ".config/steamguard-cli" = { };
-      ".config/openttd" = { };
-
-      ".local/share/CKAN" = { };
-      ".local/share/Mindustry" = { };
-      ".local/share/applications" = { };
-      ".local/share/chatterino" = { };
-      ".local/share/openttd" = { };
-      ".local/share/qBittorrent" = { };
-      ".local/share/typst/packages/local" = { };
-      ".local/share/typst/packages/local" = { };
-      ".local/share/umu" = { };
-
-      ".local/state/syncthing" = { };
-    };
-
-    xdg = {
-      configFile."equibop-flags.conf".text = ''
-        --wayland
-        --force_high_performance_gpu
-      '';
-
-      mimeApps = {
-        enable = true;
-        defaultApplicationPackages = with pkgs; [ pcmanfm ];
-      };
-    };
-  });
+    });
 }
