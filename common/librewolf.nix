@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }: {
+{ lib, ... }: {
   environment.sessionVariables = {
     "MOZ_DISABLE_RDD_SANDBOX" = "1";
   };
@@ -40,6 +40,11 @@
 
       policies = {
         DisableFirefoxAccounts = lib.mkForce false;
+
+        PictureInPicture = {
+          Enabled = lib.mkForce true;
+          Locked = lib.mkForce false;
+        };
       };
     };
   }];
