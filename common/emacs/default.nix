@@ -332,6 +332,11 @@
             hook = "org-mode";
           };
 
+          hl-todo = {
+            hook = "prog-mode text-mode";
+            config = "(global-hl-todo-mode 1)";
+          };
+
           # utility essentials
           consult = {
             bind' = ''
