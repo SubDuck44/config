@@ -1,5 +1,9 @@
 { pkgs, lib, ... }: {
   home-manager.sharedModules = [{
+    home.sessionVariables = {
+      TYPST_ROOT = "/";
+    };
+
     services.emacs = {
       enable = true;
       startWithUserSession = "graphical";
