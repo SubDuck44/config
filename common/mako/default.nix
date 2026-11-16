@@ -2,7 +2,7 @@
 let
   notify-dedup = pkgs.writeShellScript "notify-dedup" ''
     if ! pgrep -f 'mpv.*-notif'; then
-      mpv ${./notif.opus}
+      mpv ${./notif.opus} --volume=75
     fi
   '';
 in
