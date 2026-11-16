@@ -98,8 +98,8 @@
 
           format = "{icon} {capacity}% {time}";
           format-full = "{icon} {capacity}%";
-          format-charging = "{icon} {capacity}% {time} 󰃨";
-          format-plugged = "{capacity}% ";
+          format-charging = "{icon} {capacity}% {time} 󰃨 ";
+          format-plugged = "{capacity}%  ";
           format-icons = [ "" "" "" "" "" ];
 
           smooth-power = true;
