@@ -260,7 +260,7 @@
               (lock-file-name-transforms      `((".*" ,my/temp-dir t)))
 
               (appt-message-warning-time 20)
-              (appt-display-interval 20)
+              (appt-display-interval 10)
               (appt-display-mode-line nil)
               (appt-disp-window-function
                 (lambda (remaining new-time msg)
