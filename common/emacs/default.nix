@@ -251,6 +251,8 @@
                 ("long"   . (:foreground "#fb4934" :weight bold))
                 ("leisure". (:foreground "#bb77ff" :weight bold))))
 
+              (treesit-font-lock-level 4)
+
               (recenter-positions '(middle top))
 
               (whitespace-style '(face trailing indentation tab-mark
@@ -693,7 +695,13 @@
               prettier
               vscode-css-languageserver
               vscode-html-languageserver
+              svelte-language-server
+
             ];
+
+            mode = ''
+              "\\.svelte\\'"
+            '';
           };
 
           typescript-mode = {
@@ -835,6 +843,7 @@
               (sh-mode         . lsp-deferred)
               (typescript-mode . lsp-deferred)
               (typst-ts-mode   . lsp-deferred)
+              (web-mode        . lsp-deferred)
 
               (lsp-managed-mode . (lambda ()
                 (add-hook 'eldoc-documentation-functions #'my/flycheck-eldoc 90 t)))
