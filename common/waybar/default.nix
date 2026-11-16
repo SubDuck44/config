@@ -135,11 +135,13 @@
         };
 
         network = {
-          format-wifi = "{essid} ({signalStrength}%)";
-          format-ethernet = "{ipaddr}/{cidr}";
-          format-linked = "{ifname} (No IP)";
-          format-disconnected = "disconnected";
-          format-alt = "{ifname}: {ipaddr}/{cidr}";
+          format-wifi = "{essid} ({signalStrength}%) {frequency}GHz [{bandwidthDownBits}][{bandwidthUpBits}]";
+          format-ethernet = "{ifname} [{bandwidthDownBits}][{bandwidthUpBits}]";
+          format-linked = "{ifname} (No IP) [{bandwidthDownBits}][{bandwidthUpBits}]";
+          format-disconnected = "wired not available";
+          format-alt = "{ifname}: [{bandwidthDownBits}][{bandwidthUpBits}]";
+
+          interval = 5;
 
           tooltip-format = "{ifname} via {gwaddr}";
         };
