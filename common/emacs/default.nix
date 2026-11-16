@@ -328,6 +328,10 @@
             '';
           };
 
+          org-bullets = {
+            hook = "org-mode";
+          };
+
           # utility essentials
           consult = {
             bind' = ''
