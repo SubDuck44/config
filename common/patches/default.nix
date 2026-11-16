@@ -50,7 +50,7 @@
         bun2nix
         keysmash
         molecule
-        yellowcake
+        nomm
         ;
 
       inherit (obscura.nvidia.entries) nvtop;

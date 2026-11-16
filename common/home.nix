@@ -205,6 +205,7 @@
 
         ".local/share/CKAN" = { };
         ".local/share/Mindustry" = { };
+        ".local/share/NOMM" = { };
         ".local/share/applications" = { };
         ".local/share/chatterino" = { };
         ".local/share/openttd" = { };
