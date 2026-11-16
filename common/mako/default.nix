@@ -1,3 +1,11 @@
+{ pkgs, ... }:
+let
+  notify-dedup = pkgs.writeShellScript "notify-dedup" ''
+    if ! pgrep -f 'mpv.*-notif'; then
+      mpv ${./notif.opus}
+    fi
+  '';
+in
 {
   home-manager.sharedModules = [{
     services.mako = {
@@ -15,7 +23,7 @@
         output = "DP-6";
         layer = "overlay";
         anchor = "top-right";
-        on-notify = "exec mpv ${./notif.opus} --volume=75";
+        on-notify = "exec ${notify-dedup}";
 
         "app-name=Emacs" = {
           on-notify = "exec mpv ${./high-prio-notif.opus} --volume=75";
