@@ -1,24 +1,24 @@
 { pkgs, ... }: {
   fonts = {
     packages = with pkgs; [
-      nerd-fonts.iosevka
+      ark-pixel-font
+      cardo
+      courier-prime
+      departure-mono
+      inter
+      merriweather
+      minecraftia
+      nerd-fonts.cousine
+      nerd-fonts.iosevka-term
       noto-fonts
       noto-fonts-color-emoji
-      merriweather
-      cardo
       overused-grotesk
-      courier-prime
-      nerd-fonts.cousine
       raleway
-      inter
-      minecraftia
-      ark-pixel-font
-      departure-mono
     ];
 
     fontconfig.defaultFonts = {
       emoji = [ "Noto Color Emoji" ];
-      monospace = [ "IosevkaNerdFont" ];
+      monospace = [ "IosevkaTerm Nerd Font" ];
       sansSerif = [ "Noto Sans" ];
       serif = [ "Noto Serif" ];
     };
