@@ -40,6 +40,16 @@
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun nori/lsp-ui-doc-position-by-window-half ()
+  (setq-local
+   lsp-ui-doc-position
+   (if (< (- (line-number-at-pos)
+             (line-number-at-pos (window-start)))
+          (/ (window-body-height) 2))
+       'bottom 'top)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 ;; https://www.masteringemacs.org/article/seamlessly-merge-multiple-documentation-sources-eldoc
 (defun my/flycheck-eldoc (callback &rest _ignored)
   "Print flycheck messages at point by calling CALLBACK."

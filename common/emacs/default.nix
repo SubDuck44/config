@@ -844,6 +844,32 @@
             ];
           };
 
+          lsp-ui = {
+            defer = true;
+
+            hook = ''
+              (lsp-mode . (lambda ()
+                (lsp-ui-mode)
+                (add-hook 'post-command-hook 'nori/lsp-ui-doc-position-by-window-half)))
+            '';
+
+            custom = ''
+              (lsp-ui-sideline-show-code-actions t)
+              (lsp-ui-sideline-show-diagnostics t)
+              (lsp-ui-sideline-show-hover nil)
+              (lsp-ui-sideline-delay 0)
+              (lsp-ui-doc-delay 0)
+              (lsp-ui-doc-show-with-cursor t)
+              (lsp-ui-doc-show-with-mouse nil)
+            '';
+
+            config = ''
+              (mapc (lambda (x) (add-to-list 'lsp-ui-doc-frame-parameters x))
+                '((alpha-background . 100)
+                  (background-color . "#3c3836")))
+            '';
+          };
+
           lsp-pyright = {
             defer = true;
 
