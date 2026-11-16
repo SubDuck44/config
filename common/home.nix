@@ -47,11 +47,11 @@
           libqalculate
           mpv
           neo
+          nomm
           nvtop
           openttd
           p7zip-rar
           pcmanfm
-          pcsx2
           pixelorama
           playerctl
           poppler-utils
