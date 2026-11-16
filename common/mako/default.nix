@@ -12,7 +12,7 @@ in
       enable = true;
 
       settings = {
-        font = "Iosevka NF";
+        font = "monospace";
         default-timeout = 7000;
         background-color = "#282828c0";
         text-color = "#d5c4a1";
