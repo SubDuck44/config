@@ -8,6 +8,12 @@
       cardo
       overused-grotesk
       courier-prime
+      nerd-fonts.cousine
+      raleway
+      inter
+      minecraftia
+      ark-pixel-font
+      departure-mono
     ];
 
     fontconfig.defaultFonts = {
