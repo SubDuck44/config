@@ -69,6 +69,7 @@
         ];
 
         shellAliases = {
+          nk = "sudo nix-store --delete --ignore-liveness --store local";
           nya = "neo --defaultbg";
           shutdown = "hrtrack; sudo poweroff";
           auto = "espeak -p 0 -P 0";
