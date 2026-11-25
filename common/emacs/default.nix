@@ -334,7 +334,17 @@
 
           hl-todo = {
             hook = "prog-mode text-mode";
+
             config = "(global-hl-todo-mode 1)";
+
+            custom = ''
+              (hl-todo-keyword-faces '(
+                ("TODO" . "#fb4934")
+                ("FIXME" . "#fabd2f")
+                ("NOTE" . "#83a598")
+                ("DEBUG" . "#fe8019")
+              ))
+            '';
           };
 
           # utility essentials
